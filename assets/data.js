@@ -35,7 +35,7 @@ LR.collections = [
     name: 'Pulseira de aço',
     code: 'COL. 02',
     season: 'Dia a dia',
-    cover: IMG + 'colmeia-05.jpg',
+    cover: IMG + 'colmeia-04.jpg',
     intro: 'Pulseira prateada em elos de aço. Para usar todos os dias, do trabalho ao fim de semana.',
   },
   {
@@ -63,10 +63,19 @@ LR.products = [
     id: 'pablo-raez-colmeia', code: 'LR-02', brand: 'Pablo Raez',
     name: 'Pablo Raez Colmeia', subtitle: 'Azul gelo · pulseira de aço',
     collection: 'aco', category: 'Aço', price: 159.99, status: 'disponivel', badge: '',
-    images: [IMG + 'colmeia-01.jpg', IMG + 'colmeia-05.jpg', IMG + 'colmeia-04.jpg', IMG + 'colmeia-03.jpg', IMG + 'colmeia-02.jpg'],
+    images: [IMG + 'colmeia-01.jpg', IMG + 'colmeia-02.jpg', IMG + 'colmeia-03.jpg', IMG + 'colmeia-04.jpg'],
     colors: ['Azul gelo'], sizes: ['Único'],
     desc: 'Mostrador azul gelo com relevo em colmeia que aparece em cada reflexo. Algarismos aplicados no 12, 6 e 9, luneta trabalhada em relevo e pulseira de aço prateada. Tem data às 3 horas.',
     specs: { 'Marca': 'Pablo Raez', 'Mostrador': 'Azul gelo, relevo em colmeia', 'Luneta': 'Prateada, trabalhada em relevo', 'Funções': 'Horas, minutos, segundos e data', 'Movimento': 'Quartzo', 'Resistência à água': 'Water resistant (respingos)', 'Pulseira': 'Aço prateado' },
+  },
+  {
+    id: 'pablo-raez-colmeia-branco', code: 'LR-08', brand: 'Pablo Raez',
+    name: 'Pablo Raez Colmeia', subtitle: 'Branco · pulseira de aço',
+    collection: 'aco', category: 'Aço', price: 159.99, status: 'disponivel', badge: 'Novidade',
+    images: [IMG + 'colmeia-branco-01.jpg', IMG + 'colmeia-branco-02.jpg', IMG + 'colmeia-branco-03.jpg', IMG + 'colmeia-branco-04.jpg'],
+    colors: ['Branco'], sizes: ['Único'],
+    desc: 'Mesmo relevo em colmeia, agora em branco. Algarismos aplicados no 12, 6 e 9, luneta trabalhada em relevo e pulseira de aço prateada. Tem data às 3 horas.',
+    specs: { 'Marca': 'Pablo Raez', 'Mostrador': 'Branco, relevo em colmeia', 'Luneta': 'Prateada, trabalhada em relevo', 'Funções': 'Horas, minutos, segundos e data', 'Movimento': 'Quartzo', 'Resistência à água': 'Water resistant (respingos)', 'Pulseira': 'Aço prateado' },
   },
   {
     id: 'pablo-raez-classico', code: 'LR-03', brand: 'Pablo Raez',
@@ -136,7 +145,7 @@ LR.articles = [
     'Resistência à água não é o mesmo que poder mergulhar. Relógios marcados como water resistant aguentam respingos e chuva. Os de 50 metros aguentam lavar as mãos e chuva forte, mas não são feitos para piscina ou mar.',
     'Evite acertar a data entre 21h e 3h, quando o mecanismo está trocando o dia. E, se o relógio for de quartzo, troque a bateria assim que ele começar a atrasar.',
   ] },
-  { slug: 'por-que-quartzo', title: 'Por que quartzo', kicker: 'Mecanismo', date: '2026-11-06', cover: IMG + 'colmeia-05.jpg', excerpt: 'Preciso, prático e quase sem manutenção. Entenda o mecanismo dos relógios da vitrine.', body: [
+  { slug: 'por-que-quartzo', title: 'Por que quartzo', kicker: 'Mecanismo', date: '2026-11-06', cover: IMG + 'colmeia-04.jpg', excerpt: 'Preciso, prático e quase sem manutenção. Entenda o mecanismo dos relógios da vitrine.', body: [
     'Um relógio de quartzo usa uma bateria e um pequeno cristal que vibra numa frequência constante. É isso que faz ele marcar a hora com tanta precisão, sem precisar dar corda.',
     'Na prática, você coloca no pulso e esquece. A manutenção se resume à troca da bateria a cada poucos anos, que qualquer relojoaria faz em minutos.',
   ] },
