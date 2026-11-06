@@ -3,279 +3,163 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Áurea · Estética Avançada</title>
-  <meta name="description" content="Clínica de estética avançada — harmonização facial, tratamentos faciais e corporais com tecnologia e naturalidade. Agende sua avaliação.">
+  <title>LU.RICOS — Peças essenciais, feitas para durar</title>
+  <meta name="description" content="LU.RICOS: marca independente de peças essenciais e edições numeradas, feitas no Brasil. Loja online e flagship em São Paulo.">
+  <meta name="theme-color" content="#0b0b0b">
+  <meta property="og:title" content="LU.RICOS — Peças essenciais, feitas para durar">
+  <meta property="og:description" content="LU.RICOS: marca independente de peças essenciais e edições numeradas, feitas no Brasil. Loja online e flagship em São Paulo.">
+  <meta property="og:type" content="website">
+  <script>(function(){try{var c=document.documentElement.classList;if(sessionStorage.getItem('lr_seen'))c.add('no-preloader');if(sessionStorage.getItem('lr_nav')==='1')c.add('from-transition');}catch(e){}})();</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%23C4795A'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='%23F6EFE9' font-family='Georgia'>Á</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230b0b0b'/><text x='50' y='66' font-size='46' font-weight='700' text-anchor='middle' fill='%23f2f2ef' font-family='Helvetica,Arial' letter-spacing='-3'>LR</text></svg>">
 </head>
-<body>
+<body data-page="home">
 
-<!-- ===== Header ===== -->
-<header class="header" id="topo">
-  <div class="container header-inner">
-    <a href="#topo" class="brand" aria-label="Áurea Estética Avançada — início">
-      <span class="brand-mark" aria-hidden="true">Á</span>
-      <span class="brand-name">Áurea<em>estética avançada</em></span>
-    </a>
-    <nav class="nav" id="menu" aria-label="Navegação principal">
-      <a href="#especialidades">Especialidades</a>
-      <a href="#resultados">Resultados</a>
-      <a href="#sobre">Sobre</a>
-      <a href="#depoimentos">Depoimentos</a>
-      <a href="#contato">Contato</a>
-    </nav>
-    <a class="btn btn-solid header-cta" href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o." target="_blank" rel="noopener">Agendar consulta</a>
-    <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">
-      <span></span><span></span>
-    </button>
-  </div>
-</header>
+<div class="preloader" aria-hidden="true">
+  <div class="preloader-top"><span>LU.RICOS</span><span>Carregando</span></div>
+  <div class="preloader-count">0</div>
+  <div class="preloader-bar"><i></i></div>
+</div>
+<div class="transition" aria-hidden="true"><span class="transition-label">LU.RICOS</span></div>
 
-<main>
-  <!-- ===== Hero ===== -->
+<div id="site-header"></div>
+
+<main id="conteudo">
+
+  <!-- Hero -->
   <section class="hero">
-    <div class="container hero-grid">
-      <div class="hero-copy reveal">
-        <p class="eyebrow">Harmonização · Face · Corpo</p>
-        <h1>Beleza que revela a sua <em>melhor versão</em>.</h1>
-        <p class="lead">Tecnologia e ciência a serviço da sua autoestima. Protocolos exclusivos, profissionais certificados e resultados com naturalidade — sem corte e sem cirurgia.</p>
-        <div class="hero-actions">
-          <a class="btn btn-solid" href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o." target="_blank" rel="noopener">
-            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.2c-.2.7-1.3 1.3-1.9 1.3-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-2.9-1.3-4.8-4.3-5-4.5-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5.2.6.8 2 .9 2.2.1.2.1.4 0 .6-.1.2-.2.4-.4.6l-.5.6c-.2.2-.3.4-.1.7.2.3.8 1.4 1.8 2.2 1.3 1.1 2.3 1.5 2.7 1.6.3.2.5.1.7-.1l.9-1.1c.2-.3.5-.2.8-.1l2 .9c.3.2.5.3.6.4.1.2.1.7-.1 1.1Z"/></svg>
-            Agendar avaliação
-          </a>
-          <a class="btn btn-ghost" href="#especialidades">Conhecer especialidades</a>
-        </div>
-        <ul class="hero-stats" aria-label="Nossos números">
-          <li><strong>12<span>+</span></strong><small>anos de experiência</small></li>
-          <li><strong>8</strong><small>especialistas certificados</small></li>
-          <li><strong>97<span>%</span></strong><small>clientes satisfeitas</small></li>
-        </ul>
-      </div>
-
-      <div class="hero-collage reveal" aria-hidden="true">
-        <span class="blob"></span>
-        <figure class="cap cap-a"><img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=640&auto=format&fit=crop" alt="" loading="eager"></figure>
-        <figure class="cap cap-b"><img src="https://images.unsplash.com/photo-1560750588-73207b1ef5b8?q=80&w=640&auto=format&fit=crop" alt="" loading="lazy"></figure>
-        <figure class="cap cap-c"><img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=640&auto=format&fit=crop" alt="" loading="lazy"></figure>
-        <figure class="cap cap-d"><img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=640&auto=format&fit=crop" alt="" loading="lazy"></figure>
-      </div>
+    <div class="hero-stage">
+    <div class="hero-meta">
+      <span class="label">Est. 2024<br>São Paulo — BR</span>
+      <span class="label" style="text-align:center" data-hero-code>LR-006 — Modelo Seis</span>
+      <span class="label" style="text-align:right">Feito no Brasil<br>Tiragens pequenas</span>
     </div>
-    <div class="wave" aria-hidden="true">
-      <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,60 C240,10 480,90 720,60 C960,30 1200,70 1440,40 L1440,90 L0,90 Z" fill="var(--rose)"/></svg>
+    <div class="hero-figure" data-hero-product>
+      <div class="img-reveal parallax-wrap"><img src="assets/img/p06-a.svg" alt="" data-parallax=".2" loading="eager"></div>
+    </div>
+    <h1 class="hero-title display">
+      <span class="split">LU.</span>
+      <span class="split right">RICOS</span>
+    </h1>
+    </div>
+    <div class="hero-foot">
+      <p class="lead" data-reveal style="--d:.4s">Peças essenciais, feitas para durar. Poucos modelos, materiais honestos e edições que não voltam.</p>
+      <div class="hero-cta" data-reveal style="--d:.55s">
+        <a class="btn" href="loja.html">Ver a loja <span class="arrow">→</span></a>
+        <a class="btn btn-ghost" href="#" data-hero-link>Peça em destaque</a>
+      </div>
+      <div class="scroll-hint label" data-reveal style="--d:.7s"><span>Rolar</span><i></i></div>
     </div>
   </section>
 
-  <!-- ===== Marquee ===== -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span>Harmonização Facial ✦ Skinbooster ✦ Toxina Botulínica ✦ Peeling Químico ✦ Limpeza de Pele ✦ Criolipólise ✦ Massagem Modeladora ✦ Preenchimento Labial ✦&nbsp;</span>
-      <span>Harmonização Facial ✦ Skinbooster ✦ Toxina Botulínica ✦ Peeling Químico ✦ Limpeza de Pele ✦ Criolipólise ✦ Massagem Modeladora ✦ Preenchimento Labial ✦&nbsp;</span>
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>Feito no Brasil <i></i> Tiragens pequenas <i></i> Frete para todo o país <i></i> Primeira troca gratuita <i></i> Edições numeradas <i></i> Retirada na loja <i></i></span>
+      <span>Feito no Brasil <i></i> Tiragens pequenas <i></i> Frete para todo o país <i></i> Primeira troca gratuita <i></i> Edições numeradas <i></i> Retirada na loja <i></i></span>
     </div>
   </div>
 
-  <!-- ===== Especialidades ===== -->
-  <section class="section section-rose" id="especialidades">
-    <div class="container">
-      <header class="section-head reveal">
-        <p class="eyebrow">Especialidades</p>
-        <h2>Cuidados personalizados <em>para sua beleza</em></h2>
-        <p class="section-sub">Cada protocolo começa com uma avaliação individual. Escolha uma área e conheça os tratamentos.</p>
-      </header>
-
-      <div class="tabs reveal" role="tablist" aria-label="Áreas de tratamento">
-        <button class="tab is-active" role="tab" aria-selected="true" aria-controls="painel-harmonizacao" id="tab-harmonizacao">Harmonização Facial</button>
-        <button class="tab" role="tab" aria-selected="false" aria-controls="painel-facial" id="tab-facial" tabindex="-1">Tratamentos Faciais</button>
-        <button class="tab" role="tab" aria-selected="false" aria-controls="painel-corporal" id="tab-corporal" tabindex="-1">Tratamentos Corporais</button>
-      </div>
-
-      <div class="panel is-active" id="painel-harmonizacao" role="tabpanel" aria-labelledby="tab-harmonizacao">
-        <div class="cards">
-          <article class="card reveal">
-            <figure class="card-photo"><img src="https://images.unsplash.com/photo-1616391182219-e080b4d1043a?q=80&w=640&auto=format&fit=crop" alt="Profissional aplicando procedimento estético facial" loading="lazy"></figure>
-            <h3>Preenchimento Labial</h3>
-            <p>Ácido hialurônico para contorno, volume e hidratação dos lábios, respeitando a proporção natural do seu rosto.</p>
-            <a class="card-link" href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20Preenchimento%20Labial." target="_blank" rel="noopener">Saiba mais →</a>
-          </article>
-          <article class="card reveal">
-            <figure class="card-photo"><img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=640&auto=format&fit=crop" alt="Rosto feminino com marcações de harmonização" loading="lazy"></figure>
-            <h3>Rinomodelação</h3>
-            <p>Modelagem do nariz sem cirurgia: correção de pequenas assimetrias com resultado imediato e recuperação rápida.</p>
-            <a class="card-link" href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20Rinomodela%C3%A7%C3%A3o." target="_blank" rel="noopener">Saiba mais →</a>
-          </article>
-          <article class="card reveal">
-            <figure class="card-photo"><img src="https://images.unsplash.com/photo-1620331311520-246422fd82f9?q=80&w=640&auto=format&fit=crop" alt="Aplicação de toxina botulínica" loading="lazy"></figure>
-            <h3>Toxina Botulínica</h3>
-            <p>Suaviza linhas de expressão e previne rugas, mantendo os movimentos naturais e a expressividade do rosto.</p>
-            <a class="card-link" href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20Toxina%20Botul%C3%ADnica." target="_blank" rel="noopener">Saiba mais →</a>
-          </article>
-        </div>
-      </div>
-
-      <div class="panel" id="painel-facial" role="tabpanel" aria-labelledby="tab-facial" hidden>
-        <div class="cards">
-          <article class="card reveal">
-            <figure class="card-photo"><img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=640&auto=format&fit=crop" alt="Mulher com máscara de tratamento facial" loading="lazy"></figure>
-            <h3>Limpeza de Pele Profunda</h3>
-            <p>Higienização, esfoliação e extração com finalização calmante. Pele renovada, uniforme e luminosa em uma sessão.</p>
-            <a class="card-link" href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20Limpeza%20de%20Pele." target="_blank" rel="noopener">Saiba mais →</a>
-          </article>
-          <article class="card reveal">
-            <figure class="card-photo"><img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?q=80&w=640&auto=format&fit=crop" alt="Cosmético dermatológico" loading="lazy"></figure>
-            <h3>Peeling Químico</h3>
-            <p>Renovação celular controlada para manchas, acne e textura irregular, com protocolos ajustados ao seu fototipo.</p>
-            <a class="card-link" href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20Peeling%20Qu%C3%ADmico." target="_blank" rel="noopener">Saiba mais →</a>
-          </article>
-          <article class="card reveal">
-            <figure class="card-photo"><img src="https://images.unsplash.com/photo-1560750588-73207b1ef5b8?q=80&w=640&auto=format&fit=crop" alt="Aplicação de sérum facial" loading="lazy"></figure>
-            <h3>Skinbooster</h3>
-            <p>Hidratação injetável profunda que devolve viço, firmeza e elasticidade — o famoso efeito “pele de vidro”.</p>
-            <a class="card-link" href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20Skinbooster." target="_blank" rel="noopener">Saiba mais →</a>
-          </article>
-        </div>
-      </div>
-
-      <div class="panel" id="painel-corporal" role="tabpanel" aria-labelledby="tab-corporal" hidden>
-        <div class="cards">
-          <article class="card reveal">
-            <figure class="card-photo"><img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=640&auto=format&fit=crop" alt="Ambiente de massagem com pedras aquecidas" loading="lazy"></figure>
-            <h3>Massagem Modeladora</h3>
-            <p>Movimentos firmes que ativam a circulação, reduzem medidas e modelam o contorno corporal.</p>
-            <a class="card-link" href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20Massagem%20Modeladora." target="_blank" rel="noopener">Saiba mais →</a>
-          </article>
-          <article class="card reveal">
-            <figure class="card-photo"><img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=640&auto=format&fit=crop" alt="Sala de spa preparada para tratamento" loading="lazy"></figure>
-            <h3>Drenagem Linfática</h3>
-            <p>Técnica que reduz inchaço e retenção de líquidos, acelera a recuperação pós-procedimento e relaxa profundamente.</p>
-            <a class="card-link" href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20Drenagem%20Linf%C3%A1tica." target="_blank" rel="noopener">Saiba mais →</a>
-          </article>
-          <article class="card reveal">
-            <figure class="card-photo"><img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=640&auto=format&fit=crop" alt="Cuidados com a pele do corpo" loading="lazy"></figure>
-            <h3>Criolipólise</h3>
-            <p>Tecnologia de congelamento que elimina gordura localizada sem cirurgia, com sessões seguras e monitoradas.</p>
-            <a class="card-link" href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20Criolip%C3%B3lise." target="_blank" rel="noopener">Saiba mais →</a>
-          </article>
-        </div>
-      </div>
-    </div>
+  <!-- Novidades -->
+  <section class="section wrap" id="novidades">
+    <header class="sec-head">
+      <span class="label" data-reveal>01 — Novidades</span>
+      <h2 class="display display-m split">Novas peças<br>no catálogo</h2>
+      <a class="link sec-link" href="loja.html" data-reveal>Ver tudo <span class="arrow">→</span></a>
+    </header>
+    <div class="products" data-grid="novidades"></div>
   </section>
 
-  <!-- ===== Resultados (antes/depois) ===== -->
-  <section class="section" id="resultados">
-    <div class="container">
-      <header class="section-head reveal">
-        <p class="eyebrow">Resultados</p>
-        <h2>Sem corte <em>e sem cirurgia</em></h2>
-        <p class="section-sub">Arraste para comparar. Demonstração ilustrativa do padrão de evolução dos nossos protocolos de pele.</p>
-      </header>
-
-      <div class="ba reveal" id="ba">
-        <img class="ba-img ba-before" src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?q=80&w=1200&auto=format&fit=crop" alt="Pele antes do tratamento (demonstração)">
-        <div class="ba-clip">
-          <img class="ba-img" src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?q=80&w=1200&auto=format&fit=crop" alt="Pele depois do tratamento (demonstração)">
-        </div>
-        <span class="ba-label ba-label-l">Antes</span>
-        <span class="ba-label ba-label-r">Depois</span>
-        <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Comparar antes e depois">
-        <span class="ba-handle" aria-hidden="true"><i>‹</i><i>›</i></span>
-      </div>
-      <p class="ba-note reveal">Imagem ilustrativa · resultados reais variam de pessoa para pessoa e são apresentados na avaliação.</p>
-    </div>
-  </section>
-
-  <!-- ===== Por que a Áurea ===== -->
-  <section class="section section-rose" id="sobre">
-    <div class="container why-grid">
-      <div class="why-copy reveal">
-        <p class="eyebrow">Por que a Áurea</p>
-        <h2>Ciência, acolhimento <em>e naturalidade</em></h2>
-        <p>Unimos equipamentos de última geração a um olhar artesanal sobre cada rosto e cada corpo. Aqui, nenhum protocolo é de prateleira: tudo começa em uma avaliação honesta sobre o que você precisa — e o que não precisa.</p>
-        <ul class="why-list">
-          <li><span class="why-ico">✦</span><div><strong>Profissionais certificados</strong><small>Equipe com formação em estética avançada e educação continuada.</small></div></li>
-          <li><span class="why-ico">✦</span><div><strong>Tecnologia de ponta</strong><small>Equipamentos registrados na ANVISA e protocolos baseados em evidência.</small></div></li>
-          <li><span class="why-ico">✦</span><div><strong>Planos personalizados</strong><small>Avaliação individual e acompanhamento em todas as etapas.</small></div></li>
-          <li><span class="why-ico">✦</span><div><strong>Ambiente acolhedor</strong><small>Privacidade, conforto e biossegurança em cada detalhe.</small></div></li>
+  <!-- Processo -->
+  <section class="section wrap">
+    <div class="splitsec">
+      <div class="sticky"><div class="img-reveal parallax-wrap"><img src="assets/img/scene-02.svg" alt="Processo de produção" data-parallax=".1" loading="lazy"></div></div>
+      <div class="content">
+        <span class="label" data-reveal>02 — Processo</span>
+        <h2 class="display display-l split">Pouco,<br>bem feito.</h2>
+        <p class="body-l" data-reveal>Cada modelo passa meses em teste antes de entrar na loja. Lavamos, usamos, corrigimos a modelagem e só aprovamos quando não tem mais o que tirar. Produzimos em lotes pequenos, numa oficina parceira a dez minutos daqui.</p>
+        <ul class="spec-list" data-reveal>
+          <li><span>Produção</span><span>Oficina parceira, São Paulo</span></li>
+          <li><span>Lotes</span><span>50 a 200 peças por modelo</span></li>
+          <li><span>Materiais</span><span>Algodão penteado, sarja, lona 16oz, couro vegetal</span></li>
+          <li><span>Garantia</span><span>Primeira troca gratuita · reparo vitalício de costura</span></li>
         </ul>
-      </div>
-      <div class="ovals reveal">
-        <article class="oval oval-light">
-          <span class="oval-ico">◐</span>
-          <h3>Nossa visão</h3>
-          <p>Ser referência em estética que respeita a identidade de cada pessoa — realçar, nunca transformar em outra.</p>
-        </article>
-        <article class="oval oval-dark">
-          <span class="oval-ico">◑</span>
-          <h3>Nossa missão</h3>
-          <p>Entregar resultados seguros e naturais, com ciência, ética e um cuidado que se sente da recepção ao pós-atendimento.</p>
-        </article>
+        <div data-reveal><a class="btn btn-ghost" href="sobre.html">Conhecer a casa <span class="arrow">→</span></a></div>
       </div>
     </div>
   </section>
 
-  <!-- ===== Depoimentos ===== -->
-  <section class="section" id="depoimentos">
-    <div class="container">
-      <header class="section-head reveal">
-        <p class="eyebrow">Depoimentos</p>
-        <h2>Quem vive a <em>experiência Áurea</em></h2>
-      </header>
-      <div class="quotes">
-        <blockquote class="quote reveal">
-          <p>“Fiz harmonização com muito medo de ficar artificial. O resultado é tão natural que só eu sei o que mudou — e a minha autoestima agradece.”</p>
-          <footer><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=160&auto=format&fit=crop" alt="" loading="lazy"><span><strong>Mariana L.</strong><small>Harmonização facial</small></span></footer>
-        </blockquote>
-        <blockquote class="quote reveal">
-          <p>“A avaliação foi sincera: me indicaram menos procedimentos do que eu pedi. Isso me deu uma confiança enorme na equipe.”</p>
-          <footer><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=160&auto=format&fit=crop" alt="" loading="lazy"><span><strong>Paula R.</strong><small>Skinbooster</small></span></footer>
-        </blockquote>
-        <blockquote class="quote reveal">
-          <p>“Ambiente impecável e um cuidado no pós-atendimento que eu nunca tinha visto. Voltei para o protocolo corporal completo.”</p>
-          <footer><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=160&auto=format&fit=crop" alt="" loading="lazy"><span><strong>Camila S.</strong><small>Criolipólise</small></span></footer>
-        </blockquote>
-      </div>
+  <!-- Manifesto -->
+  <section class="section wrap">
+    <div class="manifesto">
+      <span class="label" data-reveal>03 — Manifesto</span>
+      <p class="split">Não fazemos coleção por estação. Fazemos peças que ficam. O básico, quando é bem resolvido, não precisa de novidade toda semana. Precisa de boa malha, boa costura e tempo.</p>
     </div>
   </section>
 
-  <!-- ===== CTA final ===== -->
-  <section class="cta-final" id="contato">
-    <div class="wave wave-top" aria-hidden="true">
-      <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,40 C240,80 480,10 720,40 C960,70 1200,20 1440,55 L1440,0 L0,0 Z" fill="var(--cream)"/></svg>
+  <!-- Universo (scroll horizontal) -->
+  <section class="hscroll" id="universo">
+    <div class="hscroll-sticky">
+      <div class="hscroll-head">
+        <span class="label">04 — Universo</span>
+        <span class="label num" data-hs-count>01 / 06</span>
+      </div>
+      <div class="hscroll-track">
+        <figure class="hscroll-item"><div class="img-reveal"><img src="assets/img/scene-01.svg" alt="Ateliê" loading="lazy"></div><figcaption><span class="label">Ateliê</span><span class="label">01</span></figcaption></figure>
+        <figure class="hscroll-item is-tall"><div class="img-reveal"><img src="assets/img/p01-b.svg" alt="Modelo Um" loading="lazy"></div><figcaption><span class="label">Modelo Um</span><span class="label">02</span></figcaption></figure>
+        <figure class="hscroll-item"><div class="img-reveal"><img src="assets/img/scene-03.svg" alt="Materiais" loading="lazy"></div><figcaption><span class="label">Materiais</span><span class="label">03</span></figcaption></figure>
+        <figure class="hscroll-item is-tall"><div class="img-reveal"><img src="assets/img/p05-b.svg" alt="Modelo Cinco" loading="lazy"></div><figcaption><span class="label">Modelo Cinco</span><span class="label">04</span></figcaption></figure>
+        <figure class="hscroll-item"><div class="img-reveal"><img src="assets/img/scene-04.svg" alt="Estúdio" loading="lazy"></div><figcaption><span class="label">Estúdio</span><span class="label">05</span></figcaption></figure>
+        <figure class="hscroll-item"><div class="img-reveal"><img src="assets/img/scene-06.svg" alt="Campanha" loading="lazy"></div><figcaption><span class="label">Campanha</span><span class="label">06</span></figcaption></figure>
+      </div>
+      <div class="hscroll-progress"><i></i></div>
     </div>
-    <div class="container cta-inner">
-      <p class="eyebrow eyebrow-light reveal">Agende sua avaliação</p>
-      <h2 class="reveal">O primeiro passo é uma <em>boa conversa</em>.</h2>
-      <p class="cta-sub reveal">Atendemos de segunda a sábado. Chame no WhatsApp e receba uma avaliação personalizada, sem compromisso.</p>
-      <a class="btn btn-wa reveal" href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o." target="_blank" rel="noopener">
-        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.2c-.2.7-1.3 1.3-1.9 1.3-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-2.9-1.3-4.8-4.3-5-4.5-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5.2.6.8 2 .9 2.2.1.2.1.4 0 .6-.1.2-.2.4-.4.6l-.5.6c-.2.2-.3.4-.1.7.2.3.8 1.4 1.8 2.2 1.3 1.1 2.3 1.5 2.7 1.6.3.2.5.1.7-.1l.9-1.1c.2-.3.5-.2.8-.1l2 .9c.3.2.5.3.6.4.1.2.1.7-.1 1.1Z"/></svg>
-        Conversar no WhatsApp
-      </a>
-      <small class="cta-phone reveal">(11) 99999-9999 · Av. das Acácias, 1200 · Jardins, São Paulo</small>
+  </section>
+
+  <div class="ticker ticker-big" aria-hidden="true">
+    <div class="ticker-track">
+      <span>Essenciais — Edições — Acessórios — LU.RICOS —&nbsp;</span>
+      <span>Essenciais — Edições — Acessórios — LU.RICOS —&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- Coleções -->
+  <section class="section wrap" id="colecoes">
+    <header class="sec-head">
+      <span class="label" data-reveal>05 — Coleções</span>
+      <h2 class="display display-m split">Três linhas,<br>um mesmo rigor</h2>
+      <a class="link sec-link" href="colecoes.html" data-reveal>Todas <span class="arrow">→</span></a>
+    </header>
+    <div class="col-rows" data-collections-rows></div>
+  </section>
+
+  <!-- Jornal -->
+  <section class="section wrap" id="jornal">
+    <header class="sec-head">
+      <span class="label" data-reveal>06 — Jornal</span>
+      <h2 class="display display-m split">Processo,<br>materiais, cuidado</h2>
+      <a class="link sec-link" href="jornal.html" data-reveal>Ler tudo <span class="arrow">→</span></a>
+    </header>
+    <div class="journal-grid" data-journal-grid></div>
+  </section>
+
+  <section class="section wrap">
+    <div class="newsletter">
+      <h2 class="display display-l split">Novidades,<br>sem spam.</h2>
+      <form data-newsletter novalidate>
+        <p class="label" style="margin-bottom:1rem" data-reveal>Um e-mail por lançamento. Só isso.</p>
+        <div class="field" data-reveal><label for="nl-email">Seu e-mail</label><input id="nl-email" type="email" name="email" required autocomplete="email"><button type="submit">Inscrever →</button></div>
+        <p class="form-msg" aria-live="polite"></p>
+      </form>
     </div>
   </section>
 </main>
 
-<!-- ===== Footer ===== -->
-<footer class="footer">
-  <div class="container footer-inner">
-    <a href="#topo" class="brand brand-footer"><span class="brand-mark" aria-hidden="true">Á</span><span class="brand-name">Áurea<em>estética avançada</em></span></a>
-    <nav class="footer-nav" aria-label="Links do rodapé">
-      <a href="#especialidades">Especialidades</a>
-      <a href="#resultados">Resultados</a>
-      <a href="#sobre">Sobre</a>
-      <a href="#contato">Contato</a>
-    </nav>
-    <p class="footer-note">© 2026 Áurea Estética Avançada · Site fictício para portfólio.<br>Desenvolvido por <a href="https://github.com/Luciocosta1302" target="_blank" rel="noopener">Lúcio Costa</a>.</p>
-  </div>
-</footer>
+<div id="site-footer"></div>
 
-<!-- ===== WhatsApp flutuante ===== -->
-<a class="wa-float" href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o." target="_blank" rel="noopener" aria-label="Conversar no WhatsApp">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.2c-.2.7-1.3 1.3-1.9 1.3-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-2.9-1.3-4.8-4.3-5-4.5-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5.2.6.8 2 .9 2.2.1.2.1.4 0 .6-.1.2-.2.4-.4.6l-.5.6c-.2.2-.3.4-.1.7.2.3.8 1.4 1.8 2.2 1.3 1.1 2.3 1.5 2.7 1.6.3.2.5.1.7-.1l.9-1.1c.2-.3.5-.2.8-.1l2 .9c.3.2.5.3.6.4.1.2.1.7-.1 1.1Z"/></svg>
-</a>
-
-<script src="assets/script.js"></script>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
 </body>
 </html>
