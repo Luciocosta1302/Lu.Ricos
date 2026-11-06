@@ -632,3 +632,30 @@ main.page-enter { animation: page-in 1s var(--ease-out); }
 /* estado inicial da transição quando a página chega de outra página do site */
 html.from-transition .transition { transform: translateY(0); }
 html.from-transition .preloader { display: none; }
+
+/* ---------- Relógios: vitrine do topo (slideshow) ---------- */
+.hero-figure .img-reveal { background: var(--ink); }
+.hero-slides { position: relative; width: 100%; height: 100%; }
+.hero-figure .hero-slides img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.08); transition: opacity 1.2s var(--ease), transform 5.5s linear; }
+.hero-figure .hero-slides img.is-active { opacity: 1; transform: scale(1); }
+
+/* grade de produtos com fios por card (sem blocos vazios quando há poucos itens) */
+.products { gap: 0; background: none; border: 0; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.pcard { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+
+/* faixa de fotos no topo da vitrine */
+.vitrine-strip { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 1px; margin-top: clamp(1.5rem, 3vw, 2.5rem); }
+.vitrine-strip a { display: block; position: relative; overflow: hidden; aspect-ratio: 3/4; background: var(--paper-2); }
+.vitrine-strip a:first-child { aspect-ratio: auto; }
+.vitrine-strip img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+.vitrine-strip a:hover img { transform: scale(1.04); }
+.vitrine-strip .label { position: absolute; left: .8rem; bottom: .8rem; z-index: 2; color: var(--ink); background: var(--paper); padding: .35rem .6rem; border-radius: 999px; font-size: 10px; }
+@media (max-width: 860px) {
+  .vitrine-strip { grid-template-columns: 1fr 1fr; }
+  .vitrine-strip a:first-child { grid-column: 1 / -1; aspect-ratio: 4/3; }
+  .vitrine-strip a:nth-child(4) { display: none; }
+}
+
+/* mini-grade das coleções sem blocos vazios */
+.col-mini { background: none; border: 0; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.col-mini a { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }

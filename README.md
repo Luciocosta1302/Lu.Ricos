@@ -1,10 +1,12 @@
-# LU.RICOS — site da loja
+# LU.RICOS — loja de relógios
 
-Site completo de loja em **HTML, CSS e JavaScript puros** (sem frameworks, sem build), com estética
+Site da loja de relógios LU.RICOS em **HTML, CSS e JavaScript puros** (sem frameworks, sem build), com estética
 editorial monocromática: tipografia grotesca apertada, fios finos, etiquetas em caixa alta, códigos
 monoespaçados e animações de scroll.
 
-**Deploy:** GitHub Pages via Actions (`.github/workflows/pages.yml`) a cada push na `main`.
+**Ver online:** https://luciocosta1302.github.io/Lu.Ricos/
+
+**Deploy:** a cada push na `main`, o GitHub Actions (`.github/workflows/pages.yml`) publica o site na branch `gh-pages`, que o GitHub Pages serve.
 
 ## Páginas
 
@@ -29,18 +31,27 @@ monoespaçados e animações de scroll.
 - Cabeçalho que some ao rolar para baixo e volta ao rolar para cima; relógio local no rodapé
 - Respeita `prefers-reduced-motion`; responsivo até 360px
 
+## Catálogo atual
+
+| Código | Modelo | Pulseira | Preço |
+| --- | --- | --- | --- |
+| LR-01 | Technos Riviera | Aço bicolor | R$ 799,99 |
+| LR-02 | Pablo Raez Colmeia | Aço | R$ 159,99 |
+| LR-03 | Pablo Raez Clássico | Aço | R$ 159,99 |
+| LR-04 | Pablo Raez Rosa dos Ventos | Couro | R$ 129,99 |
+| LR-05 | Pablo Raez Romano | Couro | R$ 129,99 |
+
 ## Como personalizar
 
 Tudo que é conteúdo fica em **`assets/data.js`**:
 
-- `LR.brand` — nome, WhatsApp (só números, com 55 + DDD), e-mail, Instagram, endereço, horário
-- `LR.collections` — linhas da loja (nome, código, capa, texto)
-- `LR.products` — peças: nome, código, categoria, preço, status (`disponivel`, `esgotado`, `encomenda`),
-  selo, imagens, cores, tamanhos, descrição e especificações
-- `LR.articles` — textos do jornal
+- `LR.brand`: nome, WhatsApp (só números, com 55 + DDD), e-mail, Instagram, cidade, horário
+- `LR.products`: relógios, com nome, preço, fotos, descrição e especificações. Para marcar um modelo como vendido, troque `status` para `'esgotado'`
+- `LR.hero`: fotos que passam no topo da home, cada uma ligada a um relógio
+- `LR.collections` e `LR.articles`: coleções e textos do jornal
 
-**Fotos:** as imagens em `assets/img/` são placeholders em SVG. Coloque suas fotos na mesma pasta
-(proporção 4:5 para produtos, 3:2 para cenas) e troque os caminhos em `assets/data.js` e nas páginas.
+**Fotos:** ficam em `assets/img/relogios/`, em JPEG com até 1000 px de largura. Para um modelo novo, coloque as fotos
+nessa pasta e acrescente um item em `LR.products`.
 
 **Cores e fontes:** variáveis em `:root` no começo de `assets/styles.css`.
 

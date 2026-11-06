@@ -23,11 +23,11 @@
   /* ---------- Chrome compartilhado (header, menu, carrinho, footer) ---------- */
   const NAV = [
     ['index.html', 'Início', 'Home'],
-    ['loja.html', 'Loja', 'Catálogo completo'],
-    ['colecoes.html', 'Coleções', 'Linhas e edições'],
-    ['jornal.html', 'Jornal', 'Processo e materiais'],
-    ['sobre.html', 'Sobre', 'A casa'],
-    ['contato.html', 'Contato', 'Loja física e atendimento'],
+    ['loja.html', 'Vitrine', 'Todos os relógios'],
+    ['colecoes.html', 'Coleções', 'Aço, couro e Technos'],
+    ['jornal.html', 'Jornal', 'Guias e cuidados'],
+    ['sobre.html', 'Sobre', 'A loja'],
+    ['contato.html', 'Contato', 'Atendimento e dúvidas'],
   ];
   const current = location.pathname.split('/').pop() || 'index.html';
   const isActive = href => href === current || (current === '' && href === 'index.html') || (href === 'jornal.html' && current === 'artigo.html') || (href === 'loja.html' && current === 'produto.html');
@@ -62,7 +62,7 @@
   <div class="cart-body" data-cart-body data-scroll-native></div>
   <div class="cart-foot">
     <div class="cart-total"><span class="label">Subtotal</span><strong class="num" data-cart-total>R$ 0,00</strong></div>
-    <p class="cart-note">Frete e prazos são confirmados no atendimento. Pagamento via Pix, cartão ou link.</p>
+    <p class="cart-note">Frete, prazo e forma de pagamento são combinados no atendimento pelo WhatsApp.</p>
     <a class="btn btn-block" data-cart-checkout href="#" target="_blank" rel="noopener">Finalizar pelo WhatsApp <span class="arrow">→</span></a>
   </div>
 </aside>
@@ -73,7 +73,7 @@
 <footer class="footer" id="site-footer">
   <div class="footer-top">
     <div class="footer-col"><span class="label">Navegar</span>${NAV.map(([h, l]) => `<a href="${h}">${l}</a>`).join('')}</div>
-    <div class="footer-col"><span class="label">Ajuda</span><a href="contato.html#faq">Trocas e devoluções</a><a href="contato.html#faq">Prazos de entrega</a><a href="contato.html#faq">Guia de tamanhos</a><a href="jornal.html">Cuidados com as peças</a></div>
+    <div class="footer-col"><span class="label">Ajuda</span><a href="contato.html#faq">Perguntas frequentes</a><a href="sobre.html#como-comprar">Como comprar</a><a href="artigo.html?slug=como-cuidar">Cuidados com o relógio</a><a href="artigo.html?slug=aco-ou-couro">Aço ou couro?</a></div>
     <div class="footer-col"><span class="label">Social</span><a href="${B.instagram}" target="_blank" rel="noopener">Instagram</a><a href="#">TikTok</a><a href="#">Pinterest</a><a href="${wa('Olá! Vim pelo site.')}" target="_blank" rel="noopener">WhatsApp</a></div>
     <div class="footer-col"><span class="label">Loja</span><p class="addr">${esc(B.address)}<br>${esc(B.hours)}<br><a href="mailto:${B.email}">${B.email}</a></p></div>
   </div>
@@ -204,13 +204,13 @@
     render() {
       $$('[data-cart-count]').forEach(el => el.textContent = `(${this.count()})`);
       const body = $('[data-cart-body]'); if (!body) return;
-      if (!this.items.length) body.innerHTML = `<div class="cart-empty"><p class="label">Seu carrinho está vazio</p><p style="margin-top:1rem"><a class="link" href="loja.html">Ver a loja <span class="arrow">→</span></a></p></div>`;
+      if (!this.items.length) body.innerHTML = `<div class="cart-empty"><p class="label">Seu carrinho está vazio</p><p style="margin-top:1rem"><a class="link" href="loja.html">Ver a vitrine <span class="arrow">→</span></a></p></div>`;
       else body.innerHTML = this.items.map(i => { const p = LR.byId(i.id); if (!p) return ''; return `
 <div class="cart-item" data-key="${esc(i.key)}">
   <a href="produto.html?id=${p.id}"><img src="${p.images[0]}" alt="${esc(p.name)}" loading="lazy"></a>
   <div>
     <div class="cart-name">${esc(p.name)}</div>
-    <div class="label">${esc(p.code)} · ${esc(i.color)} · ${esc(i.size)}</div>
+    <div class="label">${esc(p.code)} · ${esc(i.color)}${i.size !== 'Único' ? ' · ' + esc(i.size) : ''}</div>
     <div class="qty"><button type="button" data-qty="-1" aria-label="Diminuir">−</button><span class="num">${i.qty}</span><button type="button" data-qty="1" aria-label="Aumentar">+</button></div>
     <button type="button" class="cart-remove" data-remove>Remover</button>
   </div>
@@ -219,7 +219,7 @@
       $('[data-cart-total]').textContent = LR.format.price(this.total());
       const co = $('[data-cart-checkout]');
       if (co) {
-        const lines = this.items.map(i => { const p = LR.byId(i.id); return `• ${p.code} ${p.name} — ${i.color} / ${i.size} × ${i.qty} = ${LR.format.price(p.price * i.qty)}`; });
+        const lines = this.items.map(i => { const p = LR.byId(i.id); return `• ${p.code} ${p.name} — ${i.color}${i.size !== 'Único' ? ' / ' + i.size : ''} × ${i.qty} = ${LR.format.price(p.price * i.qty)}`; });
         co.href = wa(`Olá! Quero finalizar meu pedido na ${B.name}:\n\n${lines.join('\n')}\n\nSubtotal: ${LR.format.price(this.total())}`);
         co.classList.toggle('is-disabled', !this.items.length);
         co.toggleAttribute('disabled', !this.items.length);
@@ -402,10 +402,23 @@
   /* ---------- Páginas ---------- */
   const pages = {
     home() {
-      const novidades = LR.products.filter(p => p.status !== 'esgotado').slice(0, 8);
+      const novidades = LR.products.filter(p => p.status !== 'esgotado');
       ui.grid(novidades, $('[data-grid="novidades"]'), { eager: true });
-      const hero = $('[data-hero-product]');
-      if (hero) { const p = LR.products[5]; hero.querySelector('img').src = p.images[0]; hero.querySelector('img').alt = p.name; const l = $('[data-hero-code]'); if (l) l.textContent = `${p.code} — ${p.name}`; const a = $('[data-hero-link]'); if (a) a.href = `produto.html?id=${p.id}`; }
+      // vitrine do topo: fotos reais que se alternam
+      const slides = $('[data-hero-slides]');
+      if (slides && LR.hero && LR.hero.length) {
+        slides.innerHTML = LR.hero.map((h, i) => { const p = LR.byId(h.id); return `<img src="${h.img}" alt="${esc(p ? p.name : '')}" loading="${i ? 'lazy' : 'eager'}" class="${i ? '' : 'is-active'}">`; }).join('');
+        const imgs = $$('img', slides), code = $('[data-hero-code]'), link = $('[data-hero-link]'), count = $('[data-hero-count]');
+        let cur = 0;
+        const show = i => {
+          imgs[cur].classList.toggle('is-active', false); cur = i; imgs[cur].classList.toggle('is-active', true);
+          const p = LR.byId(LR.hero[cur].id);
+          if (p) { if (code) code.textContent = `${p.code} — ${p.name}`; if (link) link.href = `produto.html?id=${p.id}`; }
+          if (count) count.textContent = `${pad(cur + 1)} / ${pad(imgs.length)}`;
+        };
+        show(0);
+        if (!reduced && imgs.length > 1) setInterval(() => { if (!document.hidden) show((cur + 1) % imgs.length); }, 4200);
+      }
       const cols = $('[data-collections-rows]');
       if (cols) cols.innerHTML = LR.collections.map(c => `
 <a class="col-row" href="colecoes.html#${c.slug}" data-reveal="fade">
@@ -436,7 +449,7 @@
         if (s === 'menor') list = [...list].sort((a, b) => a.price - b.price);
         if (s === 'maior') list = [...list].sort((a, b) => b.price - a.price);
         if (s === 'nome') list = [...list].sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
-        count.textContent = `${pad(list.length)} ${list.length === 1 ? 'peça' : 'peças'}`;
+        count.textContent = `${pad(list.length)} ${list.length === 1 ? 'relógio' : 'relógios'}`;
         empty.hidden = list.length > 0;
         grid.style.opacity = 0;
         setTimeout(() => { ui.grid(list, grid); grid.style.opacity = 1; }, 180);
@@ -461,10 +474,9 @@
       root.innerHTML = `
 <div class="pdp-gallery" data-scroll-native-ignore>
   ${p.images.map((src, i) => `<figure class="img-reveal" data-cursor="Zoom"><img src="${src}" alt="${esc(p.name)} — vista ${i + 1}" loading="${i ? 'lazy' : 'eager'}"></figure>`).join('')}
-  <figure class="img-reveal"><img src="${col.cover}" alt="${esc(col.name)}" loading="lazy"></figure>
 </div>
 <div class="pdp-info">
-  <div class="crumbs"><a class="label" href="loja.html">Loja</a><span class="label">/</span><a class="label" href="colecoes.html#${col.slug}">${esc(col.name)}</a><span class="label">/</span><span class="label label-ink">${esc(p.code)}</span></div>
+  <div class="crumbs"><a class="label" href="loja.html">Vitrine</a><span class="label">/</span><a class="label" href="colecoes.html#${col.slug}">${esc(col.name)}</a><span class="label">/</span><span class="label label-ink">${esc(p.code)}</span></div>
   <div>
     <div class="pdp-top"><span class="label">${esc(p.code)} ${p.badge ? `· <span style="color:${p.status === 'esgotado' ? 'inherit' : 'var(--signal)'}">${esc(p.badge)}</span>` : ''}</span><span class="pdp-price num">${LR.format.price(p.price)}</span></div>
     <h1 class="display pdp-title split" style="margin-top:.6rem">${esc(p.name)}</h1>
@@ -472,13 +484,13 @@
   </div>
   <p class="pdp-desc" data-reveal>${esc(p.desc)}</p>
   <div class="opt-group" data-reveal>
-    <div class="opt-head"><span class="label">Cor</span><span class="label label-ink" data-color-label>${esc(color)}</span></div>
+    <div class="opt-head"><span class="label">Mostrador</span><span class="label label-ink" data-color-label>${esc(color)}</span></div>
     <div class="opts" data-colors>${p.colors.map((c, i) => `<button class="opt ${i === 0 ? 'is-active' : ''}" type="button" data-color="${esc(c)}">${esc(c)}</button>`).join('')}</div>
   </div>
-  <div class="opt-group" data-reveal>
-    <div class="opt-head"><span class="label">Tamanho</span><a class="label" href="contato.html#faq" style="text-decoration:underline">Guia de tamanhos</a></div>
+  ${p.sizes.length > 1 ? `<div class="opt-group" data-reveal>
+    <div class="opt-head"><span class="label">Tamanho</span></div>
     <div class="opts" data-sizes>${p.sizes.map((s, i) => `<button class="opt ${i === 0 ? 'is-active' : ''}" type="button" data-size="${esc(s)}">${esc(s)}</button>`).join('')}</div>
-  </div>
+  </div>` : ''}
   <div class="pdp-actions" data-reveal>
     ${p.status === 'esgotado'
       ? `<button class="btn" type="button" disabled>Esgotado</button><a class="btn btn-ghost" href="${wa(`Olá! Quero ser avisado quando ${p.code} ${p.name} voltar.`)}" target="_blank" rel="noopener">Avise-me quando voltar</a>`
@@ -487,10 +499,10 @@
   </div>
   <div class="acc" data-reveal>
     <div class="acc-item is-open"><button class="acc-btn" type="button" aria-expanded="true">Especificações <i></i></button><div class="acc-panel"><div><div class="inner"><ul class="spec-list">${Object.entries(p.specs).map(([k, v]) => `<li><span>${esc(k)}</span><span>${esc(v)}</span></li>`).join('')}</ul></div></div></div></div>
-    <div class="acc-item"><button class="acc-btn" type="button" aria-expanded="false">Entrega e prazos <i></i></button><div class="acc-panel"><div><div class="inner">Enviamos para todo o Brasil. Peças disponíveis saem em até 2 dias úteis; peças sob encomenda em até 15 dias úteis. Retirada na loja sem custo.</div></div></div></div>
-    <div class="acc-item"><button class="acc-btn" type="button" aria-expanded="false">Trocas e devoluções <i></i></button><div class="acc-panel"><div><div class="inner">Primeira troca gratuita em até 30 dias, com a peça sem uso e com etiqueta. Edições numeradas podem ser trocadas por tamanho, enquanto houver estoque.</div></div></div></div>
+    <div class="acc-item"><button class="acc-btn" type="button" aria-expanded="false">Envio e pagamento <i></i></button><div class="acc-panel"><div><div class="inner">Frete, prazo e forma de pagamento são combinados direto com a gente pelo WhatsApp, de acordo com o seu CEP. Adicione o relógio ao carrinho e finalize por lá.</div></div></div></div>
+    <div class="acc-item"><button class="acc-btn" type="button" aria-expanded="false">Cuidados <i></i></button><div class="acc-panel"><div><div class="inner">Limpe com pano macio e seco. Evite piscina e mar, e não acerte a data entre 21h e 3h. <a href="artigo.html?slug=como-cuidar" style="text-decoration:underline">Leia o guia completo</a>.</div></div></div></div>
   </div>
-  <div class="pdp-meta"><span class="label">Coleção: ${esc(col.name)}</span><span class="label">Categoria: ${esc(p.category)}</span><span class="label">Feito no Brasil</span></div>
+  <div class="pdp-meta"><span class="label">Coleção: ${esc(col.name)}</span><span class="label">Pulseira: ${esc(p.category)}</span><span class="label">Marca: ${esc(p.brand || '')}</span></div>
 </div>`;
       root.addEventListener('click', e => {
         const c = e.target.closest('[data-color]'); if (c) { color = c.dataset.color; $$('[data-color]', root).forEach(x => x.classList.toggle('is-active', x === c)); $('[data-color-label]', root).textContent = color; }
@@ -510,7 +522,7 @@
 <section class="col-block" id="${c.slug}">
   <figure class="col-media img-reveal parallax-wrap" data-cursor="Ver"><img src="${c.cover}" alt="${esc(c.name)}" data-parallax=".12" loading="${i ? 'lazy' : 'eager'}"></figure>
   <div class="col-text">
-    <span class="label" data-reveal>${c.code} · ${esc(c.season)} · ${pad(items.length)} peças</span>
+    <span class="label" data-reveal>${c.code} · ${esc(c.season)} · ${pad(items.length)} ${items.length === 1 ? 'relógio' : 'relógios'}</span>
     <h2 class="display display-l split">${esc(c.name)}</h2>
     <p class="body-l" data-reveal>${esc(c.intro)}</p>
     <div class="col-mini" data-reveal>${items.slice(0, 3).map(p => `<a href="produto.html?id=${p.id}" data-cursor="Ver"><img src="${p.images[0]}" alt="${esc(p.name)}" loading="lazy"><span>${esc(p.code)} — ${esc(p.name)}</span></a>`).join('')}</div>

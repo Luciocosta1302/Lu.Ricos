@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000">
-<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a2a28"/><stop offset="1" stop-color="#0a0a0a"/></linearGradient>
-<filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".08"/></feComponentTransfer></filter></defs>
-<rect width="1600" height="1000" fill="url(#g)"/>
-<g stroke="#ffffff" stroke-opacity=".12" fill="none"><line x1="0" y1="500" x2="1600" y2="500"/><line x1="800" y1="0" x2="800" y2="1000"/><circle cx="800" cy="500" r="300"/><circle cx="800" cy="500" r="120"/></g>
-<rect width="1600" height="1000" filter="url(#grain)"/>
-<text x="48" y="952" font-family="ui-monospace,Menlo,monospace" font-size="22" letter-spacing="4" fill="#ffffff" fill-opacity=".55">ATELIÊ / 01</text>
-</svg>

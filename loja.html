@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loja · LU.RICOS</title>
-  <meta name="description" content="Catálogo completo LU.RICOS: vestuário, acessórios e edições numeradas.">
+  <title>Vitrine · LU.RICOS</title>
+  <meta name="description" content="Todos os relógios da LU.RICOS: Technos Riviera e Pablo Raez com pulseira de aço ou couro.">
   <meta name="theme-color" content="#0b0b0b">
-  <meta property="og:title" content="Loja · LU.RICOS">
-  <meta property="og:description" content="Catálogo completo LU.RICOS: vestuário, acessórios e edições numeradas.">
+  <meta property="og:title" content="Vitrine · LU.RICOS">
+  <meta property="og:description" content="Todos os relógios da LU.RICOS: Technos Riviera e Pablo Raez com pulseira de aço ou couro.">
   <meta property="og:type" content="website">
   <script>(function(){try{var c=document.documentElement.classList;if(sessionStorage.getItem('lr_seen'))c.add('no-preloader');if(sessionStorage.getItem('lr_nav')==='1')c.add('from-transition');}catch(e){}})();</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,10 +30,16 @@
 <main id="conteudo">
 
   <section class="page-head wrap">
-    <div class="crumbs"><a class="label" href="index.html">Início</a><span class="label">/</span><span class="label label-ink">Loja</span></div>
+    <div class="crumbs"><a class="label" href="index.html">Início</a><span class="label">/</span><span class="label label-ink">Vitrine</span></div>
     <div class="page-head-row">
-      <h1 class="display display-xl split">Loja</h1>
-      <span class="label num count" data-count>— peças</span>
+      <h1 class="display display-xl split">Vitrine</h1>
+      <span class="label num count" data-count>— relógios</span>
+    </div>
+    <div class="vitrine-strip" data-reveal="clip">
+      <a href="produto.html?id=technos-riviera" data-cursor="Ver"><img src="assets/img/relogios/riviera-02.jpg" alt="Technos Riviera" loading="eager"><span class="label">Technos Riviera</span></a>
+      <a href="produto.html?id=pablo-raez-colmeia" data-cursor="Ver"><img src="assets/img/relogios/colmeia-05.jpg" alt="Pablo Raez Colmeia" loading="eager"><span class="label">Colmeia</span></a>
+      <a href="produto.html?id=pablo-raez-rosa-dos-ventos" data-cursor="Ver"><img src="assets/img/relogios/rosa-04.jpg" alt="Pablo Raez Rosa dos Ventos" loading="eager"><span class="label">Rosa dos Ventos</span></a>
+      <a href="produto.html?id=pablo-raez-romano" data-cursor="Ver"><img src="assets/img/relogios/romano-01.jpg" alt="Pablo Raez Romano" loading="eager"><span class="label">Romano</span></a>
     </div>
   </section>
   <section class="wrap">
@@ -42,18 +48,18 @@
       <div class="toolbar-right">
         <button class="chip is-active" type="button" data-col-filter hidden></button>
         <div class="select"><label class="sr-only" for="sort">Ordenar</label><select id="sort" data-sort><option value="padrao">Ordenar: padrão</option><option value="menor">Menor preço</option><option value="maior">Maior preço</option><option value="nome">Nome A–Z</option></select></div>
-        <div class="view-toggle"><button type="button" class="is-active" data-view="4" aria-label="4 colunas">IIII</button> <button type="button" data-view="3" aria-label="3 colunas">III</button></div>
+        <div class="view-toggle"><button type="button" data-view="4" aria-label="4 colunas">IIII</button> <button type="button" class="is-active" data-view="3" aria-label="3 colunas">III</button></div>
       </div>
     </div>
-    <div class="products" data-grid="loja" style="margin-top:1px"></div>
-    <p class="empty" data-empty hidden>Nenhuma peça nesta combinação.</p>
+    <div class="products cols-3" data-grid="loja"></div>
+    <p class="empty" data-empty hidden>Nenhum relógio nesta combinação.</p>
   </section>
 
   <section class="section wrap">
     <div class="newsletter">
       <h2 class="display display-l split">Novidades,<br>sem spam.</h2>
       <form data-newsletter novalidate>
-        <p class="label" style="margin-bottom:1rem" data-reveal>Um e-mail por lançamento. Só isso.</p>
+        <p class="label" style="margin-bottom:1rem" data-reveal>Um e-mail quando chegar modelo novo. Só isso.</p>
         <div class="field" data-reveal><label for="nl-email">Seu e-mail</label><input id="nl-email" type="email" name="email" required autocomplete="email"><button type="submit">Inscrever →</button></div>
         <p class="form-msg" aria-live="polite"></p>
       </form>
