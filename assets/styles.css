@@ -434,8 +434,10 @@ main.page-enter { animation: page-in 1s var(--ease-out); }
 /* ---------- Produto ---------- */
 .pdp { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); padding-top: var(--header-h); }
 .pdp-gallery { grid-column: 1 / 8; display: grid; gap: 1px; background: var(--line); }
-.pdp-gallery figure { background: var(--paper-2); aspect-ratio: 4/5; overflow: hidden; }
+.pdp-gallery figure { position: relative; background: var(--paper-2); aspect-ratio: 4/5; overflow: hidden; }
 .pdp-gallery img { width: 100%; height: 100%; object-fit: cover; }
+.magnify-lens { position: absolute; top: 0; left: 0; opacity: 0; pointer-events: none; transition: opacity .15s var(--ease); will-change: transform, clip-path; }
+@media (hover: none), (pointer: coarse) { .magnify-lens { display: none; } }
 .pdp-info { grid-column: 8 / 13; position: sticky; top: var(--header-h); align-self: start; padding: clamp(1.5rem, 4vw, 3rem) 0 3rem; display: flex; flex-direction: column; gap: 1.75rem; min-height: calc(100vh - var(--header-h)); }
 .pdp-top { display: flex; justify-content: space-between; align-items: baseline; }
 .pdp-title { font-size: clamp(2.2rem, 4vw, 3.6rem); }

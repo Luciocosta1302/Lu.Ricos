@@ -10,10 +10,10 @@ window.LR = window.LR || {};
 LR.brand = {
   name: 'LU.RICOS',
   tagline: 'Relógios selecionados, com fotos reais.',
-  city: 'São Paulo — BR',            // troque pela sua cidade
-  whatsapp: '5511999999999',           // só números: 55 + DDD + número
+  city: 'Marabá — PA',
+  whatsapp: '5594981371647',           // só números: 55 + DDD + número
   instagram: 'https://instagram.com/lu.ricos',
-  email: 'ola@luricos.com.br',        // troque pelo seu e-mail
+  email: 'luciohrcosta@gmail.com',
   address: 'Atendimento online',      // ou o endereço da loja física
   hours: 'Seg–Sáb · 10h–19h',
   currency: 'BRL',

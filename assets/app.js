@@ -51,7 +51,7 @@
   </div>
   <div class="menu-foot">
     <div><span class="label">Atendimento</span><a href="${wa('Olá! Vim pelo site.')}" target="_blank" rel="noopener">WhatsApp</a><a href="mailto:${B.email}">${B.email}</a></div>
-    <div><span class="label">Social</span><a href="${B.instagram}" target="_blank" rel="noopener">Instagram</a><a href="#" rel="noopener">TikTok</a></div>
+    <div><span class="label">Social</span><a href="${B.instagram}" target="_blank" rel="noopener">Instagram</a></div>
     <div><span class="label">Loja</span><span class="mono">${esc(B.address)}</span><span class="mono">${esc(B.hours)}</span></div>
     <div><span class="label">Local</span><span class="mono">${esc(B.city)}</span><span class="mono footer-clock" data-clock>--:--:--</span></div>
   </div>
@@ -74,7 +74,7 @@
   <div class="footer-top">
     <div class="footer-col"><span class="label">Navegar</span>${NAV.map(([h, l]) => `<a href="${h}">${l}</a>`).join('')}</div>
     <div class="footer-col"><span class="label">Ajuda</span><a href="contato.html#faq">Perguntas frequentes</a><a href="sobre.html#como-comprar">Como comprar</a><a href="artigo.html?slug=como-cuidar">Cuidados com o relógio</a><a href="artigo.html?slug=aco-ou-couro">Aço ou couro?</a></div>
-    <div class="footer-col"><span class="label">Social</span><a href="${B.instagram}" target="_blank" rel="noopener">Instagram</a><a href="#">TikTok</a><a href="#">Pinterest</a><a href="${wa('Olá! Vim pelo site.')}" target="_blank" rel="noopener">WhatsApp</a></div>
+    <div class="footer-col"><span class="label">Social</span><a href="${B.instagram}" target="_blank" rel="noopener">Instagram</a><a href="${wa('Olá! Vim pelo site.')}" target="_blank" rel="noopener">WhatsApp</a></div>
     <div class="footer-col"><span class="label">Loja</span><p class="addr">${esc(B.address)}<br>${esc(B.hours)}<br><a href="mailto:${B.email}">${B.email}</a></p></div>
   </div>
   <div class="footer-word" aria-hidden="true" data-footer-word>${B.name.split('').map(c => `<span>${c}</span>`).join('')}</div>
@@ -274,6 +274,35 @@
   }
   // reveal imediato para elementos acima da dobra (após preloader)
   function revealAboveFold() { $$('[data-reveal], .split, .img-reveal').forEach(e => { const r = e.getBoundingClientRect(); if (r.top < innerHeight * .9) e.classList.add('is-in'); }); }
+
+  /* ---------- Lupa: zoom circular que segue o mouse sobre a foto ---------- */
+  function magnify(figures, { zoom = 1.4, radius = 85 } = {}) {
+    if (!fine || reduced || !figures.length) return;
+    figures.forEach(fig => {
+      const img = fig.querySelector('img');
+      if (!img) return;
+      let lens = null;
+      const move = e => {
+        const r = fig.getBoundingClientRect();
+        const x = Math.min(Math.max(e.clientX - r.left, 0), r.width);
+        const y = Math.min(Math.max(e.clientY - r.top, 0), r.height);
+        if (!lens) {
+          lens = img.cloneNode(true);
+          lens.classList.add('magnify-lens');
+          lens.alt = '';
+          lens.setAttribute('aria-hidden', 'true');
+          fig.appendChild(lens);
+        }
+        lens.style.transformOrigin = `${x}px ${y}px`;
+        lens.style.transform = `scale(${zoom})`;
+        lens.style.clipPath = `circle(${radius}px at ${x}px ${y}px)`;
+        lens.style.opacity = '1';
+      };
+      fig.addEventListener('mouseenter', move);
+      fig.addEventListener('mousemove', move);
+      fig.addEventListener('mouseleave', () => { if (lens) lens.style.opacity = '0'; });
+    });
+  }
 
   /* ---------- Parallax, manifesto, scroll horizontal (rAF único) ---------- */
   function scrollFx() {
@@ -514,6 +543,7 @@
       const nav = $('[data-pdp-nav]');
       if (nav) { const i = LR.products.indexOf(p); const prev = LR.products[(i - 1 + LR.products.length) % LR.products.length], next = LR.products[(i + 1) % LR.products.length]; nav.innerHTML = `<a href="produto.html?id=${prev.id}"><span class="label">← Anterior</span><span class="display display-s">${esc(prev.name)}</span></a><a href="produto.html?id=${next.id}"><span class="label">Próximo →</span><span class="display display-s">${esc(next.name)}</span></a>`; }
       const idx = $('[data-pdp-index]'); if (idx) idx.textContent = `${pad(LR.products.indexOf(p) + 1)} / ${pad(LR.products.length)}`;
+      magnify($$('.pdp-gallery figure', root));
     },
 
     colecoes() {
