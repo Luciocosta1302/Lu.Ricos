@@ -572,6 +572,8 @@ main.page-enter { animation: page-in 1s var(--ease-out); }
   .sec-head .label, .sec-head .display, .sec-head .sec-link { grid-column: 1 / -1; justify-self: start; }
   .hero-figure .img-reveal { height: min(48svh, 420px); }
   .hero-stage { min-height: 64svh; }
+  .hero-meta .label:last-child { display: none; }
+  .hero-meta .label:nth-child(2) { max-width: 46vw; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
   .hero-title { font-size: clamp(3.4rem, 19vw, 9rem); }
   .hero-foot { grid-template-columns: 1fr; gap: 1.25rem; }
   .hero-foot .lead, .hero-foot .hero-cta, .hero-foot .scroll-hint { grid-column: 1 / -1; justify-self: start; }
