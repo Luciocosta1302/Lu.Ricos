@@ -61,3 +61,4 @@ nessa pasta e acrescente um item em `LR.products`.
 python3 -m http.server 8000
 # abra http://localhost:8000
 ```
+# Lu.Ricos
