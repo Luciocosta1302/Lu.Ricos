@@ -34,7 +34,7 @@ LR.collections = [
     slug: 'aco',
     name: 'Pulseira de aço',
     code: 'COL. 02',
-    season: 'Pablo Raez',
+    season: 'Dia a dia',
     cover: IMG + 'colmeia-05.jpg',
     intro: 'Pulseira prateada em elos de aço. Para usar todos os dias, do trabalho ao fim de semana.',
   },
@@ -72,7 +72,7 @@ LR.products = [
     id: 'pablo-raez-classico', code: 'LR-03', brand: 'Pablo Raez',
     name: 'Pablo Raez Clássico', subtitle: 'Branco · pulseira de aço',
     collection: 'aco', category: 'Aço', price: 159.99, status: 'disponivel', badge: '',
-    images: [IMG + 'classico-01.jpg'],
+    images: [IMG + 'classico-01.jpg', IMG + 'classico-02.jpg', IMG + 'classico-03.jpg', IMG + 'classico-04.jpg', IMG + 'classico-05.jpg'],
     colors: ['Branco'], sizes: ['Único'],
     desc: 'Mostrador branco com textura em linhas verticais, índices em bastão e minuteria numerada de 5 em 5. Caixa polida e pulseira de aço prateada. Um relógio limpo, que combina com tudo. Tem data às 3 horas.',
     specs: { 'Marca': 'Pablo Raez', 'Mostrador': 'Branco, textura vertical', 'Índices': 'Bastão, com minuteria numerada', 'Funções': 'Horas, minutos, segundos e data', 'Pulseira': 'Aço prateado' },
@@ -90,10 +90,28 @@ LR.products = [
     id: 'pablo-raez-romano', code: 'LR-05', brand: 'Pablo Raez',
     name: 'Pablo Raez Romano', subtitle: 'Preto · couro preto',
     collection: 'couro', category: 'Couro', price: 129.99, status: 'disponivel', badge: '',
-    images: [IMG + 'romano-01.jpg', IMG + 'romano-02.jpg'],
+    images: [IMG + 'romano-01.jpg'],
     colors: ['Preto'], sizes: ['Único'],
     desc: 'Mostrador preto com textura quadriculada e algarismos romanos prateados. Caixa polida e pulseira de couro preto com textura croco. Discreto e elegante, bom para o dia a dia e para ocasiões formais. Tem data às 3 horas.',
     specs: { 'Marca': 'Pablo Raez', 'Mostrador': 'Preto, textura quadriculada', 'Escalas': 'Algarismos romanos', 'Funções': 'Horas, minutos, segundos e data', 'Movimento': 'Quartzo', 'Pulseira': 'Couro preto, textura croco' },
+  },
+  {
+    id: 'pablo-raez-esmeralda', code: 'LR-06', brand: 'Pablo Raez',
+    name: 'Pablo Raez Esmeralda', subtitle: 'Verde · pulseira integrada',
+    collection: 'aco', category: 'Aço', price: 159.99, status: 'disponivel', badge: 'Novidade',
+    images: [IMG + 'verde-01.jpg', IMG + 'verde-02.jpg', IMG + 'verde-03.jpg', IMG + 'verde-04.jpg'],
+    colors: ['Verde'], sizes: ['Único'],
+    desc: 'Mostrador verde degradê com efeito solar, índices e ponteiros prateados. Caixa de aço com pulseira integrada, estilo esportivo-elegante. Mostra o dia da semana e a data.',
+    specs: { 'Marca': 'Pablo Raez', 'Mostrador': 'Verde degradê, efeito solar', 'Caixa': 'Aço, pulseira integrada', 'Funções': 'Horas, minutos, segundos, dia da semana e data', 'Movimento': 'Quartzo', 'Resistência à água': 'Water resistant 50 m', 'Pulseira': 'Aço, integrada à caixa' },
+  },
+  {
+    id: 'sunlifex-cronografo', code: 'LR-07', brand: 'Sunlifex',
+    name: 'Sunlifex Cronógrafo', subtitle: 'Prata · visual cronógrafo',
+    collection: 'aco', category: 'Aço', price: 199.99, status: 'disponivel', badge: 'Novidade',
+    images: [IMG + 'sunlifex-01.jpg', IMG + 'sunlifex-02.jpg', IMG + 'sunlifex-03.jpg', IMG + 'sunlifex-04.jpg'],
+    colors: ['Prata'], sizes: ['Único'],
+    desc: 'Mostrador prata com três sub-mostradores em estilo cronógrafo e escala na luneta. Caixa e pulseira de aço prateado, com data em janela própria. Visual técnico, para quem gosta de um relógio mais robusto.',
+    specs: { 'Marca': 'Sunlifex', 'Mostrador': 'Prata, com 3 sub-mostradores decorativos', 'Luneta': 'Prateada, com escala', 'Funções': 'Horas, minutos, segundos e data', 'Movimento': 'Quartzo', 'Pulseira': 'Aço prateado' },
   },
 ];
 
@@ -103,6 +121,8 @@ LR.hero = [
   { img: IMG + 'riviera-03.jpg', id: 'technos-riviera' },
   { img: IMG + 'rosa-06.jpg', id: 'pablo-raez-rosa-dos-ventos' },
   { img: IMG + 'romano-01.jpg', id: 'pablo-raez-romano' },
+  { img: IMG + 'verde-01.jpg', id: 'pablo-raez-esmeralda' },
+  { img: IMG + 'sunlifex-04.jpg', id: 'sunlifex-cronografo' },
 ];
 
 LR.articles = [
