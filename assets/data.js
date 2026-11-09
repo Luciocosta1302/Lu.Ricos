@@ -80,7 +80,7 @@ LR.products = [
   {
     id: 'pablo-raez-classico', code: 'LR-03', brand: 'Pablo Raez',
     name: 'Pablo Raez Clássico', subtitle: 'Branco · pulseira de aço',
-    collection: 'aco', category: 'Aço', price: 159.99, status: 'disponivel', badge: '',
+    collection: 'aco', category: 'Aço', price: 159.99, status: 'esgotado', badge: '',
     images: [IMG + 'classico-01.jpg', IMG + 'classico-02.jpg', IMG + 'classico-03.jpg', IMG + 'classico-04.jpg', IMG + 'classico-05.jpg'],
     colors: ['Branco'], sizes: ['Único'],
     desc: 'Mostrador branco com textura em linhas verticais, índices em bastão e minuteria numerada de 5 em 5. Caixa polida e pulseira de aço prateada. Um relógio limpo, que combina com tudo. Tem data às 3 horas.',
