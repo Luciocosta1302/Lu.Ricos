@@ -26,7 +26,7 @@
     set(v) { try { sessionStorage.setItem(STORE_KEY, JSON.stringify(v.slice(-40))); } catch {} },
   };
 
-  const GREETING = 'Olá! Seja bem-vindo à ' + B.name + '. Posso te ajudar a encontrar o relógio ideal. Está procurando algo para você ou para presentear?';
+  const GREETING = 'Olá! Eu sou o LU.BOT, assistente da ' + B.name + '. Posso te ajudar a encontrar o relógio ideal. Está procurando algo para você ou para presentear?';
   const SUGGESTIONS = [
     'Qual relógio combina comigo?',
     'Quais modelos vocês têm até R$ 250?',
@@ -44,13 +44,23 @@
   const root = document.createElement('div');
   root.className = 'lrc';
   root.innerHTML = `
-<button class="lrc-launcher" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="lrc-panel" data-cursor="Chat">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
-  <span class="lrc-label">Assistente</span><span class="lrc-dot" aria-hidden="true"></span>
+<button class="lrc-launcher" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="lrc-panel" aria-label="Abrir o LU.BOT, assistente com IA (arraste para mover)" title="LU.BOT · assistente com IA — clique para conversar, arraste para mover" data-cursor="Chat">
+  <span class="lrc-dial" aria-hidden="true"><svg viewBox="0 0 64 64">
+    <rect x="59" y="28.5" width="4.5" height="7" rx="1.2" fill="var(--ink)"/>
+    <circle cx="32" cy="32" r="29" fill="var(--ink)"/>
+    <circle cx="32" cy="32" r="25.5" fill="var(--paper)"/>
+    <g stroke="var(--ink)" stroke-linecap="round">${Array.from({ length: 12 }, (_, i) => `<line x1="32" y1="${i % 3 ? 9.5 : 8.5}" x2="32" y2="${i % 3 ? 11.5 : 13}" stroke-width="${i % 3 ? 1 : 1.8}" transform="rotate(${i * 30} 32 32)"/>`).join('')}</g>
+    <text x="32" y="22.5" text-anchor="middle" font-family="Inter Tight, Arial, sans-serif" font-size="5.2" font-weight="600" letter-spacing="-.2" fill="var(--ink)">LR</text>
+    <line class="lrc-h" x1="32" y1="32" x2="32" y2="19.5" stroke="var(--ink)" stroke-width="2.6" stroke-linecap="round"/>
+    <line class="lrc-m" x1="32" y1="32" x2="32" y2="12.5" stroke="var(--ink)" stroke-width="1.7" stroke-linecap="round"/>
+    <line class="lrc-sec" x1="32" y1="36" x2="32" y2="11" stroke="var(--signal)" stroke-width=".9" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2" fill="var(--signal)"/>
+  </svg></span>
+  <span class="lrc-cap"><i aria-hidden="true"></i>LU.BOT <b>IA</b></span>
 </button>
 <section class="lrc-panel" id="lrc-panel" role="dialog" aria-modal="false" aria-label="Assistente da loja" aria-hidden="true">
   <header class="lrc-head">
-    <div><div class="lrc-title">Assistente ${esc(B.name)}</div><div class="lrc-sub"><i aria-hidden="true"></i>Atendimento com IA</div></div>
+    <div><div class="lrc-title">LU.BOT</div><div class="lrc-sub"><i aria-hidden="true"></i>Assistente com IA · ${esc(B.name)}</div></div>
     <div class="lrc-head-actions">
       <a class="lrc-icon-btn" href="${wa('Olá! Vim pelo assistente do site e quero falar com um atendente.')}" target="_blank" rel="noopener" title="Falar com um atendente no WhatsApp">Atendente</a>
       <button class="lrc-icon-btn" type="button" data-lrc-reset title="Nova conversa" aria-label="Nova conversa">↺</button>
@@ -85,7 +95,66 @@
     html.classList.remove('lrc-open'); panel.setAttribute('aria-hidden', 'true'); launcher.setAttribute('aria-expanded', 'false');
     if (panel.contains(document.activeElement)) launcher.focus({ preventScroll: true });
   }
-  launcher.addEventListener('click', open);
+  /* ---------- Mostrador: hora real ---------- */
+  const handH = $('.lrc-h'), handM = $('.lrc-m'), handS = $('.lrc-sec');
+  function tick() {
+    const d = new Date(), m = d.getMinutes() + d.getSeconds() / 60, h = (d.getHours() % 12) + m / 60;
+    handH.setAttribute('transform', `rotate(${h * 30} 32 32)`);
+    handM.setAttribute('transform', `rotate(${m * 6} 32 32)`);
+  }
+  const d0 = new Date();
+  handS.style.setProperty('--sec-delay', `-${d0.getSeconds() + d0.getMilliseconds() / 1000}s`);
+  tick(); setInterval(tick, 15_000);
+
+  /* ---------- Botão arrastável (mouse e toque) ---------- */
+  const POS_KEY = 'lr_chat_pos';
+  const MARGIN = 10;
+  const topLimit = () => (parseFloat(getComputedStyle(html).getPropertyValue('--header-h')) || 64) + MARGIN; // não cobre o cabeçalho
+  let pos = null;
+  try { const p = JSON.parse(localStorage.getItem(POS_KEY)); if (p && Number.isFinite(p.x) && Number.isFinite(p.y)) pos = p; } catch {}
+  function clamp(p) {
+    const w = launcher.offsetWidth, h = launcher.offsetHeight;
+    return { x: Math.min(Math.max(MARGIN, p.x), innerWidth - w - MARGIN), y: Math.min(Math.max(topLimit(), p.y), innerHeight - h - MARGIN) };
+  }
+  function place() {
+    // Padrão: lado direito, acima do canto (onde fica o selo do Netlify)
+    if (!pos) pos = { x: innerWidth - launcher.offsetWidth - 18, y: innerHeight - launcher.offsetHeight - Math.min(130, innerHeight * .16) };
+    pos = clamp(pos);
+    launcher.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
+    html.classList.toggle('lrc-left', pos.x + launcher.offsetWidth / 2 < innerWidth / 2);
+  }
+  place(); launcher.classList.add('is-ready');
+  addEventListener('resize', place);
+
+  let drag = null, suppressClick = false;
+  launcher.addEventListener('pointerdown', e => {
+    if (e.button !== 0) return;
+    drag = { id: e.pointerId, sx: e.clientX, sy: e.clientY, x: pos.x, y: pos.y, moved: false };
+    launcher.setPointerCapture(e.pointerId);
+  });
+  launcher.addEventListener('pointermove', e => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const dx = e.clientX - drag.sx, dy = e.clientY - drag.sy;
+    if (!drag.moved && Math.hypot(dx, dy) < 6) return; // toque curto = clique
+    drag.moved = true; launcher.classList.add('is-dragging');
+    pos = { x: drag.x + dx, y: drag.y + dy }; place();
+  });
+  const endDrag = e => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const moved = drag.moved;
+    launcher.classList.remove('is-dragging'); drag = null;
+    if (moved) {
+      // Foi arraste: salva a posição e ignora o "click" que o navegador pode disparar em seguida
+      suppressClick = true; setTimeout(() => { suppressClick = false; }, 350);
+      try { localStorage.setItem(POS_KEY, JSON.stringify(pos)); } catch {}
+    } else if (e.type === 'pointerup') {
+      open(); // toque/clique curto (no celular o navegador nem sempre dispara "click" após o toque)
+    }
+  };
+  launcher.addEventListener('pointerup', endDrag);
+  launcher.addEventListener('pointercancel', endDrag);
+  // Teclado (Enter/Espaço) e leitores de tela chegam por aqui
+  launcher.addEventListener('click', e => { if (suppressClick) { e.preventDefault(); return; } open(); });
   $('[data-lrc-close]').addEventListener('click', close);
   $('[data-lrc-reset]').addEventListener('click', () => { if (busy) return; thread = []; store.set(thread); render(); input.focus(); });
   addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen) close(); });

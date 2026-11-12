@@ -3,18 +3,36 @@
    Usa as mesmas variáveis do sistema visual (styles.css).
    Camada: acima do header (800), abaixo do carrinho (850+).
    ============================================================ */
+/* Botão: mostrador de relógio arrastável (posição via transform, definida no chat.js) */
 .lrc-launcher {
-  position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 840;
-  display: inline-flex; align-items: center; gap: .6rem; height: 48px; padding: 0 1.1rem 0 .95rem; border-radius: 999px;
-  background: var(--ink); color: var(--paper); border: 1px solid var(--ink);
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
-  box-shadow: 0 10px 30px -12px rgba(11,11,11,.55);
-  transition: transform .5s var(--ease-out), opacity .4s, visibility .4s;
+  position: fixed; left: 0; top: 0; z-index: 840;
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  padding: 0; background: none; border: 0; color: var(--ink);
+  touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent;
+  cursor: grab; opacity: 0; transition: opacity .4s, visibility .4s;
 }
-.lrc-launcher:hover { transform: translateY(-2px); }
-.lrc-launcher svg { width: 18px; height: 18px; flex: none; }
-.lrc-launcher .lrc-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--signal); }
-.lrc-open .lrc-launcher, html.is-locked .lrc-launcher { opacity: 0; visibility: hidden; transform: translateY(12px); }
+.lrc-launcher.is-ready { opacity: 1; }
+.lrc-launcher.is-dragging { cursor: grabbing; }
+.lrc-dial { display: block; width: 60px; height: 60px; filter: drop-shadow(0 8px 16px rgba(11,11,11,.32)); transition: transform .45s var(--ease-out); }
+.lrc-dial svg { width: 100%; height: 100%; overflow: visible; }
+.lrc-launcher:hover .lrc-dial { transform: rotate(-6deg) scale(1.05); }
+.lrc-launcher.is-dragging .lrc-dial { transform: scale(1.12); filter: drop-shadow(0 14px 22px rgba(11,11,11,.4)); }
+.lrc-sec { transform-origin: 32px 32px; animation: lrc-spin 60s linear infinite; animation-delay: var(--sec-delay, 0s); }
+@keyframes lrc-spin { to { transform: rotate(360deg); } }
+.lrc-cap {
+  display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px 3px 7px; border-radius: 999px;
+  background: var(--ink); color: var(--paper); line-height: 1.2; white-space: nowrap;
+  font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase;
+  box-shadow: 0 6px 14px -8px rgba(11,11,11,.5);
+}
+.lrc-cap b { font-weight: 500; color: var(--signal); }
+.lrc-cap i { width: 5px; height: 5px; border-radius: 50%; background: #3ecf6e; animation: lrc-pulse 2.4s ease-in-out infinite; }
+@keyframes lrc-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
+.lrc-launcher:focus-visible { outline: none; }
+.lrc-launcher:focus-visible .lrc-dial { outline: 1.5px solid var(--ink); outline-offset: 4px; border-radius: 50%; }
+.lrc-open .lrc-launcher, html.is-locked .lrc-launcher { opacity: 0; visibility: hidden; }
+/* Janela abre do lado em que o botão está */
+.lrc-left .lrc-panel { right: auto; left: max(16px, env(safe-area-inset-left)); transform-origin: bottom left; }
 
 .lrc-panel {
   position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 841;
@@ -81,13 +99,14 @@
 .lrc-note { margin-top: .45rem; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); text-align: center; }
 
 @media (max-width: 520px) {
-  .lrc-launcher .lrc-label { display: none; }
-  .lrc-launcher { width: 52px; height: 52px; padding: 0; justify-content: center; position: fixed; }
-  .lrc-launcher .lrc-dot { position: absolute; top: 9px; right: 10px; }
-  .lrc-panel { right: 0; bottom: 0; width: 100vw; height: min(100dvh, 100vh); border-radius: 0; border: 0; }
+  .lrc-dial { width: 52px; height: 52px; }
+  .lrc-cap { font-size: 9px; }
+  .lrc-panel, .lrc-left .lrc-panel { right: 0; left: 0; bottom: 0; width: 100vw; height: min(100dvh, 100vh); border-radius: 0; border: 0; }
   .lrc-input { font-size: 16px; } /* evita zoom automático no iOS */
 }
 @media (prefers-reduced-motion: reduce) {
   .lrc-launcher, .lrc-panel, .lrc-msg, .lrc-cards, .lrc-handoff { transition: none; animation: none; }
   .lrc-typing i { animation: none; opacity: .6; }
+  .lrc-sec { display: none; }
+  .lrc-cap i { animation: none; }
 }
