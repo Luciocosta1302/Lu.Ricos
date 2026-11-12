@@ -1,0 +1,18 @@
+{
+  "name": "lu-ricos",
+  "private": true,
+  "description": "Loja LU.RICOS (site estático) + assistente de vendas com IA (Netlify Function)",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/dev-server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:live": "node tests/live-smoke.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0"
+  }
+}
