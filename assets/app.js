@@ -372,12 +372,11 @@
       ST.create({ trigger: p, start: 'top 85%', end: 'bottom 55%', scrub: true,
         onUpdate: self => { const n = Math.round(self.progress * words.length); words.forEach((w, i) => w.classList.toggle('is-lit', i < n)); } });
     });
-    // topo: o mostrador recua e gira, o nome se abre
-    const hero = $('.hero'), dial = $('[data-dial]');
-    if (hero && dial) {
+    // topo: a foto recua devagar e o nome se abre
+    const hero = $('.hero'), photo = $('[data-hero-photo]');
+    if (hero && photo) {
       G.timeline({ scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: .6 } })
-        .to(dial, { scale: .74, yPercent: 10, ease: 'none' }, 0)
-        .to('[data-dial-ring]', { rotation: -42, transformOrigin: '50% 50%', ease: 'none' }, 0)
+        .to(photo, { scale: .86, yPercent: 8, ease: 'none' }, 0)
         .to('.hero-title .split:not(.right)', { x: () => -innerWidth * .07, ease: 'none' }, 0)
         .to('.hero-title .split.right', { x: () => innerWidth * .05, ease: 'none' }, 0)
         .to('.hero-meta', { opacity: 0, ease: 'none' }, 0);
@@ -534,7 +533,7 @@
       ui.grid(novidades, $('[data-grid="novidades"]'), { eager: true });
       const avail = $('[data-avail]');
       if (avail) avail.textContent = pad(LR.products.filter(p => p.status === 'disponivel').length);
-      heroDial();
+      heroPhoto();
       const cols = $('[data-collections-rows]');
       if (cols) cols.innerHTML = LR.collections.map(c => `
 <a class="col-row" href="colecoes.html#${c.slug}" data-reveal="fade">
@@ -707,15 +706,14 @@
     contato() {},
   };
 
-  /* ---------- Mostrador da home ----------
-     A foto do relógio fica num círculo; a minuteria em volta segue o
-     segundo real e a foto troca a cada índice de 5 segundos. Com WebGL
+  /* ---------- Foto da home ----------
+     As fotos dos relógios se revezam a cada 5 segundos. Com WebGL
      (skill threejs-webgl, assets/hero-gl.js) a troca vira um dissolve
-     líquido e uma lente acompanha o mouse; sem WebGL, as <img> fazem fade. */
-  let dialIntro = () => {};
-  function heroDial() {
-    const dial = $('[data-dial]'), face = $('[data-dial-face]'), slides = $('[data-hero-slides]'), ring = $('[data-dial-ring]');
-    if (!dial || !slides || !LR.hero || !LR.hero.length) return;
+     líquido e uma lente leve acompanha o mouse; sem WebGL, as <img> fazem fade. */
+  let heroIntro = () => {};
+  function heroPhoto() {
+    const photo = $('[data-hero-photo]'), slides = $('[data-hero-slides]');
+    if (!photo || !slides || !LR.hero || !LR.hero.length) return;
     slides.innerHTML = LR.hero.map((h, i) => { const p = LR.byId(h.id); return `<img src="${h.img}" alt="${esc(p ? p.name : '')}" loading="${i ? 'lazy' : 'eager'}" class="${i ? '' : 'is-active'}">`; }).join('');
     const imgs = $$('img', slides), code = $('[data-hero-code]'), link = $('[data-hero-link]'), count = $('[data-hero-count]');
     let cur = 0, gl = null;
@@ -726,36 +724,12 @@
     };
     const show = i => { if (i === cur) return; imgs[cur].classList.remove('is-active'); cur = i; imgs[cur].classList.add('is-active'); if (gl) gl.show(i); label(); };
     label();
-
-    // minuteria: 60 traços seguindo o segundo real
-    ring.innerHTML = dialTicks({ r: 98, minor: 4.5, major: 9, numerals: 106 });
-    const lines = $$('line', ring);
-    let last = -1;
-    const tick = () => {
-      const sec = new Date().getSeconds();
-      if (sec === last) return;
-      const wrapped = last === 59 && sec === 0;
-      last = sec;
-      if (wrapped && window.anime && !reduced) {
-        // virada do minuto: os traços se apagam em cascata, do último para o primeiro
-        anime({ targets: lines.slice(1), opacity: .22, duration: 320, easing: 'easeOutQuad', delay: anime.stagger(7, { from: 'last' }) });
-        lines.forEach((l, i) => l.classList.toggle('is-now', i === 0)); lines[0].style.opacity = 1;
-      } else {
-        lines.forEach((l, i) => { l.style.opacity = i <= sec ? 1 : .22; l.classList.toggle('is-now', i === sec); });
-      }
-      if (!reduced && imgs.length > 1 && sec % 5 === 0) show((cur + 1) % imgs.length);
-    };
-    tick();
-    setInterval(() => { if (!document.hidden) tick(); }, 250);
+    if (!reduced && imgs.length > 1) setInterval(() => { if (!document.hidden) show((cur + 1) % imgs.length); }, 5000);
 
     // a foto leva ao modelo (o link usa a transição de cortina)
-    face.addEventListener('click', () => link && link.click());
+    photo.addEventListener('click', () => link && link.click());
 
-    // entrada depois do preloader: traços desenhados em cascata (Anime.js)
-    dialIntro = () => {
-      if (window.anime && !reduced) anime({ targets: lines, strokeDashoffset: [anime.setDashoffset, 0], duration: 700, easing: 'easeOutExpo', delay: anime.stagger(9) });
-      loadGL();
-    };
+    heroIntro = loadGL;
 
     // WebGL só quando faz sentido: sem "reduzir movimento" e sem economia de dados
     function loadGL() {
@@ -764,14 +738,14 @@
       const s = document.createElement('script');
       s.src = 'assets/hero-gl.js'; s.async = true;
       s.onload = () => {
-        const api = window.LRDialGL && window.LRDialGL.create(face, LR.hero);
+        const api = window.LRDialGL && window.LRDialGL.create(photo, LR.hero);
         if (!api) return;
         api.ready.then(() => {
           gl = api; if (cur !== 0) api.show(cur);
-          dial.classList.add('is-gl');
+          photo.classList.add('is-gl');
           if (fine) {
-            face.addEventListener('mousemove', e => { const r = face.getBoundingClientRect(); api.pointer((e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height, true); });
-            face.addEventListener('mouseleave', () => api.pointer(.5, .5, false));
+            photo.addEventListener('mousemove', e => { const r = photo.getBoundingClientRect(); api.pointer((e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height, true); });
+            photo.addEventListener('mouseleave', () => api.pointer(.5, .5, false));
           }
         }).catch(() => {});
       };
@@ -785,7 +759,7 @@
   if (pages[page]) pages[page]();
   cartUI(); menu(); header(); misc(); transitions();
   reveals();
-  preloader().then(() => { const m = $('main'); if (m) { m.classList.add('page-enter'); m.addEventListener('animationend', () => m.classList.remove('page-enter'), { once: true }); } revealAboveFold(); smoothScroll(); scrollFx(); cursor(); dialIntro(); });
+  preloader().then(() => { const m = $('main'); if (m) { m.classList.add('page-enter'); m.addEventListener('animationend', () => m.classList.remove('page-enter'), { once: true }); } revealAboveFold(); smoothScroll(); scrollFx(); cursor(); heroIntro(); });
   if (html.classList.contains('no-preloader') || reduced) { /* preloader resolve imediato — nada a fazer */ }
 
   LR.ui = ui; LR.cart = cart; LR.toast = toast;

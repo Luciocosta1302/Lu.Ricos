@@ -26,9 +26,8 @@ não funciona (não há servidor) e mostra o botão do WhatsApp.
 
 ## Funções
 
-- **Mostrador na home:** a foto do relógio fica num círculo cercado por uma minuteria de 60 traços que segue
-  o segundo real (horário de São Paulo); a foto troca a cada índice de 5 segundos. Com WebGL, a troca é um
-  dissolve líquido e uma lente acompanha o mouse (`src/hero-gl.mjs`, gerado em `assets/hero-gl.js` com
+- **Foto da home:** as fotos dos relógios se revezam a cada 5 segundos num quadro retangular. Com WebGL, a troca é um
+  dissolve líquido e uma lente leve acompanha o mouse (`src/hero-gl.mjs`, gerado em `assets/hero-gl.js` com
   `npm run build:gl`). Sem WebGL, com "reduzir movimento" ou com economia de dados, as fotos fazem fade simples.
 - **Preloader** desenha um mostrador e leva os ponteiros até a hora real (Anime.js)
 - **Rolagem** com GSAP ScrollTrigger: parallax, galeria presa e rolando de lado, mostrador que recua e gira

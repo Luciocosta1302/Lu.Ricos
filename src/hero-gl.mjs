@@ -1,9 +1,9 @@
 /* ============================================================
-   LU.RICOS — mostrador da home em WebGL (Three.js)
+   LU.RICOS — foto da home em WebGL (Three.js)
    Fonte. O arquivo publicado é assets/hero-gl.js, gerado com:
      npm run build:gl
-   - Fotos reais em "cover" dentro de um quadro quadrado (o círculo
-     é recortado pelo CSS), com ponto de foco por foto.
+   - Fotos reais em "cover" dentro do quadro retangular da home,
+     com ponto de foco por foto.
    - Troca de foto com deslocamento por ruído (dissolve líquido).
    - Lente que segue o ponteiro, suavizada por uma mola
      (tensão/atrito, modelo do guia de física do react-spring).
@@ -31,6 +31,7 @@ const fragment = /* glsl */`
   uniform vec2 uPointer; // 0..1
   uniform float uHover;  // 0..1
   uniform float uSeed;
+  uniform float uFrame;  // aspecto do quadro (largura / altura)
 
   float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
   float noise(vec2 p) {
@@ -40,10 +41,10 @@ const fragment = /* glsl */`
   }
   float fbm(vec2 p) { float v = 0.0, a = 0.5; for (int i = 0; i < 4; i++) { v += a * noise(p); p *= 2.03; a *= 0.5; } return v; }
 
-  // "object-fit: cover" num quadro quadrado, com ponto de foco
+  // "object-fit: cover" no quadro, com ponto de foco
   vec2 cover(vec2 uv, vec3 fit) {
-    float a = fit.x;
-    vec2 scale = a < 1.0 ? vec2(1.0, a) : vec2(1.0 / a, 1.0);
+    float r = fit.x / uFrame;
+    vec2 scale = r > 1.0 ? vec2(1.0 / r, 1.0) : vec2(1.0, r);
     vec2 c = clamp(fit.yz, scale * 0.5, 1.0 - scale * 0.5);
     return (uv - 0.5) * scale + c;
   }
@@ -53,9 +54,9 @@ const fragment = /* glsl */`
 
     // lente: aumenta a área em volta do ponteiro
     vec2 d = uv - uPointer;
-    float r = length(d);
-    float lens = smoothstep(0.26, 0.0, r) * uHover;
-    uv = uPointer + d * (1.0 - 0.32 * lens);
+    float r = length(d * vec2(uFrame, 1.0));
+    float lens = smoothstep(0.22, 0.0, r) * uHover;
+    uv = uPointer + d * (1.0 - 0.25 * lens);
 
     // troca de foto: ruído decide onde a nova imagem aparece primeiro
     float n = fbm(uv * 3.2 + uSeed);
@@ -66,9 +67,9 @@ const fragment = /* glsl */`
     vec4 b = texture2D(uB, cover(uv - push * (1.0 - t), uFitB));
     vec3 col = mix(a.rgb, b.rgb, t);
 
-    // vinheta suave para o círculo e um grão discreto de foto
-    float v = smoothstep(0.75, 0.2, length(vUv - 0.5));
-    col *= mix(0.86, 1.0, v);
+    // vinheta leve nas bordas e um grão discreto de foto
+    float v = smoothstep(0.85, 0.3, length((vUv - 0.5) * vec2(1.0, 0.9)));
+    col *= mix(0.9, 1.0, v);
     col += (hash(vUv * 900.0 + uSeed) - 0.5) * 0.035;
     gl_FragColor = vec4(col, 1.0);
   }
@@ -92,7 +93,7 @@ function create(host, slides) {
   if (!renderer.getContext()) return null;
   renderer.outputColorSpace = LinearSRGBColorSpace;
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
-  renderer.domElement.className = 'dial-gl';
+  renderer.domElement.className = 'hero-gl';
   renderer.domElement.setAttribute('aria-hidden', 'true');
 
   const scene = new Scene();
@@ -100,7 +101,7 @@ function create(host, slides) {
   const uniforms = {
     uA: { value: null }, uB: { value: null },
     uFitA: { value: [1, .5, .5] }, uFitB: { value: [1, .5, .5] },
-    uProgress: { value: 0 }, uPointer: { value: new Vector2(.5, .5) }, uHover: { value: 0 }, uSeed: { value: 0 },
+    uProgress: { value: 0 }, uFrame: { value: 1 }, uPointer: { value: new Vector2(.5, .5) }, uHover: { value: 0 }, uSeed: { value: 0 },
   };
   const mat = new ShaderMaterial({ vertexShader: vertex, fragmentShader: fragment, uniforms });
   scene.add(new Mesh(new PlaneGeometry(2, 2), mat));
@@ -113,11 +114,11 @@ function create(host, slides) {
   }, undefined, () => res(null))));
 
   const px = spring(.5), py = spring(.5), hover = spring(0, { tension: 90, friction: 16 });
-  let cur = 0, anim = null, raf = 0, last = 0, size = 0;
+  let cur = 0, anim = null, raf = 0, last = 0, size = '';
 
   const resize = () => {
-    const s = Math.round(host.getBoundingClientRect().width);
-    if (s && s !== size) { size = s; renderer.setSize(s, s, false); frame(); }
+    const r = host.getBoundingClientRect(), w = Math.round(r.width), h = Math.round(r.height), key = w + 'x' + h;
+    if (w && h && key !== size) { size = key; uniforms.uFrame.value = w / h; renderer.setSize(w, h, false); frame(); }
   };
   const ro = 'ResizeObserver' in window ? new ResizeObserver(resize) : null;
 
