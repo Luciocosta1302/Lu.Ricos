@@ -19,6 +19,10 @@
   const wa = text => `https://wa.me/${B.whatsapp}?text=${encodeURIComponent(text)}`;
   const esc = s => String(s).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
   const pad = n => String(n).padStart(2, '0');
+  /* fotos responsivas: cada foto tem uma versão de 600 px ao lado (foto-600.jpg);
+     o navegador escolhe pelo tamanho em que a foto aparece (sizes) */
+  const rel = src => /assets\/img\/relogios\/[^/]+\.jpg$/.test(src) && !/-600\.jpg$/.test(src);
+  const pic = (src, sizes) => rel(src) ? `src="${src}" srcset="${src.replace(/\.jpg$/, '-600.jpg')} 600w, ${src} 1200w" sizes="${sizes}"` : `src="${src}"`;
 
   /* ---------- Molas ----------
      Modelo do guia de física da skill react-spring-physics (tensão, atrito,
@@ -258,7 +262,7 @@
       if (!this.items.length) body.innerHTML = `<div class="cart-empty"><p class="label">Seu carrinho está vazio</p><p style="margin-top:1rem"><a class="link" href="loja.html">Ver a vitrine <span class="arrow">→</span></a></p></div>`;
       else body.innerHTML = this.items.map(i => { const p = LR.byId(i.id); if (!p) return ''; return `
 <div class="cart-item" data-key="${esc(i.key)}">
-  <a href="produto.html?id=${p.id}"><img src="${p.images[0]}" alt="${esc(p.name)}" loading="lazy"></a>
+  <a href="produto.html?id=${p.id}"><img ${pic(p.images[0], '88px')} alt="${esc(p.name)}" loading="lazy"></a>
   <div>
     <div class="cart-name">${esc(p.name)}</div>
     <div class="label">${esc(p.code)} · ${esc(i.color)}${i.size !== 'Único' ? ' · ' + esc(i.size) : ''}</div>
@@ -372,22 +376,14 @@
       ST.create({ trigger: p, start: 'top 85%', end: 'bottom 55%', scrub: true,
         onUpdate: self => { const n = Math.round(self.progress * words.length); words.forEach((w, i) => w.classList.toggle('is-lit', i < n)); } });
     });
-    // topo: a foto recua devagar e o nome se abre
-    const hero = $('.hero'), photo = $('[data-hero-photo]');
-    if (hero && photo) {
-      G.timeline({ scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: .6 } })
-        .to(photo, { scale: .86, yPercent: 8, ease: 'none' }, 0)
-        .to('.hero-title .split:not(.right)', { x: () => -innerWidth * .07, ease: 'none' }, 0)
-        .to('.hero-title .split.right', { x: () => innerWidth * .05, ease: 'none' }, 0)
-        .to('.hero-meta', { opacity: 0, ease: 'none' }, 0);
-    }
-    // galeria horizontal: seção fixada (pin) e trilho rolando de lado, só no desktop
+    // galeria horizontal: a seção fica presa pelo CSS (position: sticky, sem salto de layout)
+    // e o GSAP move o trilho de lado conforme a rolagem, só no desktop
     const mm = G.matchMedia();
     mm.add('(min-width: 861px)', () => {
       $$('.hscroll').forEach(sec => {
-        const track = $('.hscroll-track', sec), stick = $('.hscroll-sticky', sec), bar = $('.hscroll-progress i', sec), cnt = $('[data-hs-count]', sec);
+        const track = $('.hscroll-track', sec), bar = $('.hscroll-progress i', sec), cnt = $('[data-hs-count]', sec);
         const items = $$('.hscroll-item', sec).length, dist = () => Math.max(0, track.scrollWidth + parseFloat(getComputedStyle(track).paddingRight) - innerWidth);
-        G.to(track, { x: () => -dist(), ease: 'none', scrollTrigger: { trigger: stick, pin: true, start: 'top top', end: () => '+=' + dist(), scrub: .8, invalidateOnRefresh: true,
+        G.to(track, { x: () => -dist(), ease: 'none', scrollTrigger: { trigger: sec, start: 'top top', end: 'bottom bottom', scrub: .8, invalidateOnRefresh: true,
           onUpdate: self => { if (bar) bar.style.width = (self.progress * 100) + '%'; if (cnt) cnt.textContent = `${pad(Math.min(items, Math.floor(self.progress * items) + 1))} / ${pad(items)}`; } } });
       });
     });
@@ -467,7 +463,7 @@
     // magnético: o botão é puxado pelo mouse e volta com uma mola levemente elástica
     $$('.btn').forEach(b => {
       const sx = spring(0, { tension: 220, friction: 13 }), sy = spring(0, { tension: 220, friction: 13 });
-      b.style.transition = 'color .5s var(--ease), border-color .5s var(--ease)';
+      b.style.transition = 'color .5s var(--ease), border-color .5s var(--ease), scale .2s var(--ease-out)';
       const kick = springLoop(dt => { const a = sx.step(dt), d = sy.step(dt); b.style.transform = (a || d) ? `translate(${sx.value.toFixed(2)}px, ${sy.value.toFixed(2)}px)` : ''; return a || d; });
       b.addEventListener('mousemove', e => { const r = b.getBoundingClientRect(); sx.target = (e.clientX - r.left - r.width / 2) * .22; sy.target = (e.clientY - r.top - r.height / 2) * .35; kick(); });
       b.addEventListener('mouseleave', () => { sx.target = 0; sy.target = 0; kick(); });
@@ -484,7 +480,7 @@
       const ab = e.target.closest('.acc-btn');
       if (ab) { const item = ab.closest('.acc-item'); const open = item.classList.toggle('is-open'); ab.setAttribute('aria-expanded', open); }
       const an = e.target.closest('a[href^="#"]');
-      if (an && an.getAttribute('href').length > 1) { const t = $(an.getAttribute('href')); if (t) { e.preventDefault(); scrollTo(t.getBoundingClientRect().top + scrollY - 70); } }
+      if (an && an.getAttribute('href').length > 1) { const t = $(an.getAttribute('href')); if (t) { e.preventDefault(); scrollTo(t.getBoundingClientRect().top + scrollY - 70); if (t.matches('a, button, input, select, textarea, [tabindex]')) t.focus({ preventScroll: true }); } }
     });
     $$('.field input, .field textarea').forEach(i => { const f = () => i.closest('.field').classList.toggle('is-filled', !!i.value); i.addEventListener('input', f); f(); });
     // formulário newsletter
@@ -504,6 +500,7 @@
   }
 
   /* ---------- Componentes ---------- */
+  const CARD_SIZES = '(max-width: 520px) 50vw, (max-width: 860px) 50vw, (max-width: 1100px) 33vw, 25vw';
   const ui = {
     badgeClass: p => p.status === 'esgotado' ? 'is-out' : /destaque|novidade|edição|encomenda/i.test(p.badge) ? 'is-signal' : '',
     card(p, i, opts = {}) {
@@ -512,8 +509,8 @@
 <article class="pcard ${p.status === 'esgotado' ? 'is-out' : ''}" data-reveal style="--d:${(i % 4) * .08}s" data-id="${p.id}">
   <a class="pcard-link" href="produto.html?id=${p.id}" aria-label="${esc(p.name)} — ${esc(p.subtitle)}" data-cursor="Ver"></a>
   <div class="pcard-media">
-    <img class="main" src="${p.images[0]}" alt="${esc(p.name)}" loading="${opts.eager ? 'eager' : 'lazy'}">
-    ${p.images[1] ? `<img class="alt" src="${p.images[1]}" alt="" loading="lazy" aria-hidden="true">` : ''}
+    <img class="main" ${pic(p.images[0], CARD_SIZES)} alt="${esc(p.name)}" loading="${opts.eager && i < 3 ? 'eager' : 'lazy'}">
+    ${p.images[1] ? `<img class="alt" ${pic(p.images[1], CARD_SIZES)} alt="" loading="lazy" aria-hidden="true">` : ''}
     ${p.badge ? `<span class="pcard-badge ${this.badgeClass(p)}">${esc(p.badge)}</span>` : ''}
     <div class="pcard-quick">${p.status === 'esgotado' ? `<a class="btn btn-ghost" style="width:100%" href="${wa(`Olá! Quero ser avisado quando ${p.code} ${p.name} voltar.`)}" target="_blank" rel="noopener">Avise-me</a>` : `<button class="btn" type="button" data-add="${p.id}">${label} <span class="arrow">+</span></button>`}</div>
   </div>
@@ -541,12 +538,12 @@
   <span class="display display-m">${esc(c.name)}</span>
   <span class="col-intro">${esc(c.intro)}</span>
   <span class="arrow">→</span>
-  <img class="col-thumb" src="${c.cover}" alt="" aria-hidden="true" loading="lazy">
+  <img class="col-thumb" ${pic(c.cover, '180px')} alt="" aria-hidden="true" loading="lazy">
 </a>`).join('');
       const j = $('[data-journal-grid]');
       if (j) j.innerHTML = LR.articles.slice(0, 3).map((a, i) => `
 <a class="jcard" href="artigo.html?slug=${a.slug}" data-reveal style="--d:${i * .1}s" data-cursor="Ler">
-  <figure class="img-reveal"><img src="${a.cover}" alt="" loading="lazy"></figure>
+  <figure class="img-reveal"><img ${pic(a.cover, '(max-width: 860px) 100vw, 33vw')} alt="" loading="lazy"></figure>
   <div class="jcard-meta"><span class="label">${esc(a.kicker)}</span><span class="label">${LR.format.date(a.date)}</span></div>
   <h3>${esc(a.title)}</h3><p>${esc(a.excerpt)}</p>
 </a>`).join('');
@@ -588,7 +585,7 @@
       const root = $('[data-pdp]');
       root.innerHTML = `
 <div class="pdp-gallery" data-scroll-native-ignore>
-  ${p.images.map((src, i) => `<figure class="img-reveal" data-cursor="Zoom"><img src="${src}" alt="${esc(p.name)} — vista ${i + 1}" loading="${i ? 'lazy' : 'eager'}"></figure>`).join('')}
+  ${p.images.map((src, i) => `<figure class="img-reveal" data-cursor="Zoom"><img ${pic(src, i ? '(max-width: 860px) 50vw, 58vw' : '(max-width: 860px) 100vw, 58vw')} alt="${esc(p.name)} — vista ${i + 1}" loading="${i ? 'lazy' : 'eager'}"${i ? '' : ' fetchpriority="high"'}></figure>`).join('')}
 </div>
 <div class="pdp-info">
   <div class="crumbs"><a class="label" href="loja.html">Vitrine</a><span class="label">/</span><a class="label" href="colecoes.html#${col.slug}">${esc(col.name)}</a><span class="label">/</span><span class="label label-ink">${esc(p.code)}</span></div>
@@ -636,12 +633,12 @@
       const el = $('[data-col-list]');
       el.innerHTML = LR.collections.map((c, i) => { const items = LR.products.filter(p => p.collection === c.slug); return `
 <section class="col-block" id="${c.slug}">
-  <figure class="col-media img-reveal parallax-wrap" data-cursor="Ver"><img src="${c.cover}" alt="${esc(c.name)}" data-parallax=".12" loading="${i ? 'lazy' : 'eager'}"></figure>
+  <figure class="col-media img-reveal parallax-wrap" data-cursor="Ver"><img ${pic(c.cover, '(max-width: 860px) 100vw, 50vw')} alt="${esc(c.name)}" data-parallax=".12" loading="${i ? 'lazy' : 'eager'}"></figure>
   <div class="col-text">
     <span class="label" data-reveal>${c.code} · ${esc(c.season)} · ${pad(items.length)} ${items.length === 1 ? 'relógio' : 'relógios'}</span>
     <h2 class="display display-l split">${esc(c.name)}</h2>
     <p class="body-l" data-reveal>${esc(c.intro)}</p>
-    <div class="col-mini" data-reveal>${items.slice(0, 3).map(p => `<a href="produto.html?id=${p.id}" data-cursor="Ver"><img src="${p.images[0]}" alt="${esc(p.name)}" loading="lazy"><span>${esc(p.code)} — ${esc(p.name)}</span></a>`).join('')}</div>
+    <div class="col-mini" data-reveal>${items.slice(0, 3).map(p => `<a href="produto.html?id=${p.id}" data-cursor="Ver"><img ${pic(p.images[0], '(max-width: 860px) 33vw, 15vw')} alt="${esc(p.name)}" loading="lazy"><span>${esc(p.code)} — ${esc(p.name)}</span></a>`).join('')}</div>
     <div data-reveal><a class="btn" href="loja.html?col=${c.slug}">Ver coleção completa <span class="arrow">→</span></a></div>
   </div>
 </section>`; }).join('');
@@ -652,7 +649,7 @@
       const [first, ...rest] = LR.articles;
       const f = $('[data-jfeature]');
       if (f) f.innerHTML = `
-<figure class="img-reveal parallax-wrap" data-cursor="Ler"><a href="artigo.html?slug=${first.slug}"><img src="${first.cover}" alt="" data-parallax=".1"></a></figure>
+<figure class="img-reveal parallax-wrap" data-cursor="Ler"><a href="artigo.html?slug=${first.slug}"><img ${pic(first.cover, '(max-width: 860px) 100vw, 58vw')} alt="" data-parallax=".1" fetchpriority="high"></a></figure>
 <div class="jtext">
   <span class="label" data-reveal>Último · ${esc(first.kicker)} · ${LR.format.date(first.date)}</span>
   <h2 class="display display-l split"><a href="artigo.html?slug=${first.slug}">${esc(first.title)}</a></h2>
@@ -666,7 +663,7 @@
   <h3>${esc(a.title)}</h3>
   <p>${esc(a.excerpt)}</p>
   <span class="arrow">→</span>
-  <img class="jthumb" src="${a.cover}" alt="" aria-hidden="true" loading="lazy">
+  <img class="jthumb" ${pic(a.cover, '220px')} alt="" aria-hidden="true" loading="lazy">
 </a>`).join('');
     },
 
@@ -680,7 +677,7 @@
   <span class="label" data-reveal>${esc(a.kicker)}<br>${LR.format.date(a.date)}</span>
   <h1 class="display display-l split">${esc(a.title)}</h1>
 </div>
-<figure class="article-cover img-reveal parallax-wrap"><img src="${a.cover}" alt="" data-parallax=".12"></figure>
+<figure class="article-cover img-reveal parallax-wrap"><img ${pic(a.cover, '100vw')} alt="" data-parallax=".12" fetchpriority="high"></figure>
 <div class="article-body">
   <aside class="aside">
     <span class="label">Leitura · ${Math.max(1, Math.round(a.body.join(' ').split(' ').length / 180))} min</span>
@@ -706,51 +703,21 @@
     contato() {},
   };
 
-  /* ---------- Foto da home ----------
-     As fotos dos relógios se revezam a cada 5 segundos. Com WebGL
-     (skill threejs-webgl, assets/hero-gl.js) a troca vira um dissolve
-     líquido e uma lente leve acompanha o mouse; sem WebGL, as <img> fazem fade. */
-  let heroIntro = () => {};
+  /* ---------- Vitrine do topo: fotos reais que se alternam ---------- */
   function heroPhoto() {
-    const photo = $('[data-hero-photo]'), slides = $('[data-hero-slides]');
-    if (!photo || !slides || !LR.hero || !LR.hero.length) return;
-    slides.innerHTML = LR.hero.map((h, i) => { const p = LR.byId(h.id); return `<img src="${h.img}" alt="${esc(p ? p.name : '')}" loading="${i ? 'lazy' : 'eager'}" class="${i ? '' : 'is-active'}">`; }).join('');
+    const slides = $('[data-hero-slides]');
+    if (!slides || !LR.hero || !LR.hero.length) return;
+    slides.innerHTML = LR.hero.map((h, i) => { const p = LR.byId(h.id); return `<img ${pic(h.img, '(max-width: 860px) 70vw, 520px')} alt="${esc(p ? p.name : '')}" loading="${i ? 'lazy' : 'eager'}"${i ? '' : ' fetchpriority="high"'} class="${i ? '' : 'is-active'}">`; }).join('');
     const imgs = $$('img', slides), code = $('[data-hero-code]'), link = $('[data-hero-link]'), count = $('[data-hero-count]');
-    let cur = 0, gl = null;
-    const label = () => {
+    let cur = 0;
+    const show = i => {
+      imgs[cur].classList.toggle('is-active', false); cur = i; imgs[cur].classList.toggle('is-active', true);
       const p = LR.byId(LR.hero[cur].id);
       if (p) { if (code) code.textContent = `${p.code} — ${p.name}`; if (link) link.href = `produto.html?id=${p.id}`; }
       if (count) count.textContent = `${pad(cur + 1)} / ${pad(imgs.length)}`;
     };
-    const show = i => { if (i === cur) return; imgs[cur].classList.remove('is-active'); cur = i; imgs[cur].classList.add('is-active'); if (gl) gl.show(i); label(); };
-    label();
-    if (!reduced && imgs.length > 1) setInterval(() => { if (!document.hidden) show((cur + 1) % imgs.length); }, 5000);
-
-    // a foto leva ao modelo (o link usa a transição de cortina)
-    photo.addEventListener('click', () => link && link.click());
-
-    heroIntro = loadGL;
-
-    // WebGL só quando faz sentido: sem "reduzir movimento" e sem economia de dados
-    function loadGL() {
-      const saveData = navigator.connection && navigator.connection.saveData;
-      if (reduced || saveData) return;
-      const s = document.createElement('script');
-      s.src = 'assets/hero-gl.js'; s.async = true;
-      s.onload = () => {
-        const api = window.LRDialGL && window.LRDialGL.create(photo, LR.hero);
-        if (!api) return;
-        api.ready.then(() => {
-          gl = api; if (cur !== 0) api.show(cur);
-          photo.classList.add('is-gl');
-          if (fine) {
-            photo.addEventListener('mousemove', e => { const r = photo.getBoundingClientRect(); api.pointer((e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height, true); });
-            photo.addEventListener('mouseleave', () => api.pointer(.5, .5, false));
-          }
-        }).catch(() => {});
-      };
-      document.head.appendChild(s);
-    }
+    show(0);
+    if (!reduced && imgs.length > 1) setInterval(() => { if (!document.hidden) show((cur + 1) % imgs.length); }, 4200);
   }
 
   /* ---------- Boot ---------- */
@@ -759,7 +726,7 @@
   if (pages[page]) pages[page]();
   cartUI(); menu(); header(); misc(); transitions();
   reveals();
-  preloader().then(() => { const m = $('main'); if (m) { m.classList.add('page-enter'); m.addEventListener('animationend', () => m.classList.remove('page-enter'), { once: true }); } revealAboveFold(); smoothScroll(); scrollFx(); cursor(); heroIntro(); });
+  preloader().then(() => { const m = $('main'); if (m) { m.classList.add('page-enter'); m.addEventListener('animationend', () => m.classList.remove('page-enter'), { once: true }); } revealAboveFold(); smoothScroll(); scrollFx(); cursor(); });
   if (html.classList.contains('no-preloader') || reduced) { /* preloader resolve imediato — nada a fazer */ }
 
   LR.ui = ui; LR.cart = cart; LR.toast = toast;

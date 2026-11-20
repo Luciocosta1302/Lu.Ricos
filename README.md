@@ -26,9 +26,6 @@ não funciona (não há servidor) e mostra o botão do WhatsApp.
 
 ## Funções
 
-- **Foto da home:** as fotos dos relógios se revezam a cada 5 segundos num quadro retangular. Com WebGL, a troca é um
-  dissolve líquido e uma lente leve acompanha o mouse (`src/hero-gl.mjs`, gerado em `assets/hero-gl.js` com
-  `npm run build:gl`). Sem WebGL, com "reduzir movimento" ou com economia de dados, as fotos fazem fade simples.
 - **Preloader** desenha um mostrador e leva os ponteiros até a hora real (Anime.js)
 - **Rolagem** com GSAP ScrollTrigger: parallax, galeria presa e rolando de lado, mostrador que recua e gira
 - **Cursor e botões magnéticos** com física de mola (tensão e atrito)
@@ -185,3 +182,17 @@ chave, validação, origem e limite de uso. Roteiro manual no navegador (`npm ru
 
 Custos: cada mensagem do cliente gera de 1 a 3 chamadas à API da Anthropic. Acompanhe o gasto no painel da
 Anthropic e defina um limite mensal lá.
+
+## Ferramentas de design no Claude Code
+
+Instaladas neste projeto, para uso nas próximas sessões do Claude Code:
+
+| Ferramenta | Onde fica | Para quê |
+| --- | --- | --- |
+| Taste Skill (`design-taste-frontend`) | `.claude/skills/design-taste-frontend/` (fora do git, 40 MB) | Verificadores de layout, texto e desempenho |
+| Web Design Guidelines | `.claude/skills/web-design-guidelines/` | Auditoria de acessibilidade e uso |
+| Image to Code | `.claude/skills/image-to-code/` | Gerar uma imagem de referência e implementar a partir dela |
+| Playwright CLI | `.claude/skills/playwright-cli/` + `playwright-cli` global | Abrir e testar o site num navegador real |
+| Awesome DESIGN.md | `~/.local/share/awesome-design-md/design-md/` | Catálogo de 84 referências visuais |
+
+Para recolocar as skills listadas em `skills-lock.json` (inclusive a Taste) depois de clonar: `npx skills install`.

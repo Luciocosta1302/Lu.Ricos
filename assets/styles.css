@@ -699,23 +699,37 @@ html.from-transition .preloader { display: none; }
 .preloader-dial circle { fill: var(--paper); }
 .preloader-bar i { background: var(--signal); }
 
-/* ---------- Galeria horizontal presa pelo GSAP ScrollTrigger ----------
-   Com o GSAP, a seção é fixada (pin) e a altura vem do próprio pin. */
-html.has-gsap .hscroll { height: auto; }
-html.has-gsap .hscroll-sticky { position: relative; top: auto; }
 
-/* ---------- Foto da home ----------
-   Retangular, como antes. Com WebGL, um canvas por cima faz a troca
-   das fotos com dissolve; as <img> ficam por baixo como reserva. */
-.hero-photo { position: relative; overflow: hidden; pointer-events: auto; cursor: pointer; }
-.hero-photo .hero-slides { position: absolute; inset: 0; }
-.hero-gl { position: absolute; inset: 0; width: 100% !important; height: 100% !important; opacity: 0; transition: opacity .8s var(--ease); }
-.hero-photo.is-gl .hero-gl { opacity: 1; }
-.hero-photo.is-gl .hero-slides { visibility: hidden; transition: visibility 0s .8s; }
 .hero-title { pointer-events: none; }
 @media (max-width: 860px) {
   .pdp-gallery figure:last-child:nth-child(even) { grid-column: 1 / -1; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .hero-gl { display: none; }
-}
+
+
+/* ============================================================
+   Refinos de uso e acessibilidade (Web Interface Guidelines)
+   e micro-interações (Taste). Não mudam o visual em repouso.
+   ============================================================ */
+/* pular direto para o conteúdo pelo teclado */
+.skip-link { position: fixed; left: var(--gutter); top: .75rem; z-index: 1001; padding: .7rem 1rem; border-radius: 999px; background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; transform: translateY(-160%); transition: transform .3s var(--ease-out); }
+.skip-link:focus-visible { transform: none; }
+main:focus { outline: none; }
+/* âncoras não ficam escondidas atrás do cabeçalho fixo */
+[id] { scroll-margin-top: calc(var(--header-h) + 1rem); }
+/* toque sem atraso de duplo toque */
+a, button, .opt, .chip, label, select { touch-action: manipulation; }
+/* rolagem de gavetas não vaza para a página */
+.cart-body, .menu { overscroll-behavior: contain; }
+/* select nativo legível no modo escuro do Windows */
+.select select { background-color: var(--paper); color: var(--ink); }
+/* textos longos não estouram os cards */
+.pcard-info > div { min-width: 0; }
+.pcard-name, .cart-name { overflow-wrap: anywhere; }
+/* botões afundam ao clicar */
+.btn:active, .chip:active, .opt:active { scale: .97; }
+.chip, .opt { transition: background .4s, color .4s, border-color .4s, scale .2s var(--ease-out); }
+.btn { transition: color .5s var(--ease), border-color .5s var(--ease), transform .4s var(--ease-out), scale .2s var(--ease-out); }
+/* espaço reservado enquanto o JavaScript monta o conteúdo (evita saltos de layout) */
+[data-pdp]:empty, [data-article]:empty, [data-col-list]:empty { min-height: 100svh; }
+[data-grid]:empty { min-height: 60svh; }
+[data-jfeature]:empty { min-height: 50svh; }
