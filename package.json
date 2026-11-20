@@ -7,12 +7,17 @@
     "build": "node scripts/build.mjs",
     "dev": "node scripts/dev-server.mjs",
     "test": "node --test tests/*.test.mjs",
-    "test:live": "node tests/live-smoke.mjs"
+    "test:live": "node tests/live-smoke.mjs",
+    "build:gl": "esbuild src/hero-gl.mjs --bundle --minify --format=iife --legal-comments=none --banner:js=\"/* LU.RICOS mostrador WebGL — gerado de src/hero-gl.mjs (npm run build:gl). Inclui Three.js (MIT). */\" --outfile=assets/hero-gl.js"
   },
   "engines": {
     "node": ">=20"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.8.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.10",
+    "three": "0.187.0"
   }
 }

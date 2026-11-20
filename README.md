@@ -1,8 +1,8 @@
 # LU.RICOS — loja de relógios
 
 Site da loja de relógios LU.RICOS em **HTML, CSS e JavaScript puros** (sem frameworks, sem build), com estética
-editorial monocromática: tipografia grotesca apertada, fios finos, etiquetas em caixa alta, códigos
-monoespaçados e animações de scroll.
+monocromática tirada do próprio relógio: aço escovado, grafite e o azul solar do mostrador como único destaque.
+Títulos em Archivo expandida (como gravação de luneta), texto em Instrument Sans e códigos em Martian Mono.
 
 **Ver online:** https://storeluricos.netlify.app/ (site oficial, com o assistente de IA)
 · cópia estática sem o assistente: https://luciocosta1302.github.io/Lu.Ricos/
@@ -25,6 +25,14 @@ não funciona (não há servidor) e mostra o botão do WhatsApp.
 | `404.html` | Página não encontrada |
 
 ## Funções
+
+- **Mostrador na home:** a foto do relógio fica num círculo cercado por uma minuteria de 60 traços que segue
+  o segundo real (horário de São Paulo); a foto troca a cada índice de 5 segundos. Com WebGL, a troca é um
+  dissolve líquido e uma lente acompanha o mouse (`src/hero-gl.mjs`, gerado em `assets/hero-gl.js` com
+  `npm run build:gl`). Sem WebGL, com "reduzir movimento" ou com economia de dados, as fotos fazem fade simples.
+- **Preloader** desenha um mostrador e leva os ponteiros até a hora real (Anime.js)
+- **Rolagem** com GSAP ScrollTrigger: parallax, galeria presa e rolando de lado, mostrador que recua e gira
+- **Cursor e botões magnéticos** com física de mola (tensão e atrito)
 
 - **Preloader** com contador (só na primeira visita da sessão) e **transição** de cortina entre páginas
 - **Scroll suave** (desktop), reveals por palavra, imagens com zoom de entrada, parallax, manifesto que acende por palavra

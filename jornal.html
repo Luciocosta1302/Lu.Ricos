@@ -12,7 +12,7 @@
   <script>(function(){try{var c=document.documentElement.classList;if(sessionStorage.getItem('lr_seen'))c.add('no-preloader');if(sessionStorage.getItem('lr_nav')==='1')c.add('from-transition');}catch(e){}})();</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..700&family=Instrument+Sans:wght@400;500;600&family=Martian+Mono:wdth,wght@87.5,400;87.5,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
   <link rel="stylesheet" href="assets/chat.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230b0b0b'/><text x='50' y='66' font-size='46' font-weight='700' text-anchor='middle' fill='%23f2f2ef' font-family='Helvetica,Arial' letter-spacing='-3'>LR</text></svg>">
@@ -20,7 +20,8 @@
 <body data-page="jornal">
 
 <div class="preloader" aria-hidden="true">
-  <div class="preloader-top"><span>LU.RICOS</span><span>Carregando</span></div>
+  <div class="preloader-top"><span>LU.RICOS</span><span><span data-pre-time>--:--</span> · São Paulo</span></div>
+  <svg class="preloader-dial" viewBox="0 0 200 200"><g data-pre-ticks></g><line class="pre-hand pre-h" x1="100" y1="100" x2="100" y2="58"/><line class="pre-hand pre-m" x1="100" y1="100" x2="100" y2="30"/><circle cx="100" cy="100" r="3.2"/></svg>
   <div class="preloader-count">0</div>
   <div class="preloader-bar"><i></i></div>
 </div>
@@ -55,6 +56,9 @@
 <div id="site-footer"></div>
 
 <script src="assets/data.js"></script>
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="assets/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/vendor/anime.min.js"></script>
 <script src="assets/app.js"></script>
 <script src="assets/chat.js"></script>
 </body>
