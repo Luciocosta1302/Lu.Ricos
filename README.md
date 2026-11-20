@@ -26,6 +26,10 @@ não funciona (não há servidor) e mostra o botão do WhatsApp.
 
 ## Funções
 
+- **Topo da home de ponta a ponta:** fotos largas ocupam toda a largura e aproximam devagar. Para trocar,
+  edite `LR.hero` em `assets/data.js`: `wide` é a foto deitada do computador (ideal 2.400 px de largura,
+  perto de 16:9 ou 2:1, com uma versão `-1200.jpg` ao lado), `img` é a vertical do celular e `pos` é o
+  ponto que nunca é cortado.
 - **Preloader** desenha um mostrador e leva os ponteiros até a hora real (Anime.js)
 - **Rolagem** com GSAP ScrollTrigger: parallax, galeria presa e rolando de lado, mostrador que recua e gira
 - **Cursor e botões magnéticos** com física de mola (tensão e atrito)

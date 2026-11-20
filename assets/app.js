@@ -707,8 +707,20 @@
   function heroPhoto() {
     const slides = $('[data-hero-slides]');
     if (!slides || !LR.hero || !LR.hero.length) return;
-    slides.innerHTML = LR.hero.map((h, i) => { const p = LR.byId(h.id); return `<img ${pic(h.img, '(max-width: 860px) 70vw, 520px')} alt="${esc(p ? p.name : '')}" loading="${i ? 'lazy' : 'eager'}"${i ? '' : ' fetchpriority="high"'} class="${i ? '' : 'is-active'}">`; }).join('');
-    const imgs = $$('img', slides), code = $('[data-hero-code]'), link = $('[data-hero-link]'), count = $('[data-hero-count]');
+    // enquanto o cabeçalho está sobre a foto, o texto dele fica branco
+    const head = $('.header'), fig = $('.hero-figure');
+    if (head && fig) {
+      const onDark = () => head.classList.toggle('on-photo', fig.getBoundingClientRect().bottom > head.offsetHeight);
+      addEventListener('scroll', onDark, { passive: true }); onDark();
+    }
+    // foto larga de ponta a ponta no computador; no celular, a vertical
+    slides.innerHTML = LR.hero.map((h, i) => {
+      const p = LR.byId(h.id), wide = h.wide || h.img;
+      const wideSet = h.wide ? `${wide.replace(/\.jpg$/, '-1200.jpg')} 1200w, ${wide} 2400w` : wide;
+      const mob = rel(h.img) ? `${h.img.replace(/\.jpg$/, '-600.jpg')} 600w, ${h.img} 1200w` : h.img;
+      return `<picture class="${i ? '' : 'is-active'}"><source media="(max-width: 860px)" srcset="${mob}" sizes="100vw"><img src="${wide}" srcset="${wideSet}" sizes="100vw" alt="${esc(p ? p.name : '')}" style="object-position:${h.pos || '50% 50%'}" loading="${i ? 'lazy' : 'eager'}"${i ? '' : ' fetchpriority="high"'}></picture>`;
+    }).join('');
+    const imgs = $$('picture', slides), code = $('[data-hero-code]'), link = $('[data-hero-link]'), count = $('[data-hero-count]');
     let cur = 0;
     const show = i => {
       imgs[cur].classList.toggle('is-active', false); cur = i; imgs[cur].classList.toggle('is-active', true);
@@ -717,7 +729,7 @@
       if (count) count.textContent = `${pad(cur + 1)} / ${pad(imgs.length)}`;
     };
     show(0);
-    if (!reduced && imgs.length > 1) setInterval(() => { if (!document.hidden) show((cur + 1) % imgs.length); }, 4200);
+    if (!reduced && imgs.length > 1) setInterval(() => { if (!document.hidden) show((cur + 1) % imgs.length); }, 6000);
   }
 
   /* ---------- Boot ---------- */

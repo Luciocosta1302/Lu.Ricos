@@ -733,3 +733,34 @@ a, button, .opt, .chip, label, select { touch-action: manipulation; }
 [data-pdp]:empty, [data-article]:empty, [data-col-list]:empty { min-height: 100svh; }
 [data-grid]:empty { min-height: 60svh; }
 [data-jfeature]:empty { min-height: 50svh; }
+
+/* ============================================================
+   Topo da home de ponta a ponta: a foto ocupa toda a largura,
+   passa por baixo do cabeçalho e aproxima devagar (zoom).
+   O nome fica em claro sobre um escurecimento suave embaixo.
+   ============================================================ */
+.hero { padding-top: 0; }
+.hero-stage { min-height: calc(var(--header-h) + 72svh); padding-top: var(--header-h); }
+.hero-meta { top: calc(var(--header-h) + 1.25rem); }
+.hero-figure { inset: 0; display: block; z-index: 1; }
+.hero-figure .img-reveal { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; background: var(--ink); }
+.hero-figure .hero-slides picture { position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s var(--ease); }
+.hero-figure .hero-slides picture.is-active { opacity: 1; }
+.hero-figure .hero-slides img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transform: scale(1.12); transition: transform 7.5s linear; }
+.hero-figure .hero-slides picture.is-active img { transform: scale(1); }
+/* escurecimento: em cima para o cabeçalho e as etiquetas, embaixo para o nome */
+.hero-figure::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(10, 11, 12, .55) 0%, rgba(10, 11, 12, 0) 26%, rgba(10, 11, 12, 0) 48%, rgba(10, 11, 12, .62) 100%); }
+.hero-meta .label { color: rgba(255, 255, 255, .78); }
+.hero-title { mix-blend-mode: normal; color: #f4f4f1; }
+@media (max-width: 860px) {
+  .hero-figure .img-reveal { height: 100%; }
+  .hero-stage { min-height: calc(var(--header-h) + 66svh); }
+  .hero-figure::after { background: linear-gradient(to bottom, rgba(10, 11, 12, .72) 0%, rgba(10, 11, 12, .2) 22%, rgba(10, 11, 12, 0) 45%, rgba(10, 11, 12, .65) 100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-figure .hero-slides img { transform: none; transition: none; }
+}
+/* cabeçalho sobre a foto do topo: texto branco, sem inversão de cores */
+.header.on-photo { mix-blend-mode: normal; }
+.header.on-photo a, .header.on-photo button { color: #f4f4f1; }
