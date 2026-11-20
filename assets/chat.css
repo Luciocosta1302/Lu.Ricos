@@ -110,3 +110,6 @@
   .lrc-sec { display: none; }
   .lrc-cap i { animation: none; }
 }
+
+/* foco visível no campo de mensagem (Web Interface Guidelines) */
+.lrc-input:focus-visible { border-color: var(--signal); box-shadow: 0 0 0 1px var(--signal); }

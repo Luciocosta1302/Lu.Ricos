@@ -171,7 +171,7 @@
       ? `<a class="btn btn-ghost" href="produto.html?id=${encodeURIComponent(p.id)}">Ver</a><a class="btn btn-ghost" href="${wa(`Olá! Quero ser avisado quando ${p.code} ${p.name} voltar.`)}" target="_blank" rel="noopener">Avise-me</a>`
       : `<a class="btn btn-ghost" href="produto.html?id=${encodeURIComponent(p.id)}">Ver</a><button class="btn" type="button" data-lrc-add="${esc(p.id)}">Adicionar</button>`;
     return `<article class="lrc-card">
-  <a href="produto.html?id=${encodeURIComponent(p.id)}" tabindex="-1"><img src="${esc(p.images[0])}" alt="${esc(p.name)}" loading="lazy"></a>
+  <a href="produto.html?id=${encodeURIComponent(p.id)}" tabindex="-1"><img src="${esc(/assets\/img\/relogios\/[^/]+\.jpg$/.test(p.images[0]) ? p.images[0].replace(/\.jpg$/, '-600.jpg') : p.images[0])}" alt="${esc(p.name)}" loading="lazy"></a>
   <div class="lrc-card-info">
     <span class="lrc-card-code">${esc(p.code)} · ${esc(p.category)}</span>
     <span class="lrc-card-name">${esc(p.name)}</span>

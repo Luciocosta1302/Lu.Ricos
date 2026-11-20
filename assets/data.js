@@ -124,14 +124,16 @@ LR.products = [
   },
 ];
 
-// Fotos que passam no topo da home (vitrine). Cada uma leva ao produto indicado.
+// Fotos que passam no topo da home, de ponta a ponta. Cada uma leva ao produto indicado.
+// wide: foto deitada para o computador (ideal 2400 px de largura, proporção perto de 16:9 ou 2:1),
+//       com uma versão de 1200 px ao lado (nome-1200.jpg).
+// img:  foto vertical usada no celular.
+// pos:  ponto da foto que fica sempre visível ao cortar (opcional, padrão '50% 50%').
 LR.hero = [
-  { img: IMG + 'colmeia-02.jpg', id: 'pablo-raez-colmeia' },
-  { img: IMG + 'riviera-03.jpg', id: 'technos-riviera' },
-  { img: IMG + 'rosa-06.jpg', id: 'pablo-raez-rosa-dos-ventos' },
-  { img: IMG + 'romano-01.jpg', id: 'pablo-raez-romano' },
-  { img: IMG + 'verde-01.jpg', id: 'pablo-raez-esmeralda' },
-  { img: IMG + 'sunlifex-04.jpg', id: 'sunlifex-cronografo' },
+  { wide: IMG + 'hero-colmeia.jpg', img: IMG + 'colmeia-02.jpg', id: 'pablo-raez-colmeia', pos: '40% 50%' },
+  { wide: IMG + 'hero-riviera.jpg', img: IMG + 'riviera-02.jpg', id: 'technos-riviera', pos: '62% 45%' },
+  { wide: IMG + 'hero-rosa.jpg', img: IMG + 'rosa-06.jpg', id: 'pablo-raez-rosa-dos-ventos', pos: '60% 50%' },
+  { wide: IMG + 'hero-romano.jpg', img: IMG + 'romano-01.jpg', id: 'pablo-raez-romano', pos: '50% 50%' },
 ];
 
 LR.articles = [

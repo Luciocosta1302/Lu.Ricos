@@ -1,8 +1,8 @@
 # LU.RICOS — loja de relógios
 
 Site da loja de relógios LU.RICOS em **HTML, CSS e JavaScript puros** (sem frameworks, sem build), com estética
-editorial monocromática: tipografia grotesca apertada, fios finos, etiquetas em caixa alta, códigos
-monoespaçados e animações de scroll.
+monocromática tirada do próprio relógio: aço escovado, grafite e o azul solar do mostrador como único destaque.
+Títulos em Archivo expandida (como gravação de luneta), texto em Instrument Sans e códigos em Martian Mono.
 
 **Ver online:** https://storeluricos.netlify.app/ (site oficial, com o assistente de IA)
 · cópia estática sem o assistente: https://luciocosta1302.github.io/Lu.Ricos/
@@ -25,6 +25,14 @@ não funciona (não há servidor) e mostra o botão do WhatsApp.
 | `404.html` | Página não encontrada |
 
 ## Funções
+
+- **Topo da home de ponta a ponta:** fotos largas ocupam toda a largura e aproximam devagar. Para trocar,
+  edite `LR.hero` em `assets/data.js`: `wide` é a foto deitada do computador (ideal 2.400 px de largura,
+  perto de 16:9 ou 2:1, com uma versão `-1200.jpg` ao lado), `img` é a vertical do celular e `pos` é o
+  ponto que nunca é cortado.
+- **Preloader** desenha um mostrador e leva os ponteiros até a hora real (Anime.js)
+- **Rolagem** com GSAP ScrollTrigger: parallax, galeria presa e rolando de lado, mostrador que recua e gira
+- **Cursor e botões magnéticos** com física de mola (tensão e atrito)
 
 - **Preloader** com contador (só na primeira visita da sessão) e **transição** de cortina entre páginas
 - **Scroll suave** (desktop), reveals por palavra, imagens com zoom de entrada, parallax, manifesto que acende por palavra
@@ -178,3 +186,17 @@ chave, validação, origem e limite de uso. Roteiro manual no navegador (`npm ru
 
 Custos: cada mensagem do cliente gera de 1 a 3 chamadas à API da Anthropic. Acompanhe o gasto no painel da
 Anthropic e defina um limite mensal lá.
+
+## Ferramentas de design no Claude Code
+
+Instaladas neste projeto, para uso nas próximas sessões do Claude Code:
+
+| Ferramenta | Onde fica | Para quê |
+| --- | --- | --- |
+| Taste Skill (`design-taste-frontend`) | `.claude/skills/design-taste-frontend/` (fora do git, 40 MB) | Verificadores de layout, texto e desempenho |
+| Web Design Guidelines | `.claude/skills/web-design-guidelines/` | Auditoria de acessibilidade e uso |
+| Image to Code | `.claude/skills/image-to-code/` | Gerar uma imagem de referência e implementar a partir dela |
+| Playwright CLI | `.claude/skills/playwright-cli/` + `playwright-cli` global | Abrir e testar o site num navegador real |
+| Awesome DESIGN.md | `~/.local/share/awesome-design-md/design-md/` | Catálogo de 84 referências visuais |
+
+Para recolocar as skills listadas em `skills-lock.json` (inclusive a Taste) depois de clonar: `npx skills install`.
