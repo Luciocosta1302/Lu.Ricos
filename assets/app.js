@@ -253,7 +253,8 @@
       const k = this.key(id, color, size);
       const it = this.items.find(i => i.key === k);
       if (it) it.qty += qty; else this.items.push({ key: k, id, color, size, qty });
-      this.save(); toast(`${p.name} adicionado`); openCart();
+      this.save(); toast(`${p.name} adicionado`);
+      if (LR.life && LR.life.fly && LR.life.fly()) setTimeout(openCart, 760); else openCart();
     },
     setQty(k, q) { const it = this.items.find(i => i.key === k); if (!it) return; it.qty = q; if (it.qty <= 0) this.items = this.items.filter(i => i.key !== k); this.save(); },
     count() { return this.items.reduce((a, i) => a + i.qty, 0); },
