@@ -13,3 +13,15 @@
 - **Fotos:** sempre as fotos reais das peças. O forro vermelho das caixas já conversa com o destaque.
 
 Arquivos: `logo-lu-ricos-grafite.png` (fundo claro), `logo-lu-ricos-claro.png` (fundo escuro), `avatar-lu-ricos.png` (perfil do Instagram).
+
+## Stories prontos (`stories/`)
+
+1080 × 1920, com fotos reais e um só elemento vermelho além do ponto do logo. Os textos ficam fora das faixas que o Instagram cobre.
+
+| Arquivo | Para quê |
+| --- | --- |
+| `story-novidade-esmeralda.jpg` | Lançamento do Pablo Raez Esmeralda |
+| `story-novidade-sunlifex.jpg` | Lançamento do Sunlifex Cronógrafo |
+| `story-colmeia-branco.jpg` | Colmeia agora em branco, com a azul gelo ao lado |
+| `story-enquete-aco-couro.jpg` | Enquete: deixe o adesivo de enquete na faixa escura do meio |
+| `story-presente.jpg` | Presente, com a faixa de preço da loja |
