@@ -107,7 +107,7 @@
 .lrc-suggest { display: flex; flex-direction: column; margin-top: .2rem; border-top: 1px solid var(--line); animation: lrc-in .5s var(--ease-out) .1s both; }
 .lrc-suggest-label { padding: .7rem 0 .35rem; font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--lrc-mute, var(--mute)); }
 .lrc-chip { display: flex; align-items: center; min-height: 44px; padding: .5rem 0; border-bottom: 1px solid var(--line); font-size: 14px; text-align: left; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 4px; transition: color .15s var(--ease-out), text-decoration-color .15s var(--ease-out); }
-.lrc-chip:hover { color: var(--signal); text-decoration-color: currentColor; }
+.lrc-chip:hover { color: var(--signal-ink, var(--signal)); text-decoration-color: currentColor; }
 .lrc-chip:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 
 /* ---------- Produtos como etiquetas de relojoaria ---------- */
@@ -136,11 +136,11 @@
 .lrc-card-row { display: flex; align-items: baseline; justify-content: space-between; gap: .5rem; margin-top: .45rem; padding-top: .45rem; border-top: 1px dashed var(--line-strong); }
 .lrc-card-price { font-family: var(--font-display); font-stretch: var(--display-stretch, 125%); font-weight: 600; font-size: 15px; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
 .lrc-card-status { font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--lrc-mute, var(--mute)); }
-.lrc-card-status.is-out { color: var(--signal); }
+.lrc-card-status.is-out { color: var(--signal-ink, var(--signal)); }
 .lrc-card-actions { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: .8rem; padding-top: .1rem; }
 
 .lrc-link { display: inline-flex; align-items: center; min-height: 36px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
-.lrc-link:hover { color: var(--signal); }
+.lrc-link:hover { color: var(--signal-ink, var(--signal)); }
 .lrc-add { display: inline-flex; align-items: center; gap: .45rem; height: 36px; padding: 0 1rem; border-radius: 999px; background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; transition: background .25s, scale .2s var(--ease-out); }
 .lrc-add { transition: background .15s var(--ease-out), transform .15s var(--ease-out); }
 .lrc-add:hover { background: var(--signal); transform: translateY(-1px); }
@@ -172,7 +172,7 @@
 .lrc-foot-row { display: flex; align-items: baseline; justify-content: space-between; gap: .8rem; margin-top: .5rem; }
 .lrc-note { font-size: 11px; color: var(--lrc-mute); line-height: 1.35; }
 .lrc-human { flex: none; display: inline-flex; align-items: center; min-height: 32px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
-.lrc-human:hover { color: var(--signal); }
+.lrc-human:hover { color: var(--signal-ink, var(--signal)); }
 
 @media (max-width: 520px) {
   .lrc-dial { width: 54px; height: 50px; }

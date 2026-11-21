@@ -1,0 +1,5 @@
+
+> dev
+> node scripts/dev-server.mjs
+
+LU.RICOS em http://localhost:8888 · assistente: demo

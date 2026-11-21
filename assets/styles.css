@@ -1,8 +1,9 @@
 /* ============================================================
    LU.RICOS — sistema visual
    Estética: monocromática e técnica, tirada do próprio relógio:
-   aço escovado, grafite e o azul solar do mostrador como único
-   destaque. Títulos em grotesca expandida (como gravação de luneta
+   aço escovado e grafite como base calma, e o vermelho do forro
+   da caixa como único destaque, usado em pouca quantidade. O ponto
+   de LU.RICOS é sempre vermelho: é a assinatura da marca. Títulos em grotesca expandida (como gravação de luneta
    e fundo de caixa), texto em Instrument Sans, códigos em Martian Mono.
    ============================================================ */
 
@@ -16,7 +17,8 @@
   --mute: #6f7479;
   --line: rgba(17, 18, 20, .15);
   --line-strong: rgba(17, 18, 20, .55);
-  --signal: #1f3e8a;   /* azul solar: único destaque */
+  --signal: #cc2744;   /* Vermelho Estojo: o forro da caixa. Único destaque, em pouca quantidade */
+  --signal-ink: #a81d35; /* o mesmo vermelho, escurecido para texto pequeno sobre o aço (contraste 5:1) */
 
   --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
@@ -764,3 +766,11 @@ a, button, .opt, .chip, label, select { touch-action: manipulation; }
 /* cabeçalho sobre a foto do topo: texto branco, sem inversão de cores */
 .header.on-photo { mix-blend-mode: normal; }
 .header.on-photo a, .header.on-photo button { color: #f4f4f1; }
+
+/* ============================================================
+   Assinatura da marca: o ponto vermelho de LU.RICOS
+   ============================================================ */
+.lr-dot { color: var(--signal); }
+.hero-title .lr-dot, .footer-word .lr-dot { color: var(--signal); }
+/* rótulos pequenos em vermelho ficam legíveis sobre o aço */
+.pdp-top .label span[style*="signal"] { color: var(--signal-ink) !important; }
