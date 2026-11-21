@@ -26,13 +26,13 @@
     set(v) { try { sessionStorage.setItem(STORE_KEY, JSON.stringify(v.slice(-40))); } catch {} },
   };
 
-  const GREETING = 'Olá! Eu sou o LU.BOT, assistente da ' + B.name + '. Posso te ajudar a encontrar o relógio ideal. Está procurando algo para você ou para presentear?';
+  const forSale = LR.products.filter(p => p.status !== 'esgotado').length;
+  const GREETING = `Oi, sou o LU.BOT. Conheço os ${forSale} relógios à venda na vitrine, com preço e estoque de hoje. É para você ou para presente?`;
   const SUGGESTIONS = [
-    'Qual relógio combina comigo?',
-    'Quais modelos vocês têm até R$ 250?',
-    'Quero um relógio para presentear.',
-    'Vocês têm relógios de aço inoxidável?',
-    'Qual a diferença entre esses modelos?',
+    'Relógios até R$ 200',
+    'Um presente para homem',
+    'Aço ou couro: qual escolher?',
+    'Qual mostra a data e o dia da semana?',
   ];
   const STATUS = { disponivel: 'Disponível', encomenda: 'Sob encomenda', esgotado: 'Esgotado' };
 
@@ -52,7 +52,7 @@
     const idx = Array.from({ length: 12 }, (_, i) => i === 3 ? '' : i === 0
       ? `<g transform="${rot(0)}"><rect x="37.6" y="26" width="1.7" height="6" rx=".4" fill="#f1f1ec"/><rect x="40.7" y="26" width="1.7" height="6" rx=".4" fill="#f1f1ec"/></g>`
       : `<rect x="39.15" y="26.2" width="1.7" height="${i % 3 ? 4 : 5.4}" rx=".4" fill="#f1f1ec" transform="${rot(i * 30)}"/>`).join('');
-    const day = String(new Date().getDate());
+    const day = new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo', day: 'numeric' });
     return `<svg viewBox="0 9 80 74" focusable="false">
   <defs>
     <radialGradient id="lrc-dial-g" cx="40%" cy="34%" r="72%"><stop offset="0" stop-color="#3a68d8"/><stop offset=".45" stop-color="#1f3e8a"/><stop offset="1" stop-color="#0a1230"/></radialGradient>
@@ -88,7 +88,7 @@
   <g class="lrc-sec"><line x1="40" y1="50" x2="40" y2="28" stroke="#e0b252" stroke-width=".7" stroke-linecap="round"/><circle cx="40" cy="46" r="1.4" fill="#e0b252"/></g>
   <circle cx="40" cy="46" r=".55" fill="#0a1230"/>
   <!-- vidro: reflexo que passa -->
-  <g clip-path="url(#lrc-dial-clip)"><circle cx="40" cy="46" r="19.3" fill="url(#lrc-glass)"/><rect class="lrc-glint" x="10" y="20" width="7" height="60" fill="#fff" fill-opacity=".22" transform="rotate(28 40 46)"/></g>
+  <g clip-path="url(#lrc-dial-clip)"><circle cx="40" cy="46" r="19.3" fill="url(#lrc-glass)"/></g>
 </svg>`;
   }
 
@@ -113,12 +113,10 @@
         <button class="lrc-icon-btn" type="button" data-lrc-close aria-label="Fechar assistente"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5.5 5.5l9 9M14.5 5.5l-9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
       </div>
     </div>
-    <div class="lrc-trackrow">
-      <div class="lrc-track" aria-hidden="true" data-lrc-track>${Array.from({ length: 60 }, (_, i) => `<i class="${i % 5 ? '' : 'is-five'}"></i>`).join('')}</div>
-      <time class="lrc-clock" data-lrc-clock aria-label="Horário de Brasília">--:--:--</time>
-    </div>
+    <p class="lrc-hours">Atendimento humano · ${esc(B.hours)}</p>
   </header>
-  <div class="lrc-body" data-lrc-body data-scroll-native aria-live="polite"></div>
+  <div class="lrc-body" data-lrc-body data-scroll-native></div>
+  <p class="sr-only" aria-live="polite" data-lrc-live></p>
   <footer class="lrc-foot">
     <form class="lrc-form" data-lrc-form>
       <label class="sr-only" for="lrc-input">Sua mensagem</label>
@@ -127,7 +125,7 @@
     </form>
     <div class="lrc-foot-row">
       <p class="lrc-note">Respostas com IA. Preço e estoque confirmados no atendimento.</p>
-      <a class="lrc-human" href="${wa('Olá! Vim pelo assistente do site e quero falar com um atendente.')}" target="_blank" rel="noopener">Falar com uma pessoa <span aria-hidden="true">→</span></a>
+      <a class="lrc-human" href="${wa('Olá! Vim pelo assistente do site e quero falar com um atendente.')}" target="_blank" rel="noopener">Falar com uma pessoa</a>
     </div>
   </footer>
 </section>`;
@@ -142,7 +140,7 @@
   function open() {
     if (isOpen) return; isOpen = true;
     html.classList.add('lrc-open'); panel.setAttribute('aria-hidden', 'false'); launcher.setAttribute('aria-expanded', 'true');
-    render(); lastSec = -1; headTick(); setTimeout(() => input.focus({ preventScroll: true }), 50);
+    render(); setTimeout(() => input.focus({ preventScroll: true }), 50);
   }
   function close() {
     if (!isOpen) return; isOpen = false;
@@ -160,18 +158,7 @@
   handS.style.setProperty('--sec-delay', `-${d0.getSeconds() + d0.getMilliseconds() / 1000}s`);
   tick(); setInterval(tick, 15_000);
 
-  // cabeçalho: hora de Brasília e minuteria de 60 traços seguindo o segundo
-  const clock = $('[data-lrc-clock]'), ticks = [...$('[data-lrc-track]').children];
   const hhmm = d => d.toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit' });
-  let lastSec = -1;
-  function headTick() {
-    if (!isOpen) return;
-    const d = new Date(), sec = d.getSeconds();
-    if (sec === lastSec) return; lastSec = sec;
-    clock.textContent = d.toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo', hour12: false });
-    ticks.forEach((t, i) => { t.classList.toggle('is-past', i < sec); t.classList.toggle('is-now', i === sec); });
-  }
-  setInterval(headTick, 250);
 
   /* ---------- Botão arrastável (mouse e toque) ---------- */
   const POS_KEY = 'lr_chat_pos';
@@ -236,7 +223,7 @@
     const out = p.status === 'esgotado';
     const actions = out
       ? `<a class="lrc-link" href="produto.html?id=${encodeURIComponent(p.id)}">Ver detalhes</a><a class="lrc-add" href="${wa(`Olá! Quero ser avisado quando ${p.code} ${p.name} voltar.`)}" target="_blank" rel="noopener">Avise-me</a>`
-      : `<a class="lrc-link" href="produto.html?id=${encodeURIComponent(p.id)}">Ver detalhes</a><button class="lrc-add" type="button" data-lrc-add="${esc(p.id)}">Adicionar <span aria-hidden="true">+</span></button>`;
+      : `<a class="lrc-link" href="produto.html?id=${encodeURIComponent(p.id)}">Ver detalhes</a><button class="lrc-add" type="button" data-lrc-add="${esc(p.id)}">Adicionar ao carrinho</button>`;
     return `<article class="lrc-card">
   <span class="lrc-tag-hole" aria-hidden="true"></span>
   <a class="lrc-card-img" href="produto.html?id=${encodeURIComponent(p.id)}" tabindex="-1"><img src="${esc(/assets\/img\/relogios\/[^/]+\.jpg$/.test(p.images[0]) ? p.images[0].replace(/\.jpg$/, '-600.jpg') : p.images[0])}" alt="${esc(p.name)}" loading="lazy"></a>
@@ -245,8 +232,8 @@
     <span class="lrc-card-name">${esc(p.name)}</span>
     <span class="lrc-card-sub">${esc(p.subtitle)}</span>
     <div class="lrc-card-row"><span class="lrc-card-price">${price(p.price)}</span><span class="lrc-card-status${out ? ' is-out' : ''}">${STATUS[p.status] || ''}</span></div>
-    <div class="lrc-card-actions">${actions}</div>
   </div>
+  <div class="lrc-card-actions">${actions}</div>
 </article>`;
   }
 
@@ -259,9 +246,9 @@
       // Só exibe produtos que existem NESTE catálogo (data.js da página), com preço e status atuais
       const prods = (m.products || []).map(id => LR.byId(id)).filter(Boolean);
       if (prods.length) parts.push(`<div class="lrc-cards">${prods.map(cardHTML).join('')}</div>`);
-      if (m.handoff) parts.push(`<div class="lrc-handoff"><a class="lrc-add" href="${wa('Olá! Vim pelo assistente do site e quero falar com um atendente.')}" target="_blank" rel="noopener">Continuar no WhatsApp <span aria-hidden="true">→</span></a></div>`);
+      if (m.handoff) parts.push(`<div class="lrc-handoff"><a class="lrc-add" href="${wa('Olá! Vim pelo assistente do site e quero falar com um atendente.')}" target="_blank" rel="noopener">Continuar no WhatsApp</a></div>`);
     }
-    if (!thread.length) parts.push(`<div class="lrc-suggest"><span class="lrc-suggest-label">Comece por uma pergunta</span>${SUGGESTIONS.map(s => `<button type="button" class="lrc-chip" data-lrc-suggest>${esc(s)}<span aria-hidden="true">→</span></button>`).join('')}</div>`);
+    if (!thread.length) parts.push(`<div class="lrc-suggest"><span class="lrc-suggest-label">Comece por uma pergunta</span>${SUGGESTIONS.map(s => `<button type="button" class="lrc-chip" data-lrc-suggest>${esc(s)}</button>`).join('')}</div>`);
     if (busy) parts.push('<div class="lrc-typing" role="status"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.2"/><line class="lrc-typing-hand" x1="10" y1="11.5" x2="10" y2="3.6" stroke="var(--signal)" stroke-width="1.3" stroke-linecap="round"/><circle cx="10" cy="10" r="1.3" fill="currentColor"/></svg>Consultando o catálogo…</div>');
     body.innerHTML = parts.join('');
     body.scrollTop = body.scrollHeight;
@@ -274,7 +261,7 @@
   form.addEventListener('submit', e => { e.preventDefault(); ask(input.value); });
 
   body.addEventListener('click', e => {
-    const s = e.target.closest('[data-lrc-suggest]'); if (s) { ask(s.firstChild.textContent); return; }
+    const s = e.target.closest('[data-lrc-suggest]'); if (s) { ask(s.textContent); return; }
     const add = e.target.closest('[data-lrc-add]');
     if (add) {
       // Ação explícita do cliente → carrinho existente do site (mesmas regras de preço e estoque)
@@ -307,7 +294,8 @@
     } catch {
       reply = { role: 'assistant', error: true, handoff: true, content: 'Não consegui conectar ao assistente. Você pode falar com a gente pelo WhatsApp.' };
     }
-    reply.t = Date.now(); thread.push(reply); busy = false; store.set(thread); render(); autosize();
+    reply.t = Date.now(); thread.push(reply); busy = false;
+    const live = $('[data-lrc-live]'); if (live) live.textContent = 'LU.BOT: ' + reply.content; store.set(thread); render(); autosize();
   }
 
   if (location.hash === '#assistente') open();
