@@ -1,0 +1,15 @@
+# Identidade LU.RICOS
+
+| Papel | Nome | Hex | Quanto usar |
+| --- | --- | --- | --- |
+| Base | Aço escovado | `#e9eae6` | fundos, a maior parte |
+| Texto e contraste | Grafite | `#111214` | textos, faixas escuras |
+| Destaque | Vermelho Estojo | `#cc2744` | pouco: o ponto da marca, um selo, um botão |
+| Destaque em texto pequeno | Vermelho Estojo escuro | `#a81d35` | rótulos vermelhos sobre o aço |
+
+- **Assinatura:** o ponto de LU.RICOS é sempre vermelho.
+- **Regra do destaque:** no máximo um elemento vermelho por peça, além do ponto.
+- **Fontes:** Archivo expandida (títulos, caixa alta), Instrument Sans (texto), Martian Mono (preços e códigos).
+- **Fotos:** sempre as fotos reais das peças. O forro vermelho das caixas já conversa com o destaque.
+
+Arquivos: `logo-lu-ricos-grafite.png` (fundo claro), `logo-lu-ricos-claro.png` (fundo escuro), `avatar-lu-ricos.png` (perfil do Instagram).
