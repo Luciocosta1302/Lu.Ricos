@@ -105,7 +105,7 @@
     <span class="lrc-bezel" aria-hidden="true"></span>
     <div class="lrc-head-row">
       <div class="lrc-id">
-        <div class="lrc-title">LU.BOT</div>
+        <div class="lrc-title">LU<span class="lr-dot">.</span>BOT</div>
         <div class="lrc-sub"><i aria-hidden="true"></i>Consultor de relógios · com IA</div>
       </div>
       <div class="lrc-head-actions">

@@ -19,6 +19,8 @@
   const wa = text => `https://wa.me/${B.whatsapp}?text=${encodeURIComponent(text)}`;
   const esc = s => String(s).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
   const pad = n => String(n).padStart(2, '0');
+  /* o ponto do nome da marca sempre em vermelho */
+  const dotName = n => esc(n).replace('.', '<span class="lr-dot">.</span>');
   /* fotos responsivas: cada foto tem uma versão de 600 px ao lado (foto-600.jpg);
      o navegador escolhe pelo tamanho em que a foto aparece (sizes) */
   const rel = src => /assets\/img\/relogios\/[^/]+\.jpg$/.test(src) && !/-600\.jpg$/.test(src);
@@ -75,7 +77,7 @@
     const header = $('#site-header');
     if (header) header.outerHTML = `
 <header class="header" id="site-header">
-  <a class="brand" href="index.html" aria-label="${esc(B.name)} — início">${esc(B.name)}<small>®</small></a>
+  <a class="brand" href="index.html" aria-label="${esc(B.name)} — início"><span>${dotName(B.name)}</span><small>®</small></a>
   <nav class="nav" aria-label="Principal">
     ${NAV.slice(1, 5).map(([h, l]) => `<a href="${h}" class="${isActive(h) ? 'is-active' : ''}">${l}</a>`).join('')}
   </nav>
@@ -116,7 +118,7 @@
     <div class="footer-col"><span class="label">Social</span><a href="${B.instagram}" target="_blank" rel="noopener">Instagram</a><a href="${wa('Olá! Vim pelo site.')}" target="_blank" rel="noopener">WhatsApp</a></div>
     <div class="footer-col"><span class="label">Loja</span><p class="addr">${esc(B.address)}<br>${esc(B.hours)}<br><a href="mailto:${B.email}">${B.email}</a></p></div>
   </div>
-  <div class="footer-word" aria-hidden="true" data-footer-word>${B.name.split('').map(c => `<span>${c}</span>`).join('')}</div>
+  <div class="footer-word" aria-hidden="true" data-footer-word>${B.name.split('').map(c => `<span${c === '.' ? ' class="lr-dot"' : ''}>${c}</span>`).join('')}</div>
   <div class="footer-bottom">
     <span class="label">© ${new Date().getFullYear()} ${esc(B.name)} — Todos os direitos reservados</span>
     <span class="label">${esc(B.city)} · <span class="footer-clock num" data-clock>--:--:--</span></span>
@@ -251,7 +253,8 @@
       const k = this.key(id, color, size);
       const it = this.items.find(i => i.key === k);
       if (it) it.qty += qty; else this.items.push({ key: k, id, color, size, qty });
-      this.save(); toast(`${p.name} adicionado`); openCart();
+      this.save(); toast(`${p.name} adicionado`);
+      if (LR.life && LR.life.fly && LR.life.fly()) setTimeout(openCart, 760); else openCart();
     },
     setQty(k, q) { const it = this.items.find(i => i.key === k); if (!it) return; it.qty = q; if (it.qty <= 0) this.items = this.items.filter(i => i.key !== k); this.save(); },
     count() { return this.items.reduce((a, i) => a + i.qty, 0); },

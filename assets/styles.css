@@ -1,8 +1,9 @@
 /* ============================================================
    LU.RICOS — sistema visual
    Estética: monocromática e técnica, tirada do próprio relógio:
-   aço escovado, grafite e o azul solar do mostrador como único
-   destaque. Títulos em grotesca expandida (como gravação de luneta
+   aço escovado e grafite como base calma, e o vermelho do forro
+   da caixa como único destaque, usado em pouca quantidade. O ponto
+   de LU.RICOS é sempre vermelho: é a assinatura da marca. Títulos em grotesca expandida (como gravação de luneta
    e fundo de caixa), texto em Instrument Sans, códigos em Martian Mono.
    ============================================================ */
 
@@ -16,7 +17,8 @@
   --mute: #6f7479;
   --line: rgba(17, 18, 20, .15);
   --line-strong: rgba(17, 18, 20, .55);
-  --signal: #1f3e8a;   /* azul solar: único destaque */
+  --signal: #cc2744;   /* Vermelho Estojo: o forro da caixa. Único destaque, em pouca quantidade */
+  --signal-ink: #a81d35; /* o mesmo vermelho, escurecido para texto pequeno sobre o aço (contraste 5:1) */
 
   --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
@@ -764,3 +766,69 @@ a, button, .opt, .chip, label, select { touch-action: manipulation; }
 /* cabeçalho sobre a foto do topo: texto branco, sem inversão de cores */
 .header.on-photo { mix-blend-mode: normal; }
 .header.on-photo a, .header.on-photo button { color: #f4f4f1; }
+
+/* ============================================================
+   Assinatura da marca: o ponto vermelho de LU.RICOS
+   ============================================================ */
+.lr-dot { color: var(--signal); }
+.hero-title .lr-dot, .footer-word .lr-dot { color: var(--signal); }
+/* rótulos pequenos em vermelho ficam legíveis sobre o aço */
+.pdp-top .label span[style*="signal"] { color: var(--signal-ink) !important; }
+
+/* ============================================================
+   Vida no site (assets/life.js): cada movimento usa a marca
+   ============================================================ */
+/* linha de leitura: o ponteiro de segundos da página */
+.read-line { position: fixed; left: 0; top: 0; z-index: 820; width: 100%; height: 2px; background: var(--signal); transform-origin: 0 50%; transform: scaleX(0); pointer-events: none; }
+
+/* o ponto vermelho cai no lugar no topo da home */
+.hero-title .lr-dot { display: inline-block; }
+.has-life .hero-title .split.is-in .lr-dot { animation: lr-drop .9s cubic-bezier(.3, 1.55, .5, 1) .75s both; }
+@keyframes lr-drop { 0% { transform: translateY(-140%) scale(.4); opacity: 0; } 55% { opacity: 1; } 100% { transform: none; opacity: 1; } }
+/* no logo, o ponto pula no hover */
+.brand .lr-dot { display: inline-block; }
+.brand .lr-dot.is-hop { animation: lr-hop .55s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes lr-hop { 0% { transform: none; } 35% { transform: translateY(-45%) scale(1.25); } 100% { transform: none; } }
+
+/* marcador vermelho nos rótulos de seção, surge quando aparece */
+.sec-head > .label { display: inline-flex; align-items: center; gap: .55rem; }
+.sec-head > .label::before { content: ""; width: 7px; height: 7px; flex: none; background: var(--signal); transform: scale(0) rotate(-90deg); transition: transform .7s cubic-bezier(.3, 1.6, .5, 1) .15s; }
+.sec-head > .label.is-in::before, .sec-head > .label:not([data-reveal])::before { transform: none; }
+
+/* faixa de texto: separadores vermelhos */
+.ticker i { background: var(--signal); }
+
+/* preço que rola como a roda de data */
+.roll { display: inline-block; height: 1.2em; line-height: 1.2em; overflow: hidden; vertical-align: top; }
+.roll-col { display: flex; flex-direction: column; transform: translateY(0); transition: transform 1s cubic-bezier(.2, .9, .25, 1) var(--d, 0ms); }
+.roll-col > span { height: 1.2em; }
+.is-rolled .roll-col { transform: translateY(calc(var(--n) * -1.2em)); }
+
+/* ponto que voa até o carrinho, e o carrinho pula */
+.fly-dot { position: fixed; left: -6px; top: -6px; z-index: 2000; width: 12px; height: 12px; background: var(--signal); pointer-events: none; }
+.cart-btn.is-bump .cart-count { display: inline-block; animation: cart-bump .5s cubic-bezier(.3, 1.6, .5, 1); color: var(--signal); }
+@keyframes cart-bump { 0% { transform: none; } 40% { transform: scale(1.5); } 100% { transform: none; } }
+.header.on-photo .cart-btn.is-bump .cart-count { color: #fff; }
+
+/* miniaturas seguem o cursor e inclinam com o movimento */
+.col-row .col-thumb, .jrow .jthumb { left: var(--tx, 75%); right: auto; top: var(--ty, 50%);
+  transform: translate(-50%, -50%) scale(.75) rotate(var(--rot, 0deg));
+  transition: transform .5s cubic-bezier(.2, .9, .25, 1), opacity .35s, left .45s cubic-bezier(.2, .9, .25, 1), top .45s cubic-bezier(.2, .9, .25, 1); }
+.col-row:hover .col-thumb, .jrow:hover .jthumb { transform: translate(-50%, -60%) scale(1) rotate(var(--rot, 0deg)); }
+
+/* cortina entre páginas com o ponto da marca pulsando */
+.transition::after { content: ""; position: absolute; left: 50%; top: 50%; width: 18px; height: 18px; margin: -9px 0 0 -9px; background: var(--signal); transform: scale(0); }
+.transition.is-in::after { animation: curtain-dot .8s cubic-bezier(.3, 1.6, .5, 1) .2s forwards; }
+html.from-transition .transition::after { transform: scale(1); }
+@keyframes curtain-dot { 0% { transform: scale(0); } 60% { transform: scale(1.6); } 100% { transform: scale(1); } }
+
+/* cards de produto: o preço ganha um sublinhado vermelho no hover */
+.pcard-price { position: relative; }
+.pcard-price::after { content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 2px; background: var(--signal); transform: scaleX(0); transform-origin: right; transition: transform .45s var(--ease-out); }
+.pcard:hover .pcard-price::after { transform: scaleX(1); transform-origin: left; }
+
+@media (prefers-reduced-motion: reduce) {
+  .has-life .hero-title .split.is-in .lr-dot, .brand .lr-dot.is-hop, .transition.is-in::after { animation: none; }
+  .sec-head > .label::before { transform: none; transition: none; }
+  .roll-col { transition: none; }
+}
