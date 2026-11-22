@@ -49,3 +49,14 @@ Nos três últimos: só a foto, o logo, o nome e uma linha. Sem preço e sem cha
 | `feed-sunlifex.jpg` | Sunlifex Cronógrafo |
 
 O Clássico fica de fora enquanto estiver esgotado.
+
+## Posts da loja
+
+Story em `stories/` e feed em `feed/`, com o mesmo nome no fim.
+
+| Arquivo | Para quê |
+| --- | --- |
+| `*-loja-maraba.jpg` | Apresentação: relógios em Marabá, as três marcas |
+| `*-loja-vitrine.jpg` | A vitrine: os 7 relógios disponíveis num mosaico |
+| `*-loja-caixa.jpg` | Na caixa, do jeito que chega |
+| `*-loja-whatsapp.jpg` | Contato: WhatsApp e horário |
