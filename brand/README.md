@@ -14,6 +14,8 @@
 
 Arquivos: `logo-lu-ricos-grafite.png` (fundo claro), `logo-lu-ricos-claro.png` (fundo escuro), `avatar-lu-ricos.png` (perfil do Instagram).
 
+**Foto de perfil (`avatar-lu-ricos-mostrador.png`):** um mostrador com LR no centro, em que o ponto vermelho do logo é o 12. Feito para o recorte redondo do Instagram e para ser reconhecido mesmo pequeno.
+
 ## Stories prontos (`stories/`)
 
 1080 × 1920, com fotos reais e um só elemento vermelho além do ponto do logo. Os textos ficam fora das faixas que o Instagram cobre.
