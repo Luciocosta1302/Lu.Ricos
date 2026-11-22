@@ -68,8 +68,11 @@ const product = p => ({
 });
 const ld = (...nodes) => `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': nodes }).replace(/</g, '\\u003c')}</script>`;
 
+// Google Search Console: código da verificação por tag HTML (propriedade https://storeluricos.netlify.app/)
+const GOOGLE_VERIFY = 'FD2uLzPVpF99LMfdCPBHZU1icBKRJOC2z7IGis7TF58';
+
 /* ---------- cabeçalho de cada página ---------- */
-function head(html, { title, description, url, image = SHARE, type = 'website', jsonld = '', noindex = false }) {
+function head(html, { title, description, url, image = SHARE, type = 'website', jsonld = '', noindex = false, extra = '' }) {
   const set = (re, val) => { if (!re.test(html)) throw new Error('não achei ' + re); html = html.replace(re, val); };
   if (title) {
     set(/<title>[^<]*<\/title>/, `<title>${esc(title)}</title>`);
@@ -86,7 +89,7 @@ function head(html, { title, description, url, image = SHARE, type = 'website', 
     url ? `<meta property="og:url" content="${url}">` : '',
     `<meta property="og:image" content="${abs(image)}">`,
     `<meta property="og:site_name" content="${B.name}">`, '<meta property="og:locale" content="pt_BR">',
-    '<meta name="twitter:card" content="summary_large_image">', jsonld,
+    '<meta name="twitter:card" content="summary_large_image">', extra, jsonld,
     // sem JavaScript: some a tela de carregamento e o conteúdo aparece
     '<noscript><style>.preloader,.transition{display:none}[data-reveal],.split .word>span,.split .line>span{opacity:1!important;transform:none!important}.img-reveal img{transform:none!important}</style></noscript>',
   ].filter(Boolean).join('\n  ');
@@ -176,6 +179,7 @@ const desc = {
 let home = head(read('index.html'), {
   title: `Relógios em ${cityName}-${region} com fotos reais · ${B.name}`, description: desc.home, url: `${SITE}/`,
   jsonld: ld(store, website, itemList(forSale)),
+  extra: GOOGLE_VERIFY ? `<meta name="google-site-verification" content="${GOOGLE_VERIFY}">` : '',
 });
 home = fill(home, '<div class="products cols-3" data-grid="novidades">', '</div>', forSale.map(card).join(''));
 write('index.html', home);
