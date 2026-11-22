@@ -56,7 +56,7 @@ Story em `stories/` e feed em `feed/`, com o mesmo nome no fim.
 
 | Arquivo | Para quê |
 | --- | --- |
-| `*-loja-maraba.jpg` | Apresentação: relógios em Marabá, as três marcas |
+| `*-loja-maraba.jpg` | Apresentação: relógios em Marabá, aço e couro |
 | `*-loja-vitrine.jpg` | A vitrine: os 7 relógios disponíveis num mosaico |
 | `*-loja-caixa.jpg` | Na caixa, do jeito que chega |
 | `*-loja-whatsapp.jpg` | Contato: WhatsApp e horário |
