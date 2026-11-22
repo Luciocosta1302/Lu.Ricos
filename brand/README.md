@@ -25,8 +25,8 @@ Arquivos: `logo-lu-ricos-grafite.png` (fundo claro), `logo-lu-ricos-claro.png` (
 | `story-colmeia-branco.jpg` | Colmeia agora em branco, com a azul gelo ao lado |
 | `story-enquete-aco-couro.jpg` | Enquete: deixe o adesivo de enquete na faixa escura do meio |
 | `story-presente.jpg` | Presente, com a faixa de preço da loja |
-| `story-riviera-tres-azuis.jpg` | Technos Riviera: o mesmo mostrador em três luzes |
-| `story-rosa-dos-ventos-detalhes.jpg` | Rosa dos Ventos: três detalhes numerados na peça |
-| `story-romano-preto-prata.jpg` | Romano: preto, prata e couro croco |
+| `story-riviera.jpg` | Technos Riviera, foto na tela inteira |
+| `story-rosa-dos-ventos.jpg` | Pablo Raez Rosa dos Ventos, foto na tela inteira |
+| `story-romano.jpg` | Pablo Raez Romano, foto na tela inteira |
 
-Nos três últimos, a chamada é responder ao story com o nome do relógio (RIVIERA, ROSA, ROMANO). Assim dá para saber qual anúncio trouxe cada conversa.
+Nos três últimos: só a foto, o logo, o nome e uma linha. Sem preço e sem chamada.
