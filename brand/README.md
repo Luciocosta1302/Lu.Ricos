@@ -30,3 +30,13 @@ Arquivos: `logo-lu-ricos-grafite.png` (fundo claro), `logo-lu-ricos-claro.png` (
 | `story-romano.jpg` | Pablo Raez Romano, foto na tela inteira |
 
 Nos três últimos: só a foto, o logo, o nome e uma linha. Sem preço e sem chamada.
+
+## Posts para o feed (`feed/`)
+
+1080 × 1350 (4:5), no mesmo estilo dos stories: foto inteira, logo, nome e uma linha. Sem preço e sem chamada.
+
+| Arquivo | Relógio |
+| --- | --- |
+| `feed-riviera.jpg` | Technos Riviera |
+| `feed-rosa-dos-ventos.jpg` | Pablo Raez Rosa dos Ventos |
+| `feed-romano.jpg` | Pablo Raez Romano |
