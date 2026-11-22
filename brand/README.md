@@ -22,12 +22,15 @@ Arquivos: `logo-lu-ricos-grafite.png` (fundo claro), `logo-lu-ricos-claro.png` (
 | --- | --- |
 | `story-novidade-esmeralda.jpg` | Lançamento do Pablo Raez Esmeralda |
 | `story-novidade-sunlifex.jpg` | Lançamento do Sunlifex Cronógrafo |
-| `story-colmeia-branco.jpg` | Colmeia agora em branco, com a azul gelo ao lado |
+| `story-colmeia-branco.jpg` | Colmeia Branco, foto inteira (substitui a versão antiga com preço) |
 | `story-enquete-aco-couro.jpg` | Enquete: deixe o adesivo de enquete na faixa escura do meio |
 | `story-presente.jpg` | Presente, com a faixa de preço da loja |
 | `story-riviera.jpg` | Technos Riviera, foto na tela inteira |
 | `story-rosa-dos-ventos.jpg` | Pablo Raez Rosa dos Ventos, foto na tela inteira |
 | `story-romano.jpg` | Pablo Raez Romano, foto na tela inteira |
+| `story-colmeia.jpg` | Pablo Raez Colmeia azul gelo, foto inteira |
+| `story-esmeralda.jpg` | Pablo Raez Esmeralda, foto inteira |
+| `story-sunlifex.jpg` | Sunlifex Cronógrafo, foto inteira |
 
 Nos três últimos: só a foto, o logo, o nome e uma linha. Sem preço e sem chamada.
 
@@ -40,3 +43,9 @@ Nos três últimos: só a foto, o logo, o nome e uma linha. Sem preço e sem cha
 | `feed-riviera.jpg` | Technos Riviera |
 | `feed-rosa-dos-ventos.jpg` | Pablo Raez Rosa dos Ventos |
 | `feed-romano.jpg` | Pablo Raez Romano |
+| `feed-colmeia.jpg` | Pablo Raez Colmeia azul gelo |
+| `feed-colmeia-branco.jpg` | Pablo Raez Colmeia Branco |
+| `feed-esmeralda.jpg` | Pablo Raez Esmeralda |
+| `feed-sunlifex.jpg` | Sunlifex Cronógrafo |
+
+O Clássico fica de fora enquanto estiver esgotado.
