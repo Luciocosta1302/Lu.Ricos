@@ -62,3 +62,15 @@ Story em `stories/` e feed em `feed/`, com o mesmo nome no fim.
 | `*-loja-vitrine.jpg` | A vitrine: os 7 relógios disponíveis num mosaico |
 | `*-loja-caixa.jpg` | Na caixa, do jeito que chega |
 | `*-loja-whatsapp.jpg` | Contato: WhatsApp e horário |
+
+## Símbolos (`simbolos/`)
+
+O nome LU.RICOS, com o ponto vermelho, não muda. Estes são três símbolos de forma própria para o perfil, os posts e os vídeos. Cada um tem a versão de perfil (`perfil-*.png`, 1080 × 1080) e a animação vertical para reels e stories (`animacao-*.mp4`, 1080 × 1920, 4,5 s).
+
+| Símbolo | Ideia |
+| --- | --- |
+| Coroa | A caixa do relógio vista de cima; a coroa (o botão de acertar a hora) é o ponto vermelho |
+| Etiqueta | A etiqueta de preço da loja; o furo do barbante é o ponto vermelho |
+| Monograma | O R apoiado no pé do L; o ponto vermelho fecha a linha de baixo |
+
+Os desenhos e as animações estão em `marks.js` e `marks.css`.
