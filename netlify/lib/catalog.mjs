@@ -60,7 +60,7 @@ export const STATUS_TEXT = {
   esgotado: 'Esgotado. Não pode ser adicionado ao carrinho; o cliente pode pedir aviso de reposição pelo WhatsApp.',
 };
 
-const url = p => `produto.html?id=${encodeURIComponent(p.id)}`;
+const url = p => `relogio-${encodeURIComponent(p.id)}.html`;
 
 /** Resumo enviado ao modelo e usado nos cards (preço e status sempre do catálogo). */
 export function summary(p) {

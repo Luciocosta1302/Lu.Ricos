@@ -8,7 +8,7 @@ const out = path.join(root, '_site');
 fs.rmSync(out, { recursive: true, force: true });
 fs.mkdirSync(out);
 for (const f of fs.readdirSync(root)) {
-  if (f.endsWith('.html') || f === '.nojekyll') fs.copyFileSync(path.join(root, f), path.join(out, f));
+  if (f.endsWith('.html') || ['.nojekyll', 'robots.txt', 'sitemap.xml', 'llms.txt'].includes(f)) fs.copyFileSync(path.join(root, f), path.join(out, f));
 }
 fs.cpSync(path.join(root, 'assets'), path.join(out, 'assets'), { recursive: true });
 console.log('Site copiado para _site/');

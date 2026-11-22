@@ -7,3 +7,18 @@
   node_bundler = "esbuild"
   # O assistente lê o MESMO catálogo do site
   included_files = ["assets/data.js"]
+
+# Endereços antigos dos relógios e artigos levam às páginas próprias (melhor para o Google)
+[[redirects]]
+  from = "/produto.html"
+  to = "/relogio-:id.html"
+  status = 301
+  force = true
+  query = {id = ":id"}
+
+[[redirects]]
+  from = "/artigo.html"
+  to = "/artigo-:slug.html"
+  status = 301
+  force = true
+  query = {slug = ":slug"}

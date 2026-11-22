@@ -17,6 +17,7 @@ LR.brand = {
   address: 'Atendimento online',      // ou o endereço da loja física
   hours: 'Seg–Sáb · 10h–19h',
   currency: 'BRL',
+  site: 'https://storeluricos.netlify.app', // endereço oficial (troque se tiver domínio próprio)
 };
 
 const IMG = 'assets/img/relogios/';
@@ -158,4 +159,10 @@ LR.format = {
   date(iso) { const d = new Date(iso + 'T12:00:00'); return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }).replace('.', ''); },
 };
 LR.byId = id => LR.products.find(p => p.id === id);
+// Cada relógio e cada artigo tem uma página própria, já com o conteúdo no HTML
+// (gerada por scripts/seo.mjs), para o Google e as IAs lerem sem JavaScript.
+LR.url = {
+  product: p => `relogio-${p.id}.html`,
+  article: a => `artigo-${a.slug}.html`,
+};
 LR.collection = slug => LR.collections.find(c => c.slug === slug);

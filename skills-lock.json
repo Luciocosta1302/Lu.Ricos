@@ -1,6 +1,13 @@
 {
   "version": 2,
   "skills": {
+    "ai-local-search": {
+      "source": "garrettjsmith/localseoskills",
+      "commit": "c3b7a25b7d5cc370752d74cfea240ccf992a24db",
+      "sourceType": "github",
+      "skillPath": "skills/ai-local-search/SKILL.md",
+      "computedHash": "8154319f053a2cf12a27b43c21a1a1d988ff927d301063d9f98cb276408b9e8d"
+    },
     "design-taste-frontend": {
       "source": "Leonxlnx/taste-skill",
       "commit": "f6b76575f949707b4e3c37cd86cb44b0b98643e8",
@@ -8,12 +15,75 @@
       "skillPath": "skills/taste-skill/SKILL.md",
       "computedHash": "b10eab0a9684cd09cf34c31ef04a3bf530a5f4404422f9c520d42372d670c7fc"
     },
+    "gbp-optimization": {
+      "source": "garrettjsmith/localseoskills",
+      "commit": "c3b7a25b7d5cc370752d74cfea240ccf992a24db",
+      "sourceType": "github",
+      "skillPath": "skills/gbp-optimization/SKILL.md",
+      "computedHash": "987160abe7b613b66edf86d2d74c77b258d8bce3c2a710f99ab16df2ff823a25"
+    },
+    "geo-citability": {
+      "source": "zubair-trabzada/geo-seo-claude",
+      "commit": "989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c",
+      "sourceType": "github",
+      "skillPath": "skills/geo-citability/SKILL.md",
+      "computedHash": "004f062c0dac2a8dffa457e59de0e7269cbbe8285c559c23a1394e521d033273"
+    },
+    "geo-crawlers": {
+      "source": "zubair-trabzada/geo-seo-claude",
+      "commit": "989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c",
+      "sourceType": "github",
+      "skillPath": "skills/geo-crawlers/SKILL.md",
+      "computedHash": "ff1b140e60ac1aceec04d64a9b16b67cd71506ef67b2e258b4ff9a133d808144"
+    },
+    "geo-llmstxt": {
+      "source": "zubair-trabzada/geo-seo-claude",
+      "commit": "989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c",
+      "sourceType": "github",
+      "skillPath": "skills/geo-llmstxt/SKILL.md",
+      "computedHash": "03584680d76baa868378a95a1644b4a9af4acf709d897b29bbeead70fd72d3ee"
+    },
+    "geo-schema": {
+      "source": "zubair-trabzada/geo-seo-claude",
+      "commit": "989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c",
+      "sourceType": "github",
+      "skillPath": "skills/geo-schema/SKILL.md",
+      "computedHash": "f4dd39286d7a077aaf878b28c40e200470e3328fa7e1893c143e8a6be4fb9cdc"
+    },
+    "geo-technical": {
+      "source": "zubair-trabzada/geo-seo-claude",
+      "commit": "989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c",
+      "sourceType": "github",
+      "skillPath": "skills/geo-technical/SKILL.md",
+      "computedHash": "a2eec95563ede9fbbd80daf6631d32954478ab526b705616cf80b4845e0a1d6e"
+    },
     "image-to-code": {
       "source": "Leonxlnx/imagegen-skills",
       "commit": "beb16b0d0f4dae9a6f5cb04ea41e97b93a54ab8e",
       "sourceType": "github",
       "skillPath": "skills/image-to-code/SKILL.md",
       "computedHash": "95eb38f750f046fafe47f4c053f2a075ed07f2ae1925774a6f435c81f503fba8"
+    },
+    "local-schema": {
+      "source": "garrettjsmith/localseoskills",
+      "commit": "c3b7a25b7d5cc370752d74cfea240ccf992a24db",
+      "sourceType": "github",
+      "skillPath": "skills/local-schema/SKILL.md",
+      "computedHash": "755f8011a404a46d54371244a6ec89529790396c11e09d614918099e52cfae77"
+    },
+    "review-management": {
+      "source": "garrettjsmith/localseoskills",
+      "commit": "c3b7a25b7d5cc370752d74cfea240ccf992a24db",
+      "sourceType": "github",
+      "skillPath": "skills/review-management/SKILL.md",
+      "computedHash": "1e8bf8bd1b772acb694e0c6133ebef97d84b674643b867147e836f1588e16066"
+    },
+    "service-area-seo": {
+      "source": "garrettjsmith/localseoskills",
+      "commit": "c3b7a25b7d5cc370752d74cfea240ccf992a24db",
+      "sourceType": "github",
+      "skillPath": "skills/service-area-seo/SKILL.md",
+      "computedHash": "69376bfb955e4aa30b4b680e082ff4df839e1c663dcf559e1130c268906e6a60"
     },
     "web-design-guidelines": {
       "source": "vercel-labs/agent-skills",

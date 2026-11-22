@@ -114,7 +114,7 @@
 <footer class="footer" id="site-footer">
   <div class="footer-top">
     <div class="footer-col"><span class="label">Navegar</span>${NAV.map(([h, l]) => `<a href="${h}">${l}</a>`).join('')}</div>
-    <div class="footer-col"><span class="label">Ajuda</span><a href="contato.html#faq">Perguntas frequentes</a><a href="sobre.html#como-comprar">Como comprar</a><a href="artigo.html?slug=como-cuidar">Cuidados com o relógio</a><a href="artigo.html?slug=aco-ou-couro">Aço ou couro?</a></div>
+    <div class="footer-col"><span class="label">Ajuda</span><a href="contato.html#faq">Perguntas frequentes</a><a href="sobre.html#como-comprar">Como comprar</a><a href="artigo-como-cuidar.html">Cuidados com o relógio</a><a href="artigo-aco-ou-couro.html">Aço ou couro?</a></div>
     <div class="footer-col"><span class="label">Social</span><a href="${B.instagram}" target="_blank" rel="noopener">Instagram</a><a href="${wa('Olá! Vim pelo site.')}" target="_blank" rel="noopener">WhatsApp</a></div>
     <div class="footer-col"><span class="label">Loja</span><p class="addr">${esc(B.address)}<br>${esc(B.hours)}<br><a href="mailto:${B.email}">${B.email}</a></p></div>
   </div>
@@ -265,7 +265,7 @@
       if (!this.items.length) body.innerHTML = `<div class="cart-empty"><p class="label">Seu carrinho está vazio</p><p style="margin-top:1rem"><a class="link" href="loja.html">Ver a vitrine <span class="arrow">→</span></a></p></div>`;
       else body.innerHTML = this.items.map(i => { const p = LR.byId(i.id); if (!p) return ''; return `
 <div class="cart-item" data-key="${esc(i.key)}">
-  <a href="produto.html?id=${p.id}"><img ${pic(p.images[0], '88px')} alt="${esc(p.name)}" loading="lazy"></a>
+  <a href="${LR.url.product(p)}"><img ${pic(p.images[0], '88px')} alt="${esc(p.name)}" loading="lazy"></a>
   <div>
     <div class="cart-name">${esc(p.name)}</div>
     <div class="label">${esc(p.code)} · ${esc(i.color)}${i.size !== 'Único' ? ' · ' + esc(i.size) : ''}</div>
@@ -510,7 +510,7 @@
       const label = p.status === 'esgotado' ? 'Esgotado' : p.status === 'encomenda' ? 'Encomendar' : 'Adicionar';
       return `
 <article class="pcard ${p.status === 'esgotado' ? 'is-out' : ''}" data-reveal style="--d:${(i % 4) * .08}s" data-id="${p.id}">
-  <a class="pcard-link" href="produto.html?id=${p.id}" aria-label="${esc(p.name)} — ${esc(p.subtitle)}" data-cursor="Ver"></a>
+  <a class="pcard-link" href="${LR.url.product(p)}" aria-label="${esc(p.name)} — ${esc(p.subtitle)}" data-cursor="Ver"></a>
   <div class="pcard-media">
     <img class="main" ${pic(p.images[0], CARD_SIZES)} alt="${esc(p.name)}" loading="${opts.eager && i < 3 ? 'eager' : 'lazy'}">
     ${p.images[1] ? `<img class="alt" ${pic(p.images[1], CARD_SIZES)} alt="" loading="lazy" aria-hidden="true">` : ''}
@@ -545,7 +545,7 @@
 </a>`).join('');
       const j = $('[data-journal-grid]');
       if (j) j.innerHTML = LR.articles.slice(0, 3).map((a, i) => `
-<a class="jcard" href="artigo.html?slug=${a.slug}" data-reveal style="--d:${i * .1}s" data-cursor="Ler">
+<a class="jcard" href="${LR.url.article(a)}" data-reveal style="--d:${i * .1}s" data-cursor="Ler">
   <figure class="img-reveal"><img ${pic(a.cover, '(max-width: 860px) 100vw, 33vw')} alt="" loading="lazy"></figure>
   <div class="jcard-meta"><span class="label">${esc(a.kicker)}</span><span class="label">${LR.format.date(a.date)}</span></div>
   <h3>${esc(a.title)}</h3><p>${esc(a.excerpt)}</p>
@@ -580,9 +580,11 @@
     },
 
     produto() {
-      const id = new URLSearchParams(location.search).get('id');
-      const p = LR.byId(id) || LR.products[0];
-      document.title = `${p.name} — ${p.code} · ${B.name}`;
+      const qid = new URLSearchParams(location.search).get('id');
+      const p = LR.byId(document.body.dataset.product || qid) || LR.products[0];
+      // endereço antigo (produto.html?id=…): vai para a página própria do relógio
+      if (qid && !document.body.dataset.product && LR.byId(qid)) { location.replace(LR.url.product(p)); return; }
+      if (!document.body.dataset.product) document.title = `${p.name} — ${p.code} · ${B.name}`;
       const col = LR.collection(p.collection);
       let color = p.colors[0], size = p.sizes[0];
       const root = $('[data-pdp]');
@@ -615,7 +617,7 @@
   <div class="acc" data-reveal>
     <div class="acc-item is-open"><button class="acc-btn" type="button" aria-expanded="true">Especificações <i></i></button><div class="acc-panel"><div><div class="inner"><ul class="spec-list">${Object.entries(p.specs).map(([k, v]) => `<li><span>${esc(k)}</span><span>${esc(v)}</span></li>`).join('')}</ul></div></div></div></div>
     <div class="acc-item"><button class="acc-btn" type="button" aria-expanded="false">Envio e pagamento <i></i></button><div class="acc-panel"><div><div class="inner">Frete, prazo e forma de pagamento são combinados direto com a gente pelo WhatsApp, de acordo com o seu CEP. Adicione o relógio ao carrinho e finalize por lá.</div></div></div></div>
-    <div class="acc-item"><button class="acc-btn" type="button" aria-expanded="false">Cuidados <i></i></button><div class="acc-panel"><div><div class="inner">Limpe com pano macio e seco. Evite piscina e mar, e não acerte a data entre 21h e 3h. <a href="artigo.html?slug=como-cuidar" style="text-decoration:underline">Leia o guia completo</a>.</div></div></div></div>
+    <div class="acc-item"><button class="acc-btn" type="button" aria-expanded="false">Cuidados <i></i></button><div class="acc-panel"><div><div class="inner">Limpe com pano macio e seco. Evite piscina e mar, e não acerte a data entre 21h e 3h. <a href="artigo-como-cuidar.html" style="text-decoration:underline">Leia o guia completo</a>.</div></div></div></div>
   </div>
   <div class="pdp-meta"><span class="label">Coleção: ${esc(col.name)}</span><span class="label">Pulseira: ${esc(p.category)}</span><span class="label">Marca: ${esc(p.brand || '')}</span></div>
 </div>`;
@@ -627,7 +629,7 @@
       const rel = LR.products.filter(x => x.id !== p.id && (x.collection === p.collection || x.category === p.category)).slice(0, 4);
       const relEl = $('[data-grid="related"]'); if (relEl) ui.grid(rel.length ? rel : LR.products.slice(0, 4), relEl);
       const nav = $('[data-pdp-nav]');
-      if (nav) { const i = LR.products.indexOf(p); const prev = LR.products[(i - 1 + LR.products.length) % LR.products.length], next = LR.products[(i + 1) % LR.products.length]; nav.innerHTML = `<a href="produto.html?id=${prev.id}"><span class="label">← Anterior</span><span class="display display-s">${esc(prev.name)}</span></a><a href="produto.html?id=${next.id}"><span class="label">Próximo →</span><span class="display display-s">${esc(next.name)}</span></a>`; }
+      if (nav) { const i = LR.products.indexOf(p); const prev = LR.products[(i - 1 + LR.products.length) % LR.products.length], next = LR.products[(i + 1) % LR.products.length]; nav.innerHTML = `<a href="${LR.url.product(prev)}"><span class="label">← Anterior</span><span class="display display-s">${esc(prev.name)}</span></a><a href="${LR.url.product(next)}"><span class="label">Próximo →</span><span class="display display-s">${esc(next.name)}</span></a>`; }
       const idx = $('[data-pdp-index]'); if (idx) idx.textContent = `${pad(LR.products.indexOf(p) + 1)} / ${pad(LR.products.length)}`;
       magnify($$('.pdp-gallery figure', root));
     },
@@ -641,7 +643,7 @@
     <span class="label" data-reveal>${c.code} · ${esc(c.season)} · ${pad(items.length)} ${items.length === 1 ? 'relógio' : 'relógios'}</span>
     <h2 class="display display-l split">${esc(c.name)}</h2>
     <p class="body-l" data-reveal>${esc(c.intro)}</p>
-    <div class="col-mini" data-reveal>${items.slice(0, 3).map(p => `<a href="produto.html?id=${p.id}" data-cursor="Ver"><img ${pic(p.images[0], '(max-width: 860px) 33vw, 15vw')} alt="${esc(p.name)}" loading="lazy"><span>${esc(p.code)} — ${esc(p.name)}</span></a>`).join('')}</div>
+    <div class="col-mini" data-reveal>${items.slice(0, 3).map(p => `<a href="${LR.url.product(p)}" data-cursor="Ver"><img ${pic(p.images[0], '(max-width: 860px) 33vw, 15vw')} alt="${esc(p.name)}" loading="lazy"><span>${esc(p.code)} — ${esc(p.name)}</span></a>`).join('')}</div>
     <div data-reveal><a class="btn" href="loja.html?col=${c.slug}">Ver coleção completa <span class="arrow">→</span></a></div>
   </div>
 </section>`; }).join('');
@@ -652,16 +654,16 @@
       const [first, ...rest] = LR.articles;
       const f = $('[data-jfeature]');
       if (f) f.innerHTML = `
-<figure class="img-reveal parallax-wrap" data-cursor="Ler"><a href="artigo.html?slug=${first.slug}"><img ${pic(first.cover, '(max-width: 860px) 100vw, 58vw')} alt="" data-parallax=".1" fetchpriority="high"></a></figure>
+<figure class="img-reveal parallax-wrap" data-cursor="Ler"><a href="${LR.url.article(first)}"><img ${pic(first.cover, '(max-width: 860px) 100vw, 58vw')} alt="" data-parallax=".1" fetchpriority="high"></a></figure>
 <div class="jtext">
   <span class="label" data-reveal>Último · ${esc(first.kicker)} · ${LR.format.date(first.date)}</span>
-  <h2 class="display display-l split"><a href="artigo.html?slug=${first.slug}">${esc(first.title)}</a></h2>
+  <h2 class="display display-l split"><a href="${LR.url.article(first)}">${esc(first.title)}</a></h2>
   <p class="body-l muted" data-reveal>${esc(first.excerpt)}</p>
-  <div data-reveal><a class="link" href="artigo.html?slug=${first.slug}">Ler artigo <span class="arrow">→</span></a></div>
+  <div data-reveal><a class="link" href="${LR.url.article(first)}">Ler artigo <span class="arrow">→</span></a></div>
 </div>`;
       const l = $('[data-jlist]');
       if (l) l.innerHTML = rest.map((a, i) => `
-<a class="jrow" href="artigo.html?slug=${a.slug}" data-reveal="fade" style="--d:${i * .08}s">
+<a class="jrow" href="${LR.url.article(a)}" data-reveal="fade" style="--d:${i * .08}s">
   <span class="label">${pad(i + 2)} · ${esc(a.kicker)}<br>${LR.format.date(a.date)}</span>
   <h3>${esc(a.title)}</h3>
   <p>${esc(a.excerpt)}</p>
@@ -671,10 +673,12 @@
     },
 
     artigo() {
-      const slug = new URLSearchParams(location.search).get('slug');
+      const qslug = new URLSearchParams(location.search).get('slug');
+      const slug = document.body.dataset.slug || qslug;
+      if (qslug && !document.body.dataset.slug && LR.articles.some(x => x.slug === qslug)) { location.replace(LR.url.article({ slug: qslug })); return; }
       const i = Math.max(0, LR.articles.findIndex(a => a.slug === slug));
       const a = LR.articles[i], prev = LR.articles[i - 1], next = LR.articles[i + 1];
-      document.title = `${a.title} · Jornal · ${B.name}`;
+      if (!document.body.dataset.slug) document.title = `${a.title} · Jornal · ${B.name}`;
       $('[data-article]').innerHTML = `
 <div class="article-head">
   <span class="label" data-reveal>${esc(a.kicker)}<br>${LR.format.date(a.date)}</span>
@@ -690,8 +694,8 @@
   <div class="prose">${a.body.map(p => `<p data-reveal>${esc(p)}</p>`).join('')}</div>
 </div>
 <nav class="article-nav" aria-label="Outros artigos">
-  ${prev ? `<a href="artigo.html?slug=${prev.slug}"><span class="label">← Anterior</span><span class="display display-s">${esc(prev.title)}</span></a>` : '<a></a>'}
-  ${next ? `<a href="artigo.html?slug=${next.slug}"><span class="label">Próximo →</span><span class="display display-s">${esc(next.title)}</span></a>` : `<a href="jornal.html"><span class="label">Voltar →</span><span class="display display-s">Jornal</span></a>`}
+  ${prev ? `<a href="${LR.url.article(prev)}"><span class="label">← Anterior</span><span class="display display-s">${esc(prev.title)}</span></a>` : '<a></a>'}
+  ${next ? `<a href="${LR.url.article(next)}"><span class="label">Próximo →</span><span class="display display-s">${esc(next.title)}</span></a>` : `<a href="jornal.html"><span class="label">Voltar →</span><span class="display display-s">Jornal</span></a>`}
 </nav>`;
     },
 
@@ -728,7 +732,7 @@
     const show = i => {
       imgs[cur].classList.toggle('is-active', false); cur = i; imgs[cur].classList.toggle('is-active', true);
       const p = LR.byId(LR.hero[cur].id);
-      if (p) { if (code) code.textContent = `${p.code} — ${p.name}`; if (link) link.href = `produto.html?id=${p.id}`; }
+      if (p) { if (code) code.textContent = `${p.code} — ${p.name}`; if (link) link.href = LR.url.product(p); }
       if (count) count.textContent = `${pad(cur + 1)} / ${pad(imgs.length)}`;
     };
     show(0);
