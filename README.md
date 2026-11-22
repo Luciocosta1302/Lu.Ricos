@@ -200,3 +200,15 @@ Instaladas neste projeto, para uso nas próximas sessões do Claude Code:
 | Awesome DESIGN.md | `~/.local/share/awesome-design-md/design-md/` | Catálogo de 84 referências visuais |
 
 Para recolocar as skills listadas em `skills-lock.json` (inclusive a Taste) depois de clonar: `npx skills install`.
+
+## Google, Gemini e buscas com IA
+
+O site é preparado para ser lido por buscadores e assistentes de IA, que não executam JavaScript:
+
+- **Páginas próprias:** `relogio-<id>.html` (uma por relógio) e `artigo-<slug>.html` (uma por artigo), com o conteúdo já no HTML.
+- **Dados estruturados (JSON-LD):** loja (`OnlineStore`, Marabá-PA, WhatsApp, horário), site, vitrine (`ItemList`), cada produto com preço e disponibilidade, artigos, perguntas frequentes e trilhas de navegação.
+- **Arquivos para buscadores:** `sitemap.xml`, `robots.txt` (buscadores e robôs de IA liberados) e `llms.txt` (resumo da loja para IAs).
+
+Tudo é gerado de `assets/data.js` por `npm run seo`, que também roda no build do Netlify. Depois de mudar preços, fotos ou modelos, rode `npm run seo` e faça o commit. O endereço oficial fica em `LR.brand.site`; se a loja tiver domínio próprio, troque ali e rode o comando de novo.
+
+Skills do Claude Code usadas: `gbp-optimization`, `service-area-seo`, `local-schema`, `ai-local-search`, `review-management` ([localseoskills](https://github.com/garrettjsmith/localseoskills)) e `geo-schema`, `geo-technical`, `geo-llmstxt`, `geo-crawlers`, `geo-citability` ([geo-seo-claude](https://github.com/zubair-trabzada/geo-seo-claude)).

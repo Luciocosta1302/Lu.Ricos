@@ -1,0 +1,32 @@
+# LU.RICOS
+
+> Loja de relógios em Marabá-PA. Vende Technos, Pablo Raez e Sunlifex, com fotos reais de cada peça e preço na vitrine (R$ 129,99 a R$ 799,99). A compra é fechada pelo WhatsApp.
+
+- Atendimento: atendimento online, Seg–Sáb, 10h–19h
+- WhatsApp: +55 94 98137-1647 (https://wa.me/5594981371647)
+- Instagram: https://instagram.com/lu.ricos
+- Como comprar: escolha o relógio no site, adicione ao carrinho e finalize pelo WhatsApp; frete, prazo e pagamento são combinados no atendimento.
+
+## Relógios
+
+- [Technos Riviera](https://storeluricos.netlify.app/relogio-technos-riviera.html): Azul e dourado · pulseira bicolor. R$ 799,99. Disponível.
+- [Pablo Raez Colmeia](https://storeluricos.netlify.app/relogio-pablo-raez-colmeia.html): Azul gelo · pulseira de aço. R$ 159,99. Disponível.
+- [Pablo Raez Colmeia](https://storeluricos.netlify.app/relogio-pablo-raez-colmeia-branco.html): Branco · pulseira de aço. R$ 159,99. Disponível.
+- [Pablo Raez Clássico](https://storeluricos.netlify.app/relogio-pablo-raez-classico.html): Branco · pulseira de aço. R$ 159,99. Esgotado.
+- [Pablo Raez Rosa dos Ventos](https://storeluricos.netlify.app/relogio-pablo-raez-rosa-dos-ventos.html): Branco · couro marrom. R$ 129,99. Disponível.
+- [Pablo Raez Romano](https://storeluricos.netlify.app/relogio-pablo-raez-romano.html): Preto · couro preto. R$ 129,99. Disponível.
+- [Pablo Raez Esmeralda](https://storeluricos.netlify.app/relogio-pablo-raez-esmeralda.html): Verde · pulseira integrada. R$ 159,99. Disponível.
+- [Sunlifex Cronógrafo](https://storeluricos.netlify.app/relogio-sunlifex-cronografo.html): Prata · visual cronógrafo. R$ 199,99. Disponível.
+
+## Páginas
+
+- [Vitrine](https://storeluricos.netlify.app/loja.html): todos os relógios com foto, preço e filtros por pulseira.
+- [Coleções](https://storeluricos.netlify.app/colecoes.html): Technos Riviera, Pulseira de aço, Pulseira de couro.
+- [Sobre](https://storeluricos.netlify.app/sobre.html): quem é a loja e como funciona a compra.
+- [Contato e perguntas frequentes](https://storeluricos.netlify.app/contato.html): atendimento, compra, cuidados e uso na água.
+
+## Optional
+
+- [Aço ou couro?](https://storeluricos.netlify.app/artigo-aco-ou-couro.html): As duas pulseiras têm vantagens. O que muda é o seu dia a dia.
+- [Como cuidar do seu relógio](https://storeluricos.netlify.app/artigo-como-cuidar.html): Alguns hábitos simples fazem o relógio durar muitos anos com cara de novo.
+- [Por que quartzo](https://storeluricos.netlify.app/artigo-por-que-quartzo.html): Preciso, prático e quase sem manutenção. Entenda o mecanismo dos relógios da vitrine.

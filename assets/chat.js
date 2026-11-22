@@ -222,11 +222,11 @@
   function cardHTML(p) {
     const out = p.status === 'esgotado';
     const actions = out
-      ? `<a class="lrc-link" href="produto.html?id=${encodeURIComponent(p.id)}">Ver detalhes</a><a class="lrc-add" href="${wa(`Olá! Quero ser avisado quando ${p.code} ${p.name} voltar.`)}" target="_blank" rel="noopener">Avise-me</a>`
-      : `<a class="lrc-link" href="produto.html?id=${encodeURIComponent(p.id)}">Ver detalhes</a><button class="lrc-add" type="button" data-lrc-add="${esc(p.id)}">Adicionar ao carrinho</button>`;
+      ? `<a class="lrc-link" href="${LR.url.product(p)}">Ver detalhes</a><a class="lrc-add" href="${wa(`Olá! Quero ser avisado quando ${p.code} ${p.name} voltar.`)}" target="_blank" rel="noopener">Avise-me</a>`
+      : `<a class="lrc-link" href="${LR.url.product(p)}">Ver detalhes</a><button class="lrc-add" type="button" data-lrc-add="${esc(p.id)}">Adicionar ao carrinho</button>`;
     return `<article class="lrc-card">
   <span class="lrc-tag-hole" aria-hidden="true"></span>
-  <a class="lrc-card-img" href="produto.html?id=${encodeURIComponent(p.id)}" tabindex="-1"><img src="${esc(/assets\/img\/relogios\/[^/]+\.jpg$/.test(p.images[0]) ? p.images[0].replace(/\.jpg$/, '-600.jpg') : p.images[0])}" alt="${esc(p.name)}" loading="lazy"></a>
+  <a class="lrc-card-img" href="${LR.url.product(p)}" tabindex="-1"><img src="${esc(/assets\/img\/relogios\/[^/]+\.jpg$/.test(p.images[0]) ? p.images[0].replace(/\.jpg$/, '-600.jpg') : p.images[0])}" alt="${esc(p.name)}" loading="lazy"></a>
   <div class="lrc-card-info">
     <span class="lrc-card-code">${esc(p.code)} · ${esc(p.brand || p.category)}</span>
     <span class="lrc-card-name">${esc(p.name)}</span>
