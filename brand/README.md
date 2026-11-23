@@ -74,3 +74,17 @@ O nome LU.RICOS, com o ponto vermelho, não muda. Estes são três símbolos de 
 | Monograma | O R apoiado no pé do L; o ponto vermelho fecha a linha de baixo |
 
 Os desenhos e as animações estão em `marks.js` e `marks.css`.
+
+## Identidade em serifa (`serifa/`)
+
+Escolhida a partir do catálogo de estilos: o nome em Bodoni Moda com o ponto vermelho quadrado, e o símbolo dos ponteiros às 3 horas formando o L (haste grossa, pé fino, como o L da Bodoni).
+
+| Arquivo | Uso |
+| --- | --- |
+| `perfil-ponteiros.png` | Foto de perfil recomendada (1080 × 1080) |
+| `perfil-lr.png` | Foto de perfil alternativa, LR em serifa |
+| `nome-grafite.png`, `nome-claro.png` | O nome com fundo transparente, para fundo claro e escuro |
+| `nome-*-com-cidade.png` | O nome com "Relógios · Marabá" embaixo |
+| `abertura-serifa.mp4` | Abertura para reels e stories (1080 × 1920, 5,5 s) |
+
+Os desenhos e as animações estão em `marks.js` e `marks.css`.

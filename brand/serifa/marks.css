@@ -1,0 +1,31 @@
+/* Nome em serifa. Tamanho pelo font-size do .wm. O estado parado é sempre o logo pronto. */
+.wm { display: inline-flex; flex-direction: column; align-items: center; gap: .55em; color: inherit; }
+.wm-name { font-family: "Bodoni Moda", Didot, "Times New Roman", serif; font-weight: 500; font-variation-settings: "opsz" 96; letter-spacing: .16em; line-height: 1; white-space: nowrap; margin-right: -.16em; display: inline-flex; align-items: baseline; }
+.wm .ch { display: inline-block; }
+.wm .dot { display: inline-block; width: .13em; height: .13em; background: #cc2744; margin: 0 .16em 0 .02em; }
+.wm-tag { font-family: "Martian Mono", ui-monospace, monospace; font-weight: 500; font-size: .2em; letter-spacing: .5em; margin-right: -.5em; text-transform: uppercase; opacity: .7; white-space: nowrap; }
+
+/* entrada do nome: letras sobem e aparecem uma a uma, o ponto cai por último */
+.wm .ch:nth-child(1) { --d: .05s } .wm .ch:nth-child(2) { --d: .12s } .wm .ch:nth-child(4) { --d: .19s } .wm .ch:nth-child(5) { --d: .26s }
+.wm .ch:nth-child(6) { --d: .33s } .wm .ch:nth-child(7) { --d: .40s } .wm .ch:nth-child(8) { --d: .47s }
+.play .ch, .play.wm .ch { animation: ch-in .7s cubic-bezier(.2,.7,.2,1) calc(var(--o, 0s) + var(--d, 0s)) both; }
+.play .wm .dot, .play.wm .dot { animation: dot-in .45s cubic-bezier(.3,1.6,.5,1) calc(var(--o, 0s) + .85s) both; }
+.play .wm-tag { animation: fade .8s ease calc(var(--o, 0s) + 1.15s) both; }
+@keyframes ch-in { from { opacity: 0; transform: translateY(.18em); filter: blur(4px) } to { opacity: 1; transform: none; filter: none } }
+@keyframes dot-in { from { opacity: 0; transform: translateY(-1.2em) } 60% { opacity: 1 } to { opacity: 1; transform: none } }
+@keyframes fade { from { opacity: 0 } to { opacity: .7 } }
+
+/* símbolo: os ponteiros giram como 3 horas passando (minutos dão 3 voltas, horas andam 90°) e param formando o L */
+.pt-min, .pt-hour { transform-box: view-box; transform-origin: 540px 540px; }
+.play .pt-ticks { animation: fade-full .5s ease both; }
+.play .pt-min { animation: pt-min 2.1s cubic-bezier(.45,0,.2,1) .2s both; }
+.play .pt-hour { animation: pt-hour 2.1s cubic-bezier(.45,0,.2,1) .2s both; }
+.play .pt-dot { animation: pt-dot .35s cubic-bezier(.3,1.6,.5,1) both; transform-box: fill-box; transform-origin: 50% 50%; }
+@keyframes pt-min { from { transform: rotate(-1080deg) } to { transform: none } }
+@keyframes pt-hour { from { transform: rotate(-90deg) } to { transform: none } }
+@keyframes pt-dot { from { transform: scale(0) } to { transform: none } }
+@keyframes fade-full { from { opacity: 0 } to { opacity: 1 } }
+/* quando o símbolo e o nome aparecem juntos, o nome entra depois dos ponteiros */
+.after { --o: 2.1s; }
+
+@media (prefers-reduced-motion: reduce) { .play * { animation: none !important; } }
