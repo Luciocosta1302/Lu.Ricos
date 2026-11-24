@@ -834,35 +834,15 @@ html.from-transition .transition::after { transform: scale(1); }
 }
 
 /* ---------- Natal (seção sazonal da home) ----------
-   Faixa grafite entre o topo e a vitrine. O título junta a grotesca larga da marca com um itálico
-   de serifa (Bodoni Moda): é o único lugar do site com serifa. O vermelho continua sendo o único destaque. */
-.natal { background: var(--ink); color: var(--paper); padding-block: clamp(3.5rem, 8vw, 7rem); --line: rgba(233,234,230,.16); --line-strong: rgba(233,234,230,.6); --mute: #a3a8ad; }
-.natal-head { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1rem var(--gutter); align-items: end; margin-bottom: clamp(1.8rem, 4vw, 3rem); }
-.natal-eyebrow { grid-column: 1 / -1; display: inline-flex; align-items: center; gap: .6rem; color: var(--paper); }
-.natal-eyebrow i { width: 9px; height: 9px; background: var(--signal); display: inline-block; }
-.natal-title { grid-column: 1 / 9; font-family: var(--font-display); font-stretch: var(--display-stretch); font-weight: 700; text-transform: uppercase; letter-spacing: -.02em; line-height: .9; font-size: clamp(3rem, 9vw, 8.4rem); }
-.natal-title em { display: block; font-family: "Bodoni Moda", Didot, "Times New Roman", serif; font-style: italic; font-weight: 500; text-transform: none; letter-spacing: 0; font-size: .46em; line-height: 1.1; margin-bottom: .1em; opacity: .9; }
-.natal-lead { grid-column: 9 / -1; color: var(--grey); max-width: 34ch; font-size: 1.02rem; }
-.natal-chips { margin-bottom: 1.2rem; }
-.natal .chip { color: var(--paper); border-color: var(--line); }
-.natal .chip:hover { border-color: var(--line-strong); }
-.natal .chip.is-active { background: var(--paper); color: var(--ink); border-color: var(--paper); }
-.natal .chip .num { opacity: .6; margin-left: .3em; }
-.natal-grid { grid-template-columns: repeat(4, 1fr); }
-.natal .pcard { background: var(--ink); }
-.natal .pcard-media { background: #1c1d20; }
-.natal .pcard-sub { color: var(--mute); }
-.pcard.is-chegando .pcard-price { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--grey); white-space: nowrap; }
-.pcard-note { position: absolute; left: .6rem; bottom: .6rem; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .08em; text-transform: uppercase; background: rgba(17,18,20,.72); color: var(--paper); padding: .3rem .5rem; pointer-events: none; }
-.natal-note { margin-top: 1.4rem; max-width: 70ch; color: var(--mute); font-size: 14px; }
-.natal-note b { color: var(--paper); font-weight: 600; }
-@media (max-width: 1100px) { .natal-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 860px) {
-  .natal-grid { grid-template-columns: repeat(2, 1fr); }
-  .natal-title, .natal-lead { grid-column: 1 / -1; }
-}
-.natal-more { display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem; padding: clamp(1rem, 2vw, 1.6rem); background: var(--ink); color: var(--paper); min-height: 100%; transition: background .4s; }
-.natal-more:hover { background: #1c1d20; }
+   Mesmo visual das outras seções: fundo aço, título na grotesca larga, cartões da vitrine.
+   O que marca o Natal é só o selo vermelho "Chega para o Natal" nos relógios novos. */
+.natal-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .8rem 1.5rem; margin-bottom: 1.2rem; }
+.natal-note { color: var(--mute); }
+.natal .chip .num { opacity: .55; margin-left: .3em; }
+.pcard.is-chegando .pcard-price { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); white-space: nowrap; }
+.pcard-note { position: absolute; left: .6rem; bottom: .6rem; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .08em; text-transform: uppercase; background: rgba(233,234,230,.9); color: var(--ink); padding: .3rem .5rem; pointer-events: none; }
+.natal-more { display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem; padding: clamp(1rem, 2vw, 1.6rem); background: var(--paper); color: var(--ink); min-height: 100%; transition: background .4s; }
+.natal-more:hover { background: var(--paper-2); }
 .natal-more .label { color: var(--mute); }
 .natal-more b { font-family: var(--font-display); font-stretch: var(--display-stretch); font-weight: 700; text-transform: uppercase; letter-spacing: -.01em; line-height: 1; font-size: clamp(1.3rem, 2.2vw, 2rem); }
 .natal-more .link { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }

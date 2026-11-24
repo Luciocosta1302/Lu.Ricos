@@ -532,6 +532,7 @@
     if (!N || !N.ativo || !sec) return;
     sec.hidden = false;
     const ano = $('[data-natal-ano]', sec); if (ano) ano.textContent = N.ano || '';
+    const cnt = $('[data-natal-count]', sec); if (cnt) cnt.textContent = pad(N.chegando.length);
     // relógio que ainda está chegando: sem preço, sem página própria, com botão para reservar
     const chegando = (c, i) => `
 <article class="pcard is-chegando" data-reveal style="--d:${(i % 4) * .08}s">
@@ -559,7 +560,7 @@
     const show = () => {
       const items = FILTROS.find(f => f.k === atual).list();
       grid.innerHTML = items.map((it, i) => it.c ? chegando(it.c, i) : ui.card(it.p, i)).join('')
-        + (atual === 'chegando' ? `<a class="natal-more" href="#vitrine" data-reveal style="--d:${(items.length % 4) * .08}s"><span class="label">Já à venda</span><b>${pad(venda.length)} relógios<br>na vitrine</b><span class="link">Ver agora <span class="arrow">→</span></span></a>` : '');
+        + (atual === 'chegando' ? `<a class="natal-more" href="#vitrine" data-reveal style="--d:${(items.length % 4) * .08}s"><span class="label">Já à venda</span><b>${pad(venda.length)} relógios<br>à venda</b><span class="link">Ver agora <span class="arrow">→</span></span></a>` : '');
       reveals(); setTimeout(revealAboveFold, 50); refreshScroll();
     };
     chips.addEventListener('click', e => {
