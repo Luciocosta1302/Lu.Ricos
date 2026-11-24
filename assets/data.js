@@ -72,7 +72,7 @@ LR.products = [
   {
     id: 'pablo-raez-colmeia-branco', code: 'LR-08', brand: 'Pablo Raez',
     name: 'Pablo Raez Colmeia', subtitle: 'Branco · pulseira de aço',
-    collection: 'aco', category: 'Aço', price: 159.99, status: 'disponivel', badge: 'Novidade',
+    collection: 'aco', category: 'Aço', price: 159.99, status: 'esgotado', badge: '',
     images: [IMG + 'colmeia-branco-01.jpg', IMG + 'colmeia-branco-02.jpg', IMG + 'colmeia-branco-03.jpg', IMG + 'colmeia-branco-04.jpg'],
     colors: ['Branco'], sizes: ['Único'],
     desc: 'Mesmo relevo em colmeia, agora em branco. Algarismos aplicados no 12, 6 e 9, luneta trabalhada em relevo e pulseira de aço prateada. Tem data às 3 horas.',
