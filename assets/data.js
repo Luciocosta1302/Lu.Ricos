@@ -125,6 +125,26 @@ LR.products = [
   },
 ];
 
+// ---------- Natal ----------
+// ativo: true mostra a seção de Natal na home; depois do Natal, troque para false.
+// chegando: relógios comprados que ainda não chegaram. Ficam só na seção de Natal, sem preço
+// e sem página própria, com a foto do fornecedor. Quando a peça chegar, tire a foto, defina o
+// preço e mova o relógio para LR.products.
+// para: 'ele' ou 'ela', usado no filtro "Para ele / Para ela".
+LR.natal = {
+  ativo: true,
+  ano: 2026,
+  chegando: [
+    { id: 'pablo-raez-retangular', name: 'Pablo Raez Retangular', subtitle: 'Branco · couro preto · algarismos romanos', para: 'ele', img: IMG + 'natal/retangular.jpg' },
+    { id: 'pablo-raez-integrado', name: 'Pablo Raez Integrado', subtitle: 'Branco · pulseira integrada · dia e data', para: 'ele', img: IMG + 'natal/integrado-branco.jpg' },
+    { id: 'pablo-raez-canelado', name: 'Pablo Raez Canelado', subtitle: 'Branco · luneta canelada · pulseira de aço', para: 'ele', img: IMG + 'natal/canelado.jpg' },
+    { id: 'saint-germain-classico', name: 'Saint Germain Clássico', subtitle: 'Creme · dourado · couro croco caramelo', para: 'ela', img: IMG + 'natal/sg-classico-couro.jpg' },
+    { id: 'saint-germain-quadrado-dourado', name: 'Saint Germain Quadrado', subtitle: 'Branco · dourado · pulseira de aço', para: 'ela', img: IMG + 'natal/sg-quadrado-dourado.jpg' },
+    { id: 'saint-germain-quadrado-prata', name: 'Saint Germain Quadrado', subtitle: 'Branco · prateado · pulseira de aço', para: 'ela', img: IMG + 'natal/sg-quadrado-prata.jpg' },
+    { id: 'saint-germain-bicolor', name: 'Saint Germain Bicolor', subtitle: 'Branco · dourado e prata', para: 'ela', img: IMG + 'natal/sg-bicolor.jpg' },
+  ],
+};
+
 // Fotos que passam no topo da home, de ponta a ponta. Cada uma leva ao produto indicado.
 // wide: foto deitada para o computador (ideal 2400 px de largura, proporção perto de 16:9 ou 2:1),
 //       com uma versão de 1200 px ao lado (nome-1200.jpg).

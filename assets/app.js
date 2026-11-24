@@ -526,9 +526,56 @@
     grid(list, el, opts) { el.innerHTML = list.map((p, i) => this.card(p, i, opts)).join(''); reveals(); setTimeout(revealAboveFold, 50); refreshScroll(); },
   };
 
+  /* ---------- Natal (LR.natal em data.js) ---------- */
+  function natal() {
+    const N = LR.natal, sec = $('[data-natal]');
+    if (!N || !N.ativo || !sec) return;
+    sec.hidden = false;
+    const ano = $('[data-natal-ano]', sec); if (ano) ano.textContent = N.ano || '';
+    // relógio que ainda está chegando: sem preço, sem página própria, com botão para reservar
+    const chegando = (c, i) => `
+<article class="pcard is-chegando" data-reveal style="--d:${(i % 4) * .08}s">
+  <div class="pcard-media">
+    <img class="main" ${pic(c.img, CARD_SIZES)} alt="${esc(c.name)}" loading="lazy">
+    <span class="pcard-badge is-signal">Chega para o Natal</span>
+    <span class="pcard-note">Foto do fornecedor</span>
+    <div class="pcard-quick"><a class="btn" href="${wa(`Olá! Quero reservar o ${c.name} (${c.subtitle}) para o Natal.`)}" target="_blank" rel="noopener">Reservar <span class="arrow">→</span></a></div>
+  </div>
+  <div class="pcard-info">
+    <div><h3 class="pcard-name">${esc(c.name)}</h3><p class="pcard-sub">${esc(c.subtitle)}</p></div>
+    <div class="pcard-price">Preço em breve</div>
+  </div>
+</article>`;
+    const venda = LR.products.filter(p => p.status !== 'esgotado');
+    const FILTROS = [
+      { k: 'chegando', t: 'Chegando', list: () => N.chegando.map(c => ({ c })) },
+      { k: 'ele', t: 'Para ele', list: () => [...N.chegando.filter(c => c.para === 'ele').map(c => ({ c })), ...venda.map(p => ({ p }))] },
+      { k: 'ela', t: 'Para ela', list: () => N.chegando.filter(c => c.para === 'ela').map(c => ({ c })) },
+      { k: 'ate160', t: 'Até R$ 160', list: () => venda.filter(p => p.price <= 160).map(p => ({ p })) },
+    ];
+    const chips = $('[data-natal-chips]', sec), grid = $('[data-natal-grid]', sec);
+    let atual = 'chegando';
+    chips.innerHTML = FILTROS.map(f => `<button class="chip ${f.k === atual ? 'is-active' : ''}" type="button" aria-pressed="${f.k === atual}" data-natal-f="${f.k}">${f.t} <span class="num">${pad(f.list().length)}</span></button>`).join('');
+    const show = () => {
+      const items = FILTROS.find(f => f.k === atual).list();
+      grid.innerHTML = items.map((it, i) => it.c ? chegando(it.c, i) : ui.card(it.p, i)).join('')
+        + (atual === 'chegando' ? `<a class="natal-more" href="#vitrine" data-reveal style="--d:${(items.length % 4) * .08}s"><span class="label">Já à venda</span><b>${pad(venda.length)} relógios<br>na vitrine</b><span class="link">Ver agora <span class="arrow">→</span></span></a>` : '');
+      reveals(); setTimeout(revealAboveFold, 50); refreshScroll();
+    };
+    chips.addEventListener('click', e => {
+      const b = e.target.closest('[data-natal-f]'); if (!b) return;
+      atual = b.dataset.natalF;
+      chips.querySelectorAll('.chip').forEach(c => { const on = c === b; c.classList.toggle('is-active', on); c.setAttribute('aria-pressed', on); });
+      grid.style.opacity = 0; setTimeout(() => { show(); grid.style.opacity = 1; }, 180);
+    });
+    grid.style.transition = 'opacity .25s';
+    show();
+  }
+
   /* ---------- Páginas ---------- */
   const pages = {
     home() {
+      natal();
       const novidades = LR.products.filter(p => p.status !== 'esgotado');
       ui.grid(novidades, $('[data-grid="novidades"]'), { eager: true });
       const avail = $('[data-avail]');
