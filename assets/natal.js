@@ -147,7 +147,9 @@
     <ellipse class="hd-wshadow" cx="150" cy="354" rx="52" ry="7" fill="#1a0205" opacity=".55" filter="url(#${ws})"/>
     <image class="hd-watch" href="${src}" x="68" y="124" width="164" height="232" preserveAspectRatio="xMidYMax meet"/></svg>`;
     // camada 2: o vidro (HTML, para o filtro de vidro líquido agir sobre o que está atrás)
-    const glass = `<span class="hd-glass" aria-hidden="true"></span>`;
+    // a biblioteca liquid-glass (assets/vendor) transforma .glass em vidro: refração na borda, luz de borda e cores
+    // separadas de leve. Ela só faz cantos iguais (cápsula); o recorte .hd-glass corta a ponta de baixo, que fica na base.
+    const glass = `<span class="hd-glass" aria-hidden="true"><span class="glass hd-lg" data-glass="clear" data-glass-refraction="24" data-glass-bezel="18" data-glass-dispersion="0.12"></span></span>`;
     // camada 3: luz de borda, reflexos e o aro encaixado na base
     const front = `<svg class="hd-svg hd-front-svg" viewBox="0 0 300 470" aria-hidden="true" focusable="false"><defs>
       <linearGradient id="${hl}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".55" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
@@ -160,38 +162,6 @@
       <path d="M46 360 A104 17 0 0 0 254 360" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="1.6"/>
       <path d="M70 372 A104 17 0 0 0 150 377" fill="none" stroke="#fff" stroke-opacity=".95" stroke-width="2" stroke-linecap="round"/></svg>`;
     return back + glass + front;
-  }
-
-  /* ---------- Vidro líquido (técnica do iOS 26 na web) ----------
-     Um mapa de deslocamento com a forma da cúpula: neutro no centro (o relógio fica nítido) e forte só nas
-     bordas, onde o vidro curva e dobra o que está atrás, como uma lente. Cada cor desloca um pouco diferente
-     (aberração cromática leve). Funciona nos navegadores Chromium; nos outros, o vidro fica translúcido sem dobra. */
-  let lgSize = '';
-  function liquidGlass() {
-    const g = document.querySelector('.hd-glass'); if (!g) return;
-    const chromium = !!(navigator.userAgentData && navigator.userAgentData.brands && navigator.userAgentData.brands.some(b => /Chromium/.test(b.brand)));
-    document.documentElement.classList.toggle('lg-ok', chromium);
-    if (!chromium) return;
-    const W = Math.round(g.offsetWidth), H = Math.round(g.offsetHeight); if (!W || !H || lgSize === `${W}x${H}`) return; lgSize = `${W}x${H}`;
-    const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d'); const img = x.createImageData(W, H);
-    const r = W / 2, band = W * .17;
-    for (let py = 0; py < H; py++) for (let px = 0; px < W; px++) {
-      let d, nx, ny;
-      if (py < r) { const dx = px - r, dy = py - r, l = Math.hypot(dx, dy) || 1; d = r - l; nx = dx / l; ny = dy / l; }
-      else { d = Math.min(px, W - px); nx = px < r ? -1 : 1; ny = 0; }
-      let t = d < 0 ? 0 : Math.max(0, 1 - d / band); t = t * t * (3 - 2 * t);
-      const o = (py * W + px) * 4;
-      img.data[o] = 128 - nx * t * 127; img.data[o + 1] = 128 - ny * t * 127; img.data[o + 2] = 128; img.data[o + 3] = 255;
-    }
-    x.putImageData(img, 0, 0);
-    const map = c.toDataURL(), S = Math.round(W * .11);
-    let svg = document.getElementById('lg-defs');
-    if (!svg) { svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); svg.id = 'lg-defs'; svg.setAttribute('aria-hidden', 'true'); svg.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden'; document.body.appendChild(svg); }
-    const ch = (n, sc, m) => `<feDisplacementMap in="SourceGraphic" in2="map" scale="${sc}" xChannelSelector="R" yChannelSelector="G" result="d${n}"/><feColorMatrix in="d${n}" type="matrix" values="${m}" result="c${n}"/>`;
-    svg.innerHTML = `<filter id="lg-dome" x="0" y="0" width="${W}" height="${H}" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-      <feImage href="${map}" x="0" y="0" width="${W}" height="${H}" preserveAspectRatio="none" result="map"/>
-      ${ch('r', S, '1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0')}${ch('g', Math.round(S * 1.06), '0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0')}${ch('b', Math.round(S * 1.12), '0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0')}
-      <feBlend in="cr" in2="cg" mode="screen" result="rg"/><feBlend in="rg" in2="cb" mode="screen"/></filter>`;
   }
 
   // floco de neve de 6 pontas
@@ -366,8 +336,9 @@
 
       // Seleção de Natal: cada relógio numa mini vitrine (plataforma vermelha + cúpula de vidro)
       const S = (N.selecao || []).map(s => ({ ...s, p: LR.byId(s.id) })).filter(s => s.p && s.p.status !== 'esgotado');
-      const selecao = S.length ? `<section class="section xs" aria-labelledby="xs-title">
-        ${snowLayer(false)}${blurTree('t1')}${blurTree('t2')}${blurTree('t3')}${blurTree('t4')}
+      const selecao = S.length ? `<section class="section xs lg-scene" aria-labelledby="xs-title">
+        <div class="lg-backdrop xs-bd" aria-hidden="true">${blurTree('t1')}${blurTree('t2')}${blurTree('t3')}${blurTree('t4')}</div>
+        ${snowLayer(false)}
         <div class="wrap xs-in">
         <header class="sec-head"><span class="label" data-reveal><span class="xs-tag"><i class="k-mini-star"></i> Seleção de Natal</span></span>
           <h2 class="display display-m" id="xs-title">Escolhidos para<br>presentear.</h2>
@@ -400,7 +371,6 @@
 
       after.insertAdjacentHTML('afterend', guia + selecao + banner);
       particles($('.xb'), { luzes: 8, neve: 40 }, reduced);
-      liquidGlass(); addEventListener('resize', () => { clearTimeout(liquidGlass.t); liquidGlass.t = setTimeout(liquidGlass, 200); });
       chegando();
     }
 
