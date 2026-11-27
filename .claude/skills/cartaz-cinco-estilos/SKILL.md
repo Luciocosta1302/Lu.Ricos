@@ -127,6 +127,28 @@ Pedido do dono da loja em 27/11/2026: "melhorar o desenho e os efeitos visuais",
 - **Fatos:** uma linha só, em mono: "Entrega em Marabá ◆ Pix ou cartão ◆ [estoque]", com o estoque num selo dourado. Sem preço.
 - **Modelo:** `modelo-natal-vitrine.html?w=riviera&f=feed` (ou `f=story`). Ele usa `brand/recortes-png/`, `brand/natal-2026/` e `assets/img/natal/elementos/`. Exemplos em `brand/anuncios-natal/`.
 
+## Estilo extra: Cenas de Natal (uma ideia por relógio)
+
+O dono da loja pediu "criativo e impactante, com a essência da loja" (27/11/2026). Regra: **cada peça ganha uma ideia visual própria. Não é um modelo repetido.** O que fica igual em todas é a essência:
+- título em Archivo 800 larga, em caixa alta, com uma palavra em serifa itálica dourada;
+- rótulos em mono;
+- o ponto vermelho quadrado do LU.RICOS;
+- a foto real da peça;
+- o estoque num selo dourado.
+
+Escala áurea: 185 · 115 · 71 · 44 · 21.
+
+| Peça | Ideia | Texto |
+| --- | --- | --- |
+| Riviera | Redoma de vidro num pedestal, com árvores vermelhas "de gelo" e neve (referência enviada pelo dono) | TEMPO DE *presentear.* |
+| Esmeralda | Pendurado no pinheiro como enfeite, entre bolas de glitter | O ENFEITE *que faltava.* |
+| Colmeia | Embrulho: fita vermelha cruzando o quadro, laço, "PRESENTE" gigante atrás do relógio, fundo aço com papel | PARA *marcar.* |
+| Sunlifex | O relógio de gorro de Papai Noel, sob uma luz vermelha | ATÉ ELE *entrou no clima.* |
+| Romano | Meia-noite: holofote, poeira de luz e "XII" gigante só no contorno | DOZE *badaladas.* |
+| Rosa dos Ventos | Saindo do saco do Noel (é peça única) | SÓ TEM *um.* |
+
+Modelo: `modelo-natal-cenas.html?w=riviera&f=feed` (ou `f=story`). Exemplos em `brand/anuncios-natal-cenas/`. Só use frases de estoque ("Só tem um") quando forem verdade em `assets/data.js`.
+
 ## Conferência antes de entregar
 
 1. O cartaz segue a regra do seu estilo e só ela?
