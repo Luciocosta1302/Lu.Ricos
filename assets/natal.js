@@ -48,18 +48,12 @@
     return `<svg class="k-pine" viewBox="${x0.toFixed(0)} ${y0.toFixed(0)} ${w.toFixed(0)} ${h.toFixed(0)}" aria-hidden="true" focusable="false">${parts.join('')}</svg>`;
   }
 
-  // bola de Natal: vermelha ou dourada, com reflexo
-  function ball(tone = 'red') {
-    const g = id('b'), c = id('c');
-    const stops = tone === 'gold' ? ['#f6e2b4', '#C5A16B', '#6d5127'] : ['#e8475b', '#C51D32', '#460C13'];
-    return `<svg class="k-ball" viewBox="0 0 100 124" aria-hidden="true" focusable="false"><defs>
-      <radialGradient id="${g}" cx="36%" cy="34%" r="70%"><stop offset="0" stop-color="${stops[0]}"/><stop offset=".45" stop-color="${stops[1]}"/><stop offset="1" stop-color="${stops[2]}"/></radialGradient>
-      <linearGradient id="${c}" x1="0" x2="1"><stop offset="0" stop-color="#8a6a3a"/><stop offset=".5" stop-color="#f0d9a5"/><stop offset="1" stop-color="#8a6a3a"/></linearGradient></defs>
-      <circle cx="50" cy="8" r="5" fill="none" stroke="#C5A16B" stroke-width="2.4"/>
-      <rect x="38" y="11" width="24" height="15" rx="2" fill="url(#${c})"/>
-      <circle cx="50" cy="74" r="48" fill="url(#${g})"/>
-      <ellipse cx="34" cy="56" rx="11" ry="17" fill="#fff" opacity=".28" transform="rotate(28 34 56)"/></svg>`;
-  }
+  // fotos dos enfeites (recortadas, fundo transparente): assets/img/natal/elementos
+  const EL = 'assets/img/natal/elementos/';
+  const elImg = (name, cls, w, h) => `<img class="${cls}" src="${EL}${name}.webp" alt="" width="${w}" height="${h}" loading="lazy" decoding="async" draggable="false">`;
+
+  // bola de Natal: foto da bola de glitter vermelha ("gold" usa outra bola da mesma foto, para não repetir)
+  function ball(tone = 'red') { return elImg(tone === 'gold' ? 'bola-b' : 'bola-a', 'k-ball', 170, 207); }
 
   // estrela metálica de 8 pontas, com faces claras e escuras como as das referências
   function star(tone = 'gold') {
@@ -84,16 +78,6 @@
       <rect x="70" y="40" width="20" height="20" rx="5" fill="${col[1]}"/><path d="M26 36 C36 26 58 30 74 46" stroke="#fff" stroke-opacity=".25" stroke-width="3" fill="none"/></svg>`;
   }
 
-  // caixa de presente vista de frente: corpo, tampa, fita cruzada e laço
-  function gift({ body = '#8C101D', dark = '#460C13', band = '#C5A16B', w = 200, h = 170 } = {}) {
-    const g = id('g'), lidH = Math.round(h * .2);
-    return `<svg class="k-gift" viewBox="0 0 ${w} ${h + 46}" aria-hidden="true" focusable="false"><defs><linearGradient id="${g}" x1="0" x2="1"><stop offset="0" stop-color="${body}"/><stop offset=".7" stop-color="${body}"/><stop offset="1" stop-color="${dark}"/></linearGradient></defs>
-      <g transform="translate(0 46)"><rect x="${w * .05}" y="${lidH}" width="${w * .9}" height="${h - lidH}" fill="url(#${g})"/>
-      <rect x="0" y="0" width="${w}" height="${lidH}" fill="${body}"/><rect x="0" y="${lidH - 4}" width="${w}" height="5" fill="${dark}" opacity=".45"/>
-      <rect x="${w / 2 - w * .07}" y="0" width="${w * .14}" height="${h}" fill="${band}"/><rect x="${w / 2 - w * .07}" y="0" width="${w * .035}" height="${h}" fill="#fff" opacity=".18"/></g>
-      <g transform="translate(${w / 2 - 55} 0) scale(.69)">${bow(band === '#C5A16B' ? 'gold' : 'red').replace('<svg class="k-bow" viewBox="0 0 160 110"', '<svg viewBox="0 0 160 110" width="160" height="110"')}</g></svg>`;
-  }
-
   // fita de cetim solta, em curva
   function ribbon(variant = 1) {
     const g = id('r');
@@ -112,11 +96,8 @@
     return `<svg class="k-lights" viewBox="0 0 ${w} ${sag + 40}" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 10 Q${w / 2} ${10 + 2 * sag} ${w} 10" stroke="#2a1a12" stroke-width="2" fill="none"/>${bulbs}</svg>`;
   }
 
-  // gorro de Papai Noel, para pousar no canto de um título (sem espaços entre as tags: o split de palavras não mexe nele)
-  function hat() {
-    const g = id('h'), f = id('f');
-    return `<svg class="k-hat-svg" viewBox="0 0 130 112" aria-hidden="true" focusable="false"><defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e2384d"/><stop offset=".55" stop-color="#C51D32"/><stop offset="1" stop-color="#7a0f1c"/></linearGradient><linearGradient id="${f}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#d9d6cf"/></linearGradient></defs><path d="M16 80C18 46 44 14 82 12C104 11 118 26 114 48C112 58 108 64 102 66L96 56C100 44 94 34 84 36C66 40 62 60 66 82Z" fill="url(#${g})"/><path d="M30 70C36 46 54 26 76 20" stroke="#fff" stroke-opacity=".18" stroke-width="5" fill="none" stroke-linecap="round"/><rect x="6" y="72" width="78" height="24" rx="12" fill="url(#${f})"/><circle cx="102" cy="68" r="13" fill="url(#${f})"/></svg>`;
-  }
+  // gorro de Papai Noel (foto), para pousar no canto de um título (sem espaços: o split de palavras não mexe nele)
+  function hat() { return elImg('gorro', 'k-hat-img', 260, 186); }
 
   /* ---------- Vitrine com cúpula (HolidayWatchDisplay = ChristmasPedestal + relógio + GlassDome) ----------
      Um SVG por relógio, com as camadas na ordem certa:
@@ -271,7 +252,7 @@
 
     // faixa curta de campanha para as páginas internas
     const miniBanner = (texto, link, label) => `<aside class="natal-mini" aria-label="Natal">
-      <span class="natal-mini-gift">${gift({ w: 120, h: 96 })}</span>
+      <span class="natal-mini-gift">${elImg('caixas-p', 'k-gift-img', 200, 140)}</span>
       <div><span class="label"><i class="k-mini-star"></i> ${esc(N.campanha)} · Tempo de presentear</span><p>${texto}</p></div>
       ${link ? `<a class="link" href="${link}">${label} <span class="arrow">→</span></a>` : ''}</aside>`;
 
@@ -380,12 +361,10 @@
           <a class="btn xb-btn" href="#presentes">Encontre seu presente <span class="arrow">→</span></a></div>
         ${BA && bap ? `<a class="xb-photo" href="${LR.url.product(bap)}" aria-label="${esc(bap.name)}">
           <img ${camp(BA.imagem, '(max-width: 860px) 90vw, 40vw')} alt="${esc(bap.name)}" loading="lazy"><span class="xg-art">Arte de campanha</span>
-          <span class="xb-g xb-g3" aria-hidden="true">${gift({ body: '#141414', dark: '#000', band: '#C5A16B', w: 130, h: 110 })}</span>
+          <span class="xb-g xb-g3" aria-hidden="true">${elImg('caixas-p', 'k-gift-img', 200, 140)}</span>
           <span class="k-float xb-s1" aria-hidden="true">${star()}</span><span class="k-float xb-s2" aria-hidden="true">${star()}</span></a>` : `<div class="xb-art" aria-hidden="true">
-          <span class="xb-g xb-g1">${gift({ body: '#C51D32', dark: '#7a0f1c', w: 220, h: 190 })}</span>
-          <span class="xb-g xb-g2">${gift({ body: '#E9E7E2', dark: '#bdb9b0', band: '#C51D32', w: 170, h: 140 })}</span>
-          <span class="xb-g xb-g3">${gift({ body: '#141414', dark: '#000', band: '#C5A16B', w: 130, h: 110 })}</span>
-          <span class="xb-rib">${ribbon(1)}</span>
+          <span class="xb-g xb-saco">${elImg('saco', 'k-gift-img', 640, 890)}</span>
+          <span class="xb-g xb-caixas">${elImg('caixas', 'k-gift-img', 820, 574)}</span>
           <span class="k-float xb-s1">${star()}</span><span class="k-float xb-s2">${star()}</span><span class="k-float xb-s3">${star('silver')}</span>
         </div>`}</div></section>`;
 
@@ -401,7 +380,7 @@
       const ano = $('[data-natal-ano]', sec); if (ano) ano.textContent = N.ano || '';
       const cnt = $('[data-natal-count]', sec); if (cnt) cnt.textContent = pad(N.chegando.length);
       const pz = $('[data-natal-prazo]', sec); if (pz && prazo) pz.innerHTML = `<b>Em Marabá, peça até ${prazo} para receber antes do Natal</b> · `;
-      if (!$('.k-headdeco', sec)) sec.insertAdjacentHTML('afterbegin', `<div class="k-headdeco" aria-hidden="true">${hang(ball('red'), 'h1', '50px')}${hang(star(), 'h2', '84px')}${hang(ball('gold'), 'h3', '36px')}</div>`);
+      if (!$('.k-bolas', sec)) sec.insertAdjacentHTML('afterbegin', `<div class="k-bolas" aria-hidden="true">${elImg('bolas', 'k-bolas-img', 360, 880)}</div>`);
       const venda = LR.products.filter(p => p.status !== 'esgotado');
       const tile = (c, i) => `<article class="pcard is-chegando" data-reveal style="--d:${(i % 4) * .08}s">
         <div class="pcard-media"><img class="main" ${pic(c.img, CARD_SIZES)} alt="${esc(c.name)}" loading="lazy">
@@ -479,5 +458,5 @@
     }
   }
 
-  LR.Natal = { init, kit: { pine, ball, star, bow, gift, ribbon, lights, hat } };
+  LR.Natal = { init, kit: { pine, ball, star, bow, ribbon, lights, hat } };
 })();
