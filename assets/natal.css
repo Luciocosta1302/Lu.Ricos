@@ -360,13 +360,24 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
 @media (max-width: 860px) { .page-head:has(.has-hat) > .k-headdeco { display: none; } }
 
 /* ---------- Texturas (para o design não ficar chapado) ----------
-   Grão claro sobre as faixas vermelhas e bordô; papel na vitrine de Natal. */
-.xb { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), linear-gradient(115deg, var(--x-red) 0%, #6a0e1a 52%, var(--x-wine) 100%); }
-.natal-foot { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), radial-gradient(90% 120% at 50% 0%, #5a0f19 0%, var(--x-wine) 55%, #1d0509 100%); }
-.natal-cols { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), var(--x-wine); }
-.natal-thanks, .natal-mini, .natal-gift, .natal-journal-card, .natal-more { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
-.xs { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E"), radial-gradient(70% 60% at 50% 42%, #b8182d 0%, #8C101D 48%, #5a0b15 100%); }
-.is-natal .natal-strip { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), var(--x-red); }
+   Duas texturas de foto, em cinza neutro e sem emenda (assets/img/natal/texturas): tricô de lã e glitter.
+   Elas entram por cima do gradiente vermelho com "overlay": a cor continua a da marca, só ganha relevo.
+   Tricô nas faixas grandes e calmas (banner, rodapé, colunas); glitter onde tem brilho (vitrine de vidro, faixa
+   do topo, cartões vermelhos). A vitrine fica mais escura nas bordas para o relógio continuar sendo o centro. */
+:root { --tex-tricot: url("img/natal/texturas/tricot.webp"); --tex-glitter: url("img/natal/texturas/glitter.webp"); }
+.xb { background: linear-gradient(90deg, rgba(40, 4, 10, .38) 0%, rgba(40, 4, 10, .12) 50%, transparent 75%),
+    var(--tex-tricot) 0 0 / 330px auto repeat, linear-gradient(115deg, var(--x-red) 0%, #6a0e1a 52%, var(--x-wine) 100%);
+  background-blend-mode: normal, overlay, normal; }
+.natal-foot { background: var(--tex-tricot) center 0 / 330px auto repeat, radial-gradient(90% 120% at 50% 0%, #6a111d 0%, var(--x-wine) 55%, #1d0509 100%);
+  background-blend-mode: overlay, normal; }
+.natal-cols { background: var(--tex-tricot) 0 0 / 280px auto repeat, var(--x-wine); background-blend-mode: overlay, normal; }
+.xs { background: radial-gradient(70% 60% at 50% 42%, transparent 40%, rgba(30, 3, 8, .45) 100%),
+    var(--tex-glitter) 0 0 / 240px auto repeat,
+    radial-gradient(70% 60% at 50% 42%, #b8182d 0%, #8C101D 48%, #5a0b15 100%);
+  background-blend-mode: normal, overlay, normal; }
+.is-natal .natal-strip { background: var(--tex-glitter) 0 0 / 200px auto repeat, var(--x-red); background-blend-mode: overlay, normal; }
+.natal-thanks, .natal-mini, .natal-gift, .natal-journal-card, .natal-more, .cart-natal {
+  background-image: var(--tex-glitter); background-size: 220px auto; background-repeat: repeat; background-blend-mode: overlay; }
 
 /* ---------- Vidro da cúpula (biblioteca liquid-glass) ----------
    Camadas por vitrine: SVG de trás (brilho, base, relógio) → .hd-glass (recorte) > .glass (vidro) → SVG da frente
