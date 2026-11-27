@@ -148,12 +148,16 @@ LR.natal = {
   hero: { id: 'technos-riviera', recorte: 'assets/img/natal/recortes/riviera.webp',
           titulo: ['Tempo de', 'presentear'], texto: 'Presentes que marcam momentos.' },
   // guia de presentes: um relógio real para cada tipo de pessoa
+  // imagem: arte de campanha (assets/img/natal/campanha). O cartão marca "Arte de campanha";
+  // a página de cada relógio continua com as fotos reais.
   guia: [
-    { titulo: 'Para quem gosta do clássico', id: 'pablo-raez-rosa-dos-ventos', texto: 'Algarismos romanos, rosa dos ventos em relevo e couro croco marrom.' },
-    { titulo: 'Para quem gosta de elegância', id: 'technos-riviera', texto: 'Azul solar, luneta dourada e pulseira bicolor.' },
-    { titulo: 'Para quem prefere o casual', id: 'pablo-raez-colmeia', texto: 'Aço prateado e relevo em colmeia, para usar todo dia.' },
-    { titulo: 'Para surpreender alguém especial', id: 'pablo-raez-esmeralda', texto: 'Verde com efeito solar, que muda de tom com a luz.' },
+    { titulo: 'Para quem gosta do clássico', id: 'pablo-raez-romano', imagem: 'assets/img/natal/campanha/romano.jpg', texto: 'Algarismos romanos, mostrador quadriculado e couro preto croco.' },
+    { titulo: 'Para quem gosta de elegância', id: 'technos-riviera', imagem: 'assets/img/natal/campanha/riviera.jpg', texto: 'Azul solar, luneta dourada e pulseira bicolor.' },
+    { titulo: 'Para quem prefere o casual', id: 'pablo-raez-colmeia', imagem: 'assets/img/natal/campanha/colmeia-azul.jpg', texto: 'Aço prateado e relevo em colmeia, para usar todo dia.' },
+    { titulo: 'Para surpreender alguém especial', id: 'pablo-raez-esmeralda', imagem: 'assets/img/natal/campanha/esmeralda.jpg', texto: 'Verde com efeito solar, que muda de tom com a luz.' },
   ],
+  // arte da faixa "Não deixe para a última hora"
+  bannerArte: { id: 'pablo-raez-colmeia-branco', imagem: 'assets/img/natal/campanha/colmeia-branco.jpg' },
   // seleção de Natal: relógios recortados sobre pedestais
   selecao: [
     { id: 'pablo-raez-colmeia-branco', recorte: 'assets/img/natal/recortes/colmeia-branco.webp' },

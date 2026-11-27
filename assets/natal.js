@@ -146,6 +146,8 @@
     const prazo = LR.natalPrazo();
     const prazoTxt = prazo ? `Em Marabá, pedindo até ${prazo}, chega antes do Natal.` : '';
     const price = p => LR.format.price(p.price);
+    // arte de campanha: versão de 600 px ao lado (nome-600.jpg)
+    const camp = (src, sizes) => `src="${src}" srcset="${src.replace(/\.jpg$/, '-600.jpg')} 480w, ${src} 960w" sizes="${sizes}"`;
 
     // Faixa do topo: vermelho natalino, estrelas douradas, mensagens reais
     (function strip() {
@@ -249,7 +251,7 @@
           <a class="link sec-link" href="loja.html" data-reveal>Ver a vitrine <span class="arrow">→</span></a></header>
         <p class="xg-sub" data-reveal>Para cada pessoa, existe um relógio que combina.</p>
         <div class="xg-grid">${G.map((g, i) => `<a class="xg-card" href="${LR.url.product(g.p)}" data-reveal style="--d:${i * .08}s">
-          <span class="xg-media"><img ${pic(g.p.images[0], '(max-width: 700px) 50vw, 25vw')} alt="${esc(g.p.name)}" loading="lazy"><span class="xg-ribbon" aria-hidden="true"></span><span class="xg-bow" aria-hidden="true">${bow()}</span></span>
+          <span class="xg-media"><img ${g.imagem ? camp(g.imagem, '(max-width: 700px) 50vw, 25vw') : pic(g.p.images[0], '(max-width: 700px) 50vw, 25vw')} alt="${esc(g.p.name)}" loading="lazy">${g.imagem ? '<span class="xg-art">Arte de campanha</span>' : ''}<span class="xg-ribbon" aria-hidden="true"></span><span class="xg-bow" aria-hidden="true">${bow()}</span></span>
           <span class="xg-body"><span class="label">${esc(g.titulo)}</span><b class="xg-name">${esc(g.p.name)}</b><span class="xg-text">${esc(g.texto)}</span>
           <span class="xg-foot"><span class="num">${esc(price(g.p))}</span><span class="xg-go">Ver <span class="arrow">→</span></span></span></span></a>`).join('')}</div>
       </section>` : '';
@@ -272,19 +274,23 @@
         </div></div></section>` : '';
 
       // Banner: "Não deixe para a última hora", com o prazo real
+      const BA = N.bannerArte, bap = BA && LR.byId(BA.id);
       const banner = `<section class="xb" aria-labelledby="xb-title"><div class="wrap xb-in">
         <div class="xb-copy"><span class="label"><i class="k-mini-star"></i> ${esc(N.campanha)}</span>
           <h2 class="xb-title" id="xb-title">Não deixe para<br>a última hora.</h2>
           <p class="xb-text">Escolha o presente de Natal de quem você ama.</p>
           ${prazoTxt ? `<p class="xb-fact">${esc(prazoTxt)} ${esc(B.entrega)}.</p>` : ''}
           <a class="btn xb-btn" href="#presentes">Encontre seu presente <span class="arrow">→</span></a></div>
-        <div class="xb-art" aria-hidden="true">
+        ${BA && bap ? `<a class="xb-photo" href="${LR.url.product(bap)}" aria-label="${esc(bap.name)}">
+          <img ${camp(BA.imagem, '(max-width: 860px) 90vw, 40vw')} alt="${esc(bap.name)}" loading="lazy"><span class="xg-art">Arte de campanha</span>
+          <span class="xb-g xb-g3" aria-hidden="true">${gift({ body: '#141414', dark: '#000', band: '#C5A16B', w: 130, h: 110 })}</span>
+          <span class="k-float xb-s1" aria-hidden="true">${star()}</span><span class="k-float xb-s2" aria-hidden="true">${star()}</span></a>` : `<div class="xb-art" aria-hidden="true">
           <span class="xb-g xb-g1">${gift({ body: '#C51D32', dark: '#7a0f1c', w: 220, h: 190 })}</span>
           <span class="xb-g xb-g2">${gift({ body: '#E9E7E2', dark: '#bdb9b0', band: '#C51D32', w: 170, h: 140 })}</span>
           <span class="xb-g xb-g3">${gift({ body: '#141414', dark: '#000', band: '#C5A16B', w: 130, h: 110 })}</span>
           <span class="xb-rib">${ribbon(1)}</span>
           <span class="k-float xb-s1">${star()}</span><span class="k-float xb-s2">${star()}</span><span class="k-float xb-s3">${star('silver')}</span>
-        </div></div></section>`;
+        </div>`}</div></section>`;
 
       after.insertAdjacentHTML('afterend', guia + selecao + banner);
       particles($('.xb'), { luzes: 8, neve: 40 }, reduced);

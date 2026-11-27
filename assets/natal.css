@@ -312,3 +312,12 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
 .is-natal .k-tr { transform-origin: center top; }
 .is-natal .k-tl { transform-origin: center top; }
 .k-headdeco.is-article .h1 { right: 7%; } .k-headdeco.is-article .h2 { right: 3.5%; } .k-headdeco.is-article .h3 { display: none; }
+
+/* ---------- Arte de campanha (imagens de Natal dos relógios) ---------- */
+.xg-art { position: absolute; right: .6rem; bottom: .6rem; z-index: 2; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; padding: .3rem .5rem; background: rgba(20, 20, 20, .62); color: var(--x-off); pointer-events: none; }
+.xb-photo { position: relative; display: block; justify-self: end; width: min(100%, 440px); aspect-ratio: 4 / 5; box-shadow: 0 40px 70px rgba(0, 0, 0, .4); outline: 1px solid rgba(197, 161, 107, .55); outline-offset: 10px; transition: transform .5s var(--ease-out); }
+.xb-photo:hover { transform: translateY(-2px); }
+.xb-photo > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.xb-photo .xb-g3 { left: -14%; bottom: -8%; top: auto; width: 34%; z-index: 3; }
+.xb-photo .xb-s1 { top: -6%; left: -8%; } .xb-photo .xb-s2 { top: 12%; right: -7%; }
+@media (max-width: 860px) { .xb-photo { justify-self: center; width: min(86%, 380px); margin-top: 1rem; } .xb-photo .xb-g3 { left: -10%; } }
