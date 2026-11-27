@@ -86,6 +86,28 @@ await page.screenshot({ path: 'cartaz-bold.png' });
 
 Exemplos aplicados ao Pablo Raez Esmeralda: `brand/cartazes/`.
 
+## Estilo extra: Faixas diagonais (anúncio de produto)
+
+Estilo de que o dono da loja gosta (referência enviada em 27/11/2026: anúncio "Time wears better"). Regra: **duas cores em faixas inclinadas, título enorme em duas cores, relógio grande deitado na diagonal e uma fileira de fatos com ícones.**
+
+- **Fundo:** uma cor escura da peça e um creme. A parte de cima é escura (com um pouco de luz no canto de cima à direita). Depois vêm uma faixa creme, uma faixa escura e creme até embaixo. As faixas sobem para a direita, com inclinação de 0,36. No canto de baixo à esquerda fica um triângulo escuro, onde vai a marca.
+- **Título:** Archivo 900, de 140 a 168 px, duas linhas curtas. A 1ª linha é creme e a 2ª vai numa cor de destaque tirada da peça (ouro, verde, vermelho da marca). Tem que caber na largura, senão diminua o tamanho.
+- **Relógio:** o recorte real, girado de −38° a −50°, com a coroa para cima à direita, atravessando as faixas, com sombra longa para baixo à direita. As pontas da pulseira somem em degradê. Se a parte de baixo do recorte tiver névoa, corte a imagem antes.
+- **Frase:** uma frase da peça, concreta (o que ela tem), na faixa creme à direita, em texto escuro, com o nome da peça embaixo em mono.
+- **Fatos:** "Na LU.RICOS" e 4 itens com ícones de linha, só com fatos reais:
+  - Entrega em Marabá em 2 dias úteis
+  - Pix ou cartão parcelado
+  - 7 dias para devolver
+  - O estoque ("Peça única" / "Últimas 2 peças")
+
+  Sem preço.
+- **Paleta por peça:**
+  - Riviera: azul-marinho `#1c2943` + creme `#dccab0` + ouro `#c9a462`
+  - Esmeralda: verde `#12302a` + `#d8d2c1` + `#8fc3a8`
+  - Romano: grafite `#17181b` + `#d9d6ce` + vermelho `#cc2744`
+  - Sunlifex: vinho `#4a0d16` + `#e2d5c1` + ouro `#d3a95e`
+- **Modelo:** `modelo-faixas.html?w=riviera&f=feed` (ou `f=story`), com o recorte em PNG ao lado (`riviera.png`, `esmeralda.png`, `romano.png`, `sunlifex.png`). O story é o mesmo layout descido 285 px. Exemplos em `brand/anuncios-faixas/`.
+
 ## Conferência antes de entregar
 
 1. O cartaz segue a regra do seu estilo e só ela?
