@@ -533,123 +533,9 @@
     grid(list, el, opts) { el.innerHTML = list.map((p, i) => this.card(p, i, opts)).join(''); reveals(); setTimeout(revealAboveFold, 50); refreshScroll(); },
   };
 
-  /* ---------- Natal (LR.natal em data.js) ---------- */
-  function natal() {
-    const N = LR.natal, sec = $('[data-natal]');
-    if (!N || !N.ativo || !sec) return;
-    sec.hidden = false;
-    const ano = $('[data-natal-ano]', sec); if (ano) ano.textContent = N.ano || '';
-    const cnt = $('[data-natal-count]', sec); if (cnt) cnt.textContent = pad(N.chegando.length);
-    // faixa de foto: o relógio na caixa, com neve e luzes (natalCeu)
-    const BN = N.banner, bp = BN && LR.byId(BN.id);
-    if (BN && !$('.natal-banner', sec)) $('.sec-head', sec).insertAdjacentHTML('afterend', `<a class="natal-banner" href="${bp ? LR.url.product(bp) : '#vitrine'}">
-      <picture><source media="(max-width: 700px)" srcset="${BN.fotoCelular.replace(/\.jpg$/, '-600.jpg')} 600w, ${BN.fotoCelular} 1200w" sizes="100vw"><img src="${BN.foto}" srcset="${BN.foto.replace(/\.jpg$/, '-1200.jpg')} 1200w, ${BN.foto} 2400w" sizes="100vw" alt="${esc(bp ? bp.name : '')} na caixa" loading="lazy"></picture>
-      <span class="natal-banner-txt"><span class="label"><i class="star"></i> Natal ${N.ano}</span><b>${esc(BN.titulo)}</b><span>${esc(BN.texto)}</span><span class="link">Ver o relógio <span class="arrow">→</span></span></span></a>`);
-    const pz = $('[data-natal-prazo]', sec); if (pz && LR.natalPrazo()) pz.innerHTML = `<b>Em Marabá, peça até ${LR.natalPrazo()} para receber antes do Natal</b> · `;
-    // relógio que ainda está chegando: sem preço, sem página própria, com botão para reservar
-    const chegando = (c, i) => `
-<article class="pcard is-chegando" data-reveal style="--d:${(i % 4) * .08}s">
-  <div class="pcard-media">
-    <img class="main" ${pic(c.img, CARD_SIZES)} alt="${esc(c.name)}" loading="lazy">
-    <span class="pcard-badge is-signal">Chega para o Natal</span>
-    <span class="pcard-note">Foto do fornecedor</span>
-    <div class="pcard-quick"><a class="btn" href="${wa(`Olá! Quero reservar o ${c.name} (${c.subtitle}) para o Natal.`)}" target="_blank" rel="noopener">Reservar <span class="arrow">→</span></a></div>
-  </div>
-  <div class="pcard-info">
-    <div><h3 class="pcard-name">${esc(c.name)}</h3><p class="pcard-sub">${esc(c.subtitle)}</p></div>
-    <div class="pcard-price">Preço em breve</div>
-  </div>
-</article>`;
-    const venda = LR.products.filter(p => p.status !== 'esgotado');
-    const FILTROS = [
-      { k: 'chegando', t: 'Chegando', list: () => N.chegando.map(c => ({ c })) },
-      { k: 'ele', t: 'Para ele', list: () => [...N.chegando.filter(c => c.para === 'ele').map(c => ({ c })), ...venda.map(p => ({ p }))] },
-      { k: 'ela', t: 'Para ela', list: () => N.chegando.filter(c => c.para === 'ela').map(c => ({ c })) },
-      { k: 'ate160', t: 'Até R$ 160', list: () => venda.filter(p => p.price <= 160).map(p => ({ p })) },
-    ];
-    const chips = $('[data-natal-chips]', sec), grid = $('[data-natal-grid]', sec);
-    let atual = 'chegando';
-    chips.innerHTML = FILTROS.map(f => `<button class="chip ${f.k === atual ? 'is-active' : ''}" type="button" aria-pressed="${f.k === atual}" data-natal-f="${f.k}">${f.t} <span class="num">${pad(f.list().length)}</span></button>`).join('');
-    const show = () => {
-      const items = FILTROS.find(f => f.k === atual).list();
-      grid.innerHTML = items.map((it, i) => it.c ? chegando(it.c, i) : ui.card(it.p, i)).join('')
-        + (atual === 'chegando' ? `<a class="natal-more" href="#vitrine" data-reveal style="--d:${(items.length % 4) * .08}s"><span class="label">Já à venda</span><b>${pad(venda.length)} relógios<br>à venda</b><span class="link">Ver agora <span class="arrow">→</span></span></a>` : '');
-      reveals(); setTimeout(revealAboveFold, 50); refreshScroll();
-    };
-    chips.addEventListener('click', e => {
-      const b = e.target.closest('[data-natal-f]'); if (!b) return;
-      atual = b.dataset.natalF;
-      chips.querySelectorAll('.chip').forEach(c => { const on = c === b; c.classList.toggle('is-active', on); c.setAttribute('aria-pressed', on); });
-      grid.style.opacity = 0; setTimeout(() => { show(); grid.style.opacity = 1; }, 180);
-    });
-    grid.style.transition = 'opacity .25s';
-    show();
-  }
-
-  /* ---------- Natal: enfeites no visual do site ---------- */
-  // Nada de ilustração pronta: os enfeites são as formas da marca. O ponto vermelho vira bola de Natal,
-  // a estrela tem 4 pontas, e a faixa do topo corre como a faixa da home.
-  const natalOrn = (extra = '') => `<div class="natal-orn${extra}" aria-hidden="true"><span class="orn o1"><b class="diamond"></b></span><span class="orn o2"><b class="ring"></b></span><span class="orn o3"><b class="star"></b></span><span class="orn o4"><b class="diamond ink"></b></span></div>`;
-  // em todas as páginas
-  function natalGeral() {
-    if (!LR.natal || !LR.natal.ativo) return;
-    html.classList.add('is-natal');
-    const prazo = LR.natalPrazo();
-    const itens = ['Natal LU.RICOS', prazo ? `Pedindo até ${prazo}, chega antes do Natal em Marabá` : 'Presentes para ele e para ela', B.entrega, 'Presentes para ele e para ela', B.pagamento];
-    const linha = [...new Set(itens)].map(t => `${esc(t)} <i class="star"></i>`).join(' ');
-    if (!$('.natal-strip')) document.body.insertAdjacentHTML('afterbegin', `<div class="natal-strip" role="note">
-      <span class="sr-only">${esc([...new Set(itens)].join('. '))}.</span>
-      <div class="natal-strip-track" aria-hidden="true"><span>${linha}</span><span>${linha}</span></div></div>`);
-    // enfeites no cabeçalho das páginas internas
-    const head = $('main > .page-head, main > .about-hero, main > .notfound');
-    if (head && !$('.natal-orn', head)) head.insertAdjacentHTML('afterbegin', natalOrn(' is-page'));
-    // carrinho e rodapé
-    const note = $('.cart-note');
-    if (note && prazo && !$('.cart-natal')) note.insertAdjacentHTML('beforebegin', `<p class="cart-natal"><i class="star"></i>Pedindo até ${prazo}, chega antes do Natal em Marabá.</p>`);
-    const foot = $('.footer-bottom');
-    if (foot && !$('.natal-foot', foot)) foot.insertAdjacentHTML('beforeend', `<span class="label natal-foot"><i class="star"></i> Boas festas</span>`);
-  }
-  // só na home: enfeites na seção de Natal e neve no topo
-  function natalEnfeites() {
-    if (!LR.natal || !LR.natal.ativo) return;
-    const sec = $('[data-natal]');
-    if (sec && !$('.natal-orn', sec)) sec.insertAdjacentHTML('afterbegin', natalOrn());
-    const hero = $('.hero'); if (hero) natalCeu(hero, { luzes: 14 });
-    const ban = $('.natal-banner', sec || document); if (ban) natalCeu(ban, { luzes: 10, neve: 50 });
-  }
-  // neve, luzes desfocadas (como as de árvore de Natal ao fundo) e confete no formato do ponto da marca
-  function natalCeu(el, { luzes = 12, neve = 90 } = {}) {
-    if (reduced || $('.natal-snow', el)) return;
-    const cv = document.createElement('canvas'); cv.className = 'natal-snow'; cv.setAttribute('aria-hidden', 'true'); el.appendChild(cv);
-    const ctx = cv.getContext('2d'); let W = 0, H = 0, flakes = [], lights = [], on = true, raf, t = 0;
-    const size = () => { const r = el.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2); W = r.width; H = r.height; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
-      const n = Math.min(neve, Math.round(W / 16));
-      flakes = Array.from({ length: n }, (_, i) => ({ x: Math.random() * W, y: Math.random() * H, r: .8 + Math.random() * 1.8, v: .25 + Math.random() * .7, s: Math.random() * 6.28, a: .35 + Math.random() * .5,
-        conf: i % 9 === 0, rot: Math.random() * 6.28, vr: (Math.random() - .5) * .06 }));
-      lights = Array.from({ length: luzes }, () => ({ x: Math.random() * W, y: Math.random() * H * .75, r: 14 + Math.random() * 46, warm: Math.random() > .25, ph: Math.random() * 6.28, sp: .006 + Math.random() * .01, dy: (Math.random() - .5) * .08 })); };
-    const tick = () => { if (!on) return; t++; ctx.clearRect(0, 0, W, H);
-      ctx.globalCompositeOperation = 'lighter';
-      for (const l of lights) { l.y += l.dy; if (l.y < -l.r || l.y > H * .8) l.dy *= -1; const a = .1 + .1 * Math.sin(l.ph + t * l.sp);
-        const g = ctx.createRadialGradient(l.x, l.y, 0, l.x, l.y, l.r); const c = l.warm ? '255,206,150' : '204,39,68';
-        g.addColorStop(0, `rgba(${c},${a + .08})`); g.addColorStop(.55, `rgba(${c},${a})`); g.addColorStop(1, `rgba(${c},0)`);
-        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(l.x, l.y, l.r, 0, 6.283); ctx.fill(); }
-      ctx.globalCompositeOperation = 'source-over';
-      for (const f of flakes) { f.y += f.v; f.s += .01; f.x += Math.sin(f.s) * .3; if (f.y > H + 6) { f.y = -6; f.x = Math.random() * W; }
-        if (f.conf) { f.rot += f.vr; ctx.globalAlpha = .9; ctx.fillStyle = '#cc2744'; ctx.save(); ctx.translate(f.x, f.y); ctx.rotate(f.rot); ctx.fillRect(-2.5, -2.5, 5, 5); ctx.restore(); }
-        else { ctx.globalAlpha = f.a; ctx.fillStyle = '#e9eae6'; ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.283); ctx.fill(); } }
-      ctx.globalAlpha = 1; raf = requestAnimationFrame(tick); };
-    size(); addEventListener('resize', size);
-    const io = new IntersectionObserver(([e]) => { const vis = e.isIntersecting && !document.hidden; if (vis && !on) { on = true; tick(); } else if (!vis) { on = false; cancelAnimationFrame(raf); } });
-    io.observe(el); document.addEventListener('visibilitychange', () => { if (document.hidden) { on = false; cancelAnimationFrame(raf); } else if (el.getBoundingClientRect().bottom > 0 && el.getBoundingClientRect().top < innerHeight) { on = true; tick(); } });
-    tick();
-  }
-
   /* ---------- Páginas ---------- */
   const pages = {
     home() {
-      // no Natal, o topo abre com o relógio na caixa
-      if (LR.natal && LR.natal.ativo && LR.natal.topo) { const i = LR.hero.findIndex(h => h.id === LR.natal.topo); if (i > 0) LR.hero.unshift(...LR.hero.splice(i, 1)); }
-      natal(); natalEnfeites();
       const novidades = LR.products.filter(p => p.status !== 'esgotado');
       ui.grid(novidades, $('[data-grid="novidades"]'), { eager: true });
       const avail = $('[data-avail]');
@@ -870,9 +756,10 @@
 
   /* ---------- Boot ---------- */
   mountChrome();
-  natalGeral();
   $$('.nav a').forEach(a => a.classList.toggle('is-active', isActive(a.getAttribute('href'))));
   if (pages[page]) pages[page]();
+  // campanhas sazonais (assets/natal.js): recebem as ferramentas do site e montam as próprias seções
+  if (LR.Natal) LR.Natal.init({ $, $$, esc, wa, pic, pad, CARD_SIZES, card: (p, i, o) => ui.card(p, i, o), reveals, revealAboveFold, refreshScroll, B, page, reduced });
   cartUI(); menu(); header(); misc(); transitions();
   reveals();
   preloader().then(() => { const m = $('main'); if (m) { m.classList.add('page-enter'); m.addEventListener('animationend', () => m.classList.remove('page-enter'), { once: true }); } revealAboveFold(); smoothScroll(); scrollFx(); cursor(); });

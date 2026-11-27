@@ -833,19 +833,6 @@ html.from-transition .transition::after { transform: scale(1); }
   .roll-col { transition: none; }
 }
 
-/* ---------- Natal (seção sazonal da home) ----------
-   Mesmo visual das outras seções: fundo aço, título na grotesca larga, cartões da vitrine.
-   O que marca o Natal é só o selo vermelho "Chega para o Natal" nos relógios novos. */
-.natal-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .8rem 1.5rem; margin-bottom: 1.2rem; }
-.natal-note { color: var(--mute); }
-.natal .chip .num { opacity: .55; margin-left: .3em; }
-.pcard.is-chegando .pcard-price { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); white-space: nowrap; }
-.pcard-note { position: absolute; left: .6rem; bottom: .6rem; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .08em; text-transform: uppercase; background: rgba(233,234,230,.9); color: var(--ink); padding: .3rem .5rem; pointer-events: none; }
-.natal-more { display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem; padding: clamp(1rem, 2vw, 1.6rem); background: var(--paper); color: var(--ink); min-height: 100%; transition: background .4s; }
-.natal-more:hover { background: var(--paper-2); }
-.natal-more .label { color: var(--mute); }
-.natal-more b { font-family: var(--font-display); font-stretch: var(--display-stretch); font-weight: 700; text-transform: uppercase; letter-spacing: -.01em; line-height: 1; font-size: clamp(1.3rem, 2.2vw, 2rem); }
-.natal-more .link { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
 
 /* ---------- Estoque, entrega e pagamento ---------- */
 .pcard-stock { position: absolute; left: .9rem; bottom: .9rem; z-index: 2; display: inline-flex; align-items: center; gap: .45rem; font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; padding: .35rem .6rem; background: var(--paper); color: var(--ink); border-radius: 999px; transition: opacity .3s; }
@@ -858,67 +845,6 @@ html.from-transition .transition::after { transform: scale(1); }
 .pdp-facts .is-natal-line { color: var(--signal-ink); font-weight: 600; }
 .pdp-facts .is-natal-line::before { background: var(--signal); }
 .cart-why { font-size: 12.5px; line-height: 1.4; color: var(--mute); margin: .25rem 0 .2rem; max-width: 30ch; }
-.natal-note b { color: var(--signal-ink); font-weight: 500; }
 
-/* ---------- Natal: enfeites (só com html.is-natal) ----------
-   Nada de ilustração pronta: os enfeites são as formas da própria marca. O ponto vermelho vira
-   bola de Natal pendurada, a estrela tem 4 pontas e a neve é pouca, em cima da foto do topo. */
-/* faixa fixa no topo de todas as páginas; o menu desce para baixo dela */
-html.is-natal { --natal-strip: 30px; --header-h: calc(64px + var(--natal-strip)); }
-.is-natal .header { top: var(--natal-strip); height: calc(var(--header-h) - var(--natal-strip)); }
-.is-natal .header.is-hidden { transform: translateY(calc(-100% - var(--natal-strip))); }
-.natal-strip { position: fixed; top: 0; left: 0; right: 0; z-index: 805; height: var(--natal-strip, 30px); overflow: hidden; display: flex; align-items: center; background: var(--ink); color: var(--paper); white-space: nowrap; transition: transform .6s var(--ease); }
-html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%); }
-.natal-strip-track { display: inline-flex; gap: 2.4rem; animation: ticker 46s linear infinite; will-change: transform; }
-.natal-strip-track span { display: inline-flex; align-items: center; gap: 2.4rem; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; }
-.natal-strip i.star, .cart-natal i.star, .natal-foot i.star { display: inline-block; width: 9px; height: 9px; background: var(--signal); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
-.cart-natal { display: flex; align-items: center; gap: .55rem; font-size: 13px; font-weight: 600; color: var(--signal-ink); margin-bottom: .4rem; }
-.natal-foot { display: inline-flex; align-items: center; gap: .5rem; }
-@media (prefers-reduced-motion: reduce) { .natal-strip-track { animation: none; } }
-/* a faixa da home ganha fundo grafite e estrelas no lugar dos pontos */
-.is-natal .ticker:not(.ticker-big) { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-.is-natal .ticker:not(.ticker-big) i:not(.star) { width: 10px; height: 10px; border-radius: 0; background: var(--signal); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
-.ticker i.star { width: 10px; height: 10px; border-radius: 0; background: var(--signal); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
-.natal-snow { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
-.natal { position: relative; }
-.natal-orn { position: absolute; top: 0; right: var(--gutter); display: flex; gap: clamp(.9rem, 2.4vw, 2rem); pointer-events: none; z-index: 1; }
-.orn { position: relative; display: block; width: 1px; background: var(--line-strong); transform-origin: top center; animation: natal-swing 4.6s ease-in-out infinite alternate; }
-.orn.o1 { height: clamp(46px, 5.5vw, 80px); }
-.orn.o2 { height: clamp(64px, 7.5vw, 104px); animation-duration: 5.4s; animation-delay: -1.2s; }
-.orn.o3 { height: clamp(36px, 4.5vw, 60px); animation-duration: 4s; animation-delay: -2.4s; }
-.orn.o4 { height: clamp(56px, 6.5vw, 90px); animation-duration: 5s; animation-delay: -.6s; }
-.orn b { position: absolute; top: 100%; left: 50%; display: block; }
-.orn .diamond { width: clamp(16px, 2vw, 24px); height: clamp(16px, 2vw, 24px); background: var(--signal); transform: translate(-50%, -2px) rotate(45deg); }
-.orn .diamond.ink { background: var(--ink); width: clamp(11px, 1.4vw, 16px); height: clamp(11px, 1.4vw, 16px); }
-.orn .ring { width: clamp(22px, 2.8vw, 34px); height: clamp(22px, 2.8vw, 34px); border: 2px solid var(--ink); border-radius: 50%; transform: translate(-50%, 0); }
-.orn .star { width: clamp(20px, 2.6vw, 30px); height: clamp(20px, 2.6vw, 30px); background: var(--signal); transform: translate(-50%, 0); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); animation: natal-twinkle 2.4s ease-in-out infinite; }
-@keyframes natal-swing { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
-@keyframes natal-twinkle { 0%, 100% { opacity: 1; scale: 1; } 50% { opacity: .55; scale: .82; } }
-@media (max-width: 860px) { html.is-natal { --header-h: calc(56px + var(--natal-strip)); } .orn.o3, .orn.o4 { display: none; } .natal-orn { gap: 1.2rem; } }
-/* nas páginas internas, os enfeites descem logo abaixo do menu e são mais curtos */
-.page-head, .about-hero, .notfound { position: relative; }
-.natal-orn.is-page { top: var(--header-h); }
-.natal-orn.is-page .orn.o1 { height: clamp(30px, 3.6vw, 54px); }
-.natal-orn.is-page .orn.o2 { height: clamp(44px, 5vw, 74px); }
-.natal-orn.is-page .orn.o3 { height: clamp(24px, 3vw, 40px); }
-.natal-orn.is-page .orn.o4 { height: clamp(36px, 4.4vw, 62px); }
-@media (max-width: 860px) { .natal-orn.is-page { display: none; } }
 @media (prefers-reduced-motion: reduce) { .orn, .orn .star { animation: none; } }
 
-/* ---------- Natal: faixa de foto (referência: relógio na caixa vermelha, luzes e neve) ---------- */
-.natal-banner { position: relative; display: block; overflow: hidden; margin: 0 0 1.6rem; aspect-ratio: 21 / 8; background: var(--ink); color: var(--paper); isolation: isolate; }
-.natal-banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; filter: brightness(.72) saturate(1.05); transition: transform 1.2s var(--ease-out); z-index: -1; }
-.natal-banner:hover img { transform: scale(1.03); }
-.natal-banner::after { content: ""; position: absolute; inset: 0; z-index: 0; background: linear-gradient(90deg, rgba(17,18,20,.88) 0%, rgba(17,18,20,.45) 42%, rgba(17,18,20,0) 70%); pointer-events: none; }
-.natal-banner .natal-snow { z-index: 1; }
-.natal-banner-txt { position: absolute; left: clamp(1.2rem, 3.4vw, 3rem); bottom: clamp(1.2rem, 3.4vw, 3rem); z-index: 2; display: grid; gap: .7rem; max-width: 30rem; }
-.natal-banner-txt .label { color: var(--paper); display: inline-flex; align-items: center; gap: .5rem; }
-.natal-banner-txt .label i.star { display: inline-block; width: 9px; height: 9px; background: var(--signal); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
-.natal-banner-txt b { font-family: var(--font-display); font-stretch: var(--display-stretch); font-weight: 700; text-transform: uppercase; letter-spacing: -.02em; line-height: .92; font-size: clamp(2.2rem, 5.4vw, 5rem); }
-.natal-banner-txt > span:not(.label):not(.link) { color: var(--grey); max-width: 30ch; }
-.natal-banner-txt .link { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
-@media (max-width: 700px) {
-  .natal-banner { aspect-ratio: 4 / 5; }
-  .natal-banner img { object-position: 50% 45%; }
-  .natal-banner::after { background: linear-gradient(0deg, rgba(17,18,20,.92) 0%, rgba(17,18,20,.35) 50%, rgba(17,18,20,0) 75%); }
-}

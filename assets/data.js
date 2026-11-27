@@ -142,11 +142,25 @@ LR.natal = {
   // último dia para pedir e receber em Marabá antes do Natal (2 dias úteis antes do dia 24).
   // A frase "Pedindo até …" some sozinha depois dessa data.
   ultimoDia: '2026-12-22',
-  // relógio que abre o topo da home no Natal (a foto dele na caixa de forro vermelho)
-  topo: 'technos-riviera',
-  // faixa de foto na seção de Natal
-  banner: { foto: IMG + 'hero-riviera.jpg', fotoCelular: IMG + 'riviera-01.jpg', id: 'technos-riviera',
-            titulo: 'Abra no dia 25.', texto: 'Technos Riviera na caixa de forro vermelho. Peça única.' },
+  // Campanha "Tempo de presentear" (assets/natal.js e assets/natal.css). Cada parte pode ser desligada
+  // apagando a linha dela; com ativo: false, o site volta inteiro ao visual de sempre.
+  campanha: 'Natal 2026',
+  hero: { id: 'technos-riviera', recorte: 'assets/img/natal/recortes/riviera.webp',
+          titulo: ['Tempo de', 'presentear'], texto: 'Presentes que marcam momentos.' },
+  // guia de presentes: um relógio real para cada tipo de pessoa
+  guia: [
+    { titulo: 'Para quem gosta do clássico', id: 'pablo-raez-rosa-dos-ventos', texto: 'Algarismos romanos, rosa dos ventos em relevo e couro croco marrom.' },
+    { titulo: 'Para quem gosta de elegância', id: 'technos-riviera', texto: 'Azul solar, luneta dourada e pulseira bicolor.' },
+    { titulo: 'Para quem prefere o casual', id: 'pablo-raez-colmeia', texto: 'Aço prateado e relevo em colmeia, para usar todo dia.' },
+    { titulo: 'Para surpreender alguém especial', id: 'pablo-raez-esmeralda', texto: 'Verde com efeito solar, que muda de tom com a luz.' },
+  ],
+  // seleção de Natal: relógios recortados sobre pedestais
+  selecao: [
+    { id: 'pablo-raez-colmeia-branco', recorte: 'assets/img/natal/recortes/colmeia-branco.webp' },
+    { id: 'pablo-raez-romano', recorte: 'assets/img/natal/recortes/romano.webp' },
+    { id: 'sunlifex-cronografo', recorte: 'assets/img/natal/recortes/sunlifex.webp' },
+    { id: 'pablo-raez-esmeralda', recorte: 'assets/img/natal/recortes/esmeralda.webp' },
+  ],
   chegando: [
     { id: 'pablo-raez-retangular', name: 'Pablo Raez Retangular', subtitle: 'Branco · couro preto · algarismos romanos', para: 'ele', img: IMG + 'natal/retangular.jpg' },
     { id: 'pablo-raez-integrado', name: 'Pablo Raez Integrado', subtitle: 'Branco · pulseira integrada · dia e data', para: 'ele', img: IMG + 'natal/integrado-branco.jpg' },
@@ -184,6 +198,13 @@ LR.articles = [
   { slug: 'por-que-quartzo', title: 'Por que quartzo', kicker: 'Mecanismo', date: '2026-11-06', cover: IMG + 'colmeia-04.jpg', excerpt: 'Preciso, prático e quase sem manutenção. Entenda o mecanismo dos relógios da vitrine.', body: [
     'Um relógio de quartzo usa uma bateria e um pequeno cristal que vibra numa frequência constante. É isso que faz ele marcar a hora com tanta precisão, sem precisar dar corda.',
     'Na prática, você coloca no pulso e esquece. A manutenção se resume à troca da bateria a cada poucos anos, que qualquer relojoaria faz em minutos.',
+  ] },
+  { slug: 'presente-de-natal', title: 'Como escolher um relógio para presentear no Natal', kicker: 'Natal', date: '2026-11-27', cover: IMG + 'riviera-01.jpg', excerpt: 'Cinco perguntas que ajudam a acertar o relógio de quem você ama.', body: [
+    'Comece pelo jeito da pessoa, não pelo relógio. Quem usa roupa social no trabalho costuma combinar com um mostrador limpo e pulseira de aço ou de couro preto. Quem vive de camiseta e tênis prefere algo mais robusto, como um modelo com visual de cronógrafo. E quem gosta de chamar atenção aproveita bem um mostrador colorido, verde ou azul.',
+    'Depois, escolha a pulseira. A de aço é a mais resistente e aguenta o dia a dia sem marcar. A de couro é mais leve e tem um ar mais clássico, mas pede cuidado com água. Se você não sabe a medida do pulso de quem vai ganhar, a pulseira de aço é a escolha mais segura: ela é ajustada tirando elos, em poucos minutos.',
+    'Olhe também as funções. Data e dia da semana são úteis para quem tem rotina cheia. Algarismos romanos dão um ar tradicional; índices em bastão deixam o relógio mais moderno.',
+    'Pense no orçamento sem vergonha de dizer. Um relógio de R$ 129,99 bem escolhido faz mais efeito do que um caro que não combina com a pessoa. Se ficar em dúvida entre dois, mande os dois no WhatsApp com uma frase sobre quem vai ganhar, que a gente ajuda a decidir.',
+    'Por fim, não deixe para a última hora. Em Marabá, entregamos em até 2 dias úteis: pedindo até 22 de dezembro, o presente chega antes do Natal. Avise no pedido que é presente.',
   ] },
 ];
 
