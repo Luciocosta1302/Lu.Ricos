@@ -185,7 +185,7 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
 .xb-in { position: relative; z-index: 3; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); align-items: center; gap: clamp(1.5rem, 4vw, 4rem); }
 .xb-copy { display: grid; gap: 1.2rem; min-width: 0; }
 .xb-copy .label { color: var(--x-off); display: inline-flex; gap: .55rem; align-items: center; }
-.xb-title { font-family: var(--font-display); font-stretch: 112%; font-weight: 800; text-transform: uppercase; letter-spacing: -.03em; line-height: .88; font-size: clamp(2.4rem, 6.2vw, 7rem); }
+.xb-title { font-family: var(--font-display); font-stretch: 112%; font-weight: 800; text-transform: uppercase; letter-spacing: -.03em; line-height: .88; font-size: clamp(2.37rem, 6.6vw, 6.85rem); }
 .xb-text { font-size: clamp(1.05rem, 1.4vw, 1.3rem); max-width: 34ch; }
 .xb-fact { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--x-gold); max-width: 52ch; line-height: 1.7; }
 .xb-btn { justify-self: start; }
@@ -228,7 +228,7 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
 .natal-cols { background: var(--x-wine); color: var(--x-off); position: relative; overflow: hidden; }
 .natal-cols-in { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(1.5rem, 4vw, 4rem); padding-block: clamp(2.5rem, 5vw, 4rem); align-items: center; }
 .natal-cols .label { color: var(--x-gold); display: inline-flex; gap: .5rem; align-items: center; }
-.natal-cols-title { font-family: var(--font-display); font-stretch: 112%; font-weight: 800; text-transform: uppercase; letter-spacing: -.02em; line-height: .92; font-size: clamp(1.8rem, 3.6vw, 3.4rem); margin-top: .8rem; }
+.natal-cols-title { font-family: var(--font-display); font-stretch: 112%; font-weight: 800; text-transform: uppercase; letter-spacing: -.02em; line-height: .92; font-size: clamp(1.78rem, 4.2vw, 4.24rem); margin-top: .8rem; }
 .natal-cols-fact { margin-top: 1rem; font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--x-gold); }
 .natal-cols-list { display: grid; }
 .natal-cols-list a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .2rem 1rem; padding: 1rem 0; border-top: 1px solid rgba(233, 231, 226, .2); transition: padding .4s var(--ease-out); }
@@ -250,7 +250,7 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
 .natal-thanks { background: var(--x-red); color: var(--x-off); position: relative; overflow: hidden; }
 .natal-thanks-in { position: relative; display: grid; gap: 1rem; padding-block: clamp(2.8rem, 6vw, 5rem); }
 .natal-thanks .label { color: var(--x-gold); display: inline-flex; gap: .5rem; align-items: center; }
-.natal-thanks-title { font-family: var(--font-display); font-stretch: 112%; font-weight: 800; text-transform: uppercase; letter-spacing: -.02em; line-height: .92; font-size: clamp(1.9rem, 4.4vw, 4rem); max-width: 18ch; }
+.natal-thanks-title { font-family: var(--font-display); font-stretch: 112%; font-weight: 800; text-transform: uppercase; letter-spacing: -.02em; line-height: .92; font-size: clamp(1.78rem, 4.2vw, 4.24rem); max-width: 18ch; }
 .natal-thanks p:not(.natal-thanks-title) { max-width: 52ch; }
 .natal-thanks .k-tr { top: -10px; right: -50px; }
 @media (max-width: 640px) { .natal-thanks .k-tr { width: 150px; opacity: .8; } }
@@ -278,7 +278,7 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
 .natal-foot .k-tl { top: -6px; } .natal-foot .k-tr { top: -10px; }
 .natal-foot-in { position: relative; z-index: 3; display: grid; gap: 1.2rem; justify-items: center; }
 .natal-foot .label { color: var(--x-gold); display: inline-flex; gap: .5rem; align-items: center; }
-.natal-foot-title { font-family: var(--font-display); font-stretch: 112%; font-weight: 800; text-transform: uppercase; letter-spacing: -.03em; line-height: .88; font-size: clamp(2.4rem, 7.4vw, 7.6rem); }
+.natal-foot-title { font-family: var(--font-display); font-stretch: 112%; font-weight: 800; text-transform: uppercase; letter-spacing: -.03em; line-height: .88; font-size: clamp(2.37rem, 6.6vw, 6.85rem); }
 .natal-foot-sign { font-family: var(--font-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: rgba(233, 231, 226, .8); }
 .natal-foot-sign .dot { display: inline-block; width: .5em; height: .5em; background: var(--x-hot); margin: 0 .1em; }
 .natal-foot .k-f1 { left: 12%; top: 30%; } .natal-foot .k-f2 { right: 14%; top: 44%; width: clamp(28px, 3vw, 48px); } .natal-foot .k-f3 { left: 26%; bottom: 14%; width: clamp(16px, 1.6vw, 24px); }
@@ -333,3 +333,12 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
 
 /* no celular, o título com gorro fica sem os enfeites pendurados (um detalhe só) */
 @media (max-width: 860px) { .page-head:has(.has-hat) > .k-headdeco { display: none; } }
+
+/* ---------- Texturas (para o design não ficar chapado) ----------
+   Grão claro sobre as faixas vermelhas e bordô; papel na vitrine de Natal. */
+.xb { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), linear-gradient(115deg, var(--x-red) 0%, #6a0e1a 52%, var(--x-wine) 100%); }
+.natal-foot { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), radial-gradient(90% 120% at 50% 0%, #5a0f19 0%, var(--x-wine) 55%, #1d0509 100%); }
+.natal-cols { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), var(--x-wine); }
+.natal-thanks, .natal-mini, .natal-gift, .natal-journal-card, .natal-more { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.xs { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .25 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E"), linear-gradient(180deg, #efece6 0%, #e4dfd5 100%); }
+.is-natal .natal-strip { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), var(--x-red); }
