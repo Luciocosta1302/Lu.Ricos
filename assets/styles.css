@@ -832,3 +832,19 @@ html.from-transition .transition::after { transform: scale(1); }
   .sec-head > .label::before { transform: none; transition: none; }
   .roll-col { transition: none; }
 }
+
+
+/* ---------- Estoque, entrega e pagamento ---------- */
+.pcard-stock { position: absolute; left: .9rem; bottom: .9rem; z-index: 2; display: inline-flex; align-items: center; gap: .45rem; font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; padding: .35rem .6rem; background: var(--paper); color: var(--ink); border-radius: 999px; transition: opacity .3s; }
+.pcard-stock i, .stock-tag i { width: 7px; height: 7px; background: var(--signal); display: inline-block; flex: none; }
+@media (hover: hover) { .pcard:hover .pcard-stock { opacity: 0; } }
+.stock-tag { display: inline-flex; align-items: center; gap: .55rem; margin-top: .9rem; font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--signal-ink); }
+.pdp-facts { display: grid; gap: .5rem; padding: 1rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-size: 14px; }
+.pdp-facts li { display: flex; gap: .7rem; }
+.pdp-facts li::before { content: ""; width: 5px; height: 5px; background: var(--ink); margin-top: .55em; flex: none; }
+.pdp-facts .is-natal-line { color: var(--signal-ink); font-weight: 600; }
+.pdp-facts .is-natal-line::before { background: var(--signal); }
+.cart-why { font-size: 12.5px; line-height: 1.4; color: var(--mute); margin: .25rem 0 .2rem; max-width: 30ch; }
+
+@media (prefers-reduced-motion: reduce) { .orn, .orn .star { animation: none; } }
+

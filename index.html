@@ -14,6 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..700&family=Instrument+Sans:wght@400;500;600&family=Martian+Mono:wdth,wght@87.5,400;87.5,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/natal.css">
   <link rel="stylesheet" href="assets/chat.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23111214'/><text x='44' y='66' font-size='44' font-weight='800' text-anchor='middle' fill='%23e9eae6' font-family='Helvetica,Arial' letter-spacing='-3'>LR</text><circle cx='80' cy='62' r='7' fill='%23cc2744'/></svg>">
   <!--seo:start-->
@@ -75,6 +76,20 @@
       <span>Fotos reais das peças <i></i> Technos <i></i> Pablo Raez <i></i> Pulseira de aço <i></i> Pulseira de couro <i></i> Atendimento pelo WhatsApp <i></i></span>
     </div>
   </div>
+
+  <!-- Natal: aparece só com LR.natal.ativo (assets/data.js) -->
+  <section class="section wrap natal" id="natal" data-natal hidden>
+    <header class="sec-head">
+      <span class="label" data-reveal>Natal <span data-natal-ano></span> · <span class="num" data-natal-count>—</span> chegando</span>
+      <h2 class="display display-m split">Chegando<br>para o Natal</h2>
+      <a class="link sec-link" href="#vitrine" data-reveal>Ver a vitrine <span class="arrow">→</span></a>
+    </header>
+    <div class="natal-bar">
+      <div class="chips" role="group" aria-label="Filtrar presentes" data-natal-chips></div>
+      <p class="label natal-note"><span data-natal-prazo></span>Foto do fornecedor até a peça chegar · reserve pelo WhatsApp</p>
+    </div>
+    <div class="products" data-natal-grid></div>
+  </section>
 
   <!-- Vitrine -->
   <section class="section wrap" id="vitrine">
@@ -240,6 +255,7 @@
 <div id="site-footer"></div>
 
 <script src="assets/data.js"></script>
+<script src="assets/natal.js"></script>
 <script src="assets/vendor/gsap.min.js"></script>
 <script src="assets/vendor/ScrollTrigger.min.js"></script>
 <script src="assets/vendor/anime.min.js"></script>

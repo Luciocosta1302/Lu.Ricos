@@ -103,7 +103,7 @@
   <div class="cart-body" data-cart-body data-scroll-native></div>
   <div class="cart-foot">
     <div class="cart-total"><span class="label">Subtotal</span><strong class="num" data-cart-total>R$ 0,00</strong></div>
-    <p class="cart-note">Frete, prazo e forma de pagamento são combinados no atendimento pelo WhatsApp.</p>
+    <p class="cart-note">Entrega em Marabá em até 2 dias úteis. Pix ou cartão de crédito, com opção de parcelar. Para outras cidades, frete e prazo pelo WhatsApp.</p>
     <a class="btn btn-block" data-cart-checkout href="#" target="_blank" rel="noopener">Finalizar pelo WhatsApp <span class="arrow">→</span></a>
   </div>
 </aside>
@@ -250,13 +250,18 @@
     key: (id, color, size) => `${id}|${color}|${size}`,
     add(id, color, size, qty = 1) {
       const p = LR.byId(id); if (!p || p.status === 'esgotado') return;
+      const noCarrinho = this.items.filter(i => i.id === id).reduce((a, i) => a + i.qty, 0);
+      if (p.stock && noCarrinho + qty > p.stock) { toast(p.stock === 1 ? `${p.name} é peça única e já está no seu carrinho` : `Temos ${p.stock} unidades do ${p.name}, e todas já estão no carrinho`); openCart(); return; }
       const k = this.key(id, color, size);
       const it = this.items.find(i => i.key === k);
       if (it) it.qty += qty; else this.items.push({ key: k, id, color, size, qty });
       this.save(); toast(`${p.name} adicionado`);
       if (LR.life && LR.life.fly && LR.life.fly()) setTimeout(openCart, 760); else openCart();
     },
-    setQty(k, q) { const it = this.items.find(i => i.key === k); if (!it) return; it.qty = q; if (it.qty <= 0) this.items = this.items.filter(i => i.key !== k); this.save(); },
+    setQty(k, q) { const it = this.items.find(i => i.key === k); if (!it) return;
+      const p = LR.byId(it.id), outros = this.items.filter(i => i.id === it.id && i.key !== k).reduce((a, i) => a + i.qty, 0);
+      if (p && p.stock && q + outros > p.stock) { q = p.stock - outros; toast(p.stock === 1 ? `${p.name} é peça única` : `Temos só ${p.stock} unidades do ${p.name}`); }
+      it.qty = q; if (it.qty <= 0) this.items = this.items.filter(i => i.key !== k); this.save(); },
     count() { return this.items.reduce((a, i) => a + i.qty, 0); },
     total() { return this.items.reduce((a, i) => a + i.qty * (LR.byId(i.id)?.price || 0), 0); },
     render() {
@@ -268,6 +273,7 @@
   <a href="${LR.url.product(p)}"><img ${pic(p.images[0], '88px')} alt="${esc(p.name)}" loading="lazy"></a>
   <div>
     <div class="cart-name">${esc(p.name)}</div>
+    ${p.escolha ? `<p class="cart-why">Boa escolha: ${esc(p.escolha)}</p>` : ''}
     <div class="label">${esc(p.code)} · ${esc(i.color)}${i.size !== 'Único' ? ' · ' + esc(i.size) : ''}</div>
     <div class="qty"><button type="button" data-qty="-1" aria-label="Diminuir">−</button><span class="num">${i.qty}</span><button type="button" data-qty="1" aria-label="Aumentar">+</button></div>
     <button type="button" class="cart-remove" data-remove>Remover</button>
@@ -278,7 +284,7 @@
       const co = $('[data-cart-checkout]');
       if (co) {
         const lines = this.items.map(i => { const p = LR.byId(i.id); return `• ${p.code} ${p.name} — ${i.color}${i.size !== 'Único' ? ' / ' + i.size : ''} × ${i.qty} = ${LR.format.price(p.price * i.qty)}`; });
-        co.href = wa(`Olá! Quero finalizar meu pedido na ${B.name}:\n\n${lines.join('\n')}\n\nSubtotal: ${LR.format.price(this.total())}`);
+        co.href = wa(`Olá! Quero finalizar meu pedido na ${B.name}:\n\n${lines.join('\n')}\n\nSubtotal: ${LR.format.price(this.total())}\n\nMeu CEP: \nÉ para presente? `);
         co.classList.toggle('is-disabled', !this.items.length);
         co.toggleAttribute('disabled', !this.items.length);
       }
@@ -515,6 +521,7 @@
     <img class="main" ${pic(p.images[0], CARD_SIZES)} alt="${esc(p.name)}" loading="${opts.eager && i < 3 ? 'eager' : 'lazy'}">
     ${p.images[1] ? `<img class="alt" ${pic(p.images[1], CARD_SIZES)} alt="" loading="lazy" aria-hidden="true">` : ''}
     ${p.badge ? `<span class="pcard-badge ${this.badgeClass(p)}">${esc(p.badge)}</span>` : ''}
+    ${LR.stockLabel(p) ? `<span class="pcard-stock"><i></i>${esc(LR.stockLabel(p))}</span>` : ''}
     <div class="pcard-quick">${p.status === 'esgotado' ? `<a class="btn btn-ghost" style="width:100%" href="${wa(`Olá! Quero ser avisado quando ${p.code} ${p.name} voltar.`)}" target="_blank" rel="noopener">Avise-me</a>` : `<button class="btn" type="button" data-add="${p.id}">${label} <span class="arrow">+</span></button>`}</div>
   </div>
   <div class="pcard-info">
@@ -598,6 +605,7 @@
     <div class="pdp-top"><span class="label">${esc(p.code)} ${p.badge ? `· <span style="color:${p.status === 'esgotado' ? 'inherit' : 'var(--signal)'}">${esc(p.badge)}</span>` : ''}</span><span class="pdp-price num">${LR.format.price(p.price)}</span></div>
     <h1 class="display pdp-title split" style="margin-top:.6rem">${esc(p.name)}</h1>
     <p class="muted" style="margin-top:.6rem">${esc(p.subtitle)}</p>
+    ${LR.stockLabel(p, true) ? `<p class="stock-tag"><i></i>${esc(LR.stockLabel(p, true))}</p>` : ''}
   </div>
   <p class="pdp-desc" data-reveal>${esc(p.desc)}</p>
   <div class="opt-group" data-reveal>
@@ -608,6 +616,13 @@
     <div class="opt-head"><span class="label">Tamanho</span></div>
     <div class="opts" data-sizes>${p.sizes.map((s, i) => `<button class="opt ${i === 0 ? 'is-active' : ''}" type="button" data-size="${esc(s)}">${esc(s)}</button>`).join('')}</div>
   </div>` : ''}
+  ${p.status === 'esgotado' ? '' : `<ul class="pdp-facts" data-reveal>
+    <li>${esc(B.entrega)}</li>
+    <li>Outras cidades: frete e prazo pelo WhatsApp</li>
+    <li>${esc(B.pagamento)}</li>
+    <li>7 dias para desistir da compra</li>
+    ${LR.natalPrazo() ? `<li class="is-natal-line">Pedindo até ${LR.natalPrazo()}, chega antes do Natal em Marabá</li>` : ''}
+  </ul>`}
   <div class="pdp-actions" data-reveal>
     ${p.status === 'esgotado'
       ? `<button class="btn" type="button" disabled>Esgotado</button><a class="btn btn-ghost" href="${wa(`Olá! Quero ser avisado quando ${p.code} ${p.name} voltar.`)}" target="_blank" rel="noopener">Avise-me quando voltar</a>`
@@ -616,7 +631,7 @@
   </div>
   <div class="acc" data-reveal>
     <div class="acc-item is-open"><button class="acc-btn" type="button" aria-expanded="true">Especificações <i></i></button><div class="acc-panel"><div><div class="inner"><ul class="spec-list">${Object.entries(p.specs).map(([k, v]) => `<li><span>${esc(k)}</span><span>${esc(v)}</span></li>`).join('')}</ul></div></div></div></div>
-    <div class="acc-item"><button class="acc-btn" type="button" aria-expanded="false">Envio e pagamento <i></i></button><div class="acc-panel"><div><div class="inner">Frete, prazo e forma de pagamento são combinados direto com a gente pelo WhatsApp, de acordo com o seu CEP. Adicione o relógio ao carrinho e finalize por lá.</div></div></div></div>
+    <div class="acc-item"><button class="acc-btn" type="button" aria-expanded="false">Envio e pagamento <i></i></button><div class="acc-panel"><div><div class="inner">Em Marabá, entregamos em até 2 dias úteis. Para outras cidades, combinamos frete e prazo pelo WhatsApp, de acordo com o seu CEP. Você paga no Pix ou no cartão de crédito, com opção de parcelar. Compras feitas pela internet ou pelo WhatsApp podem ser canceladas em até 7 dias depois do recebimento, como garante o Código de Defesa do Consumidor.</div></div></div></div>
     <div class="acc-item"><button class="acc-btn" type="button" aria-expanded="false">Cuidados <i></i></button><div class="acc-panel"><div><div class="inner">Limpe com pano macio e seco. Evite piscina e mar, e não acerte a data entre 21h e 3h. <a href="artigo-como-cuidar.html" style="text-decoration:underline">Leia o guia completo</a>.</div></div></div></div>
   </div>
   <div class="pdp-meta"><span class="label">Coleção: ${esc(col.name)}</span><span class="label">Pulseira: ${esc(p.category)}</span><span class="label">Marca: ${esc(p.brand || '')}</span></div>
@@ -743,6 +758,8 @@
   mountChrome();
   $$('.nav a').forEach(a => a.classList.toggle('is-active', isActive(a.getAttribute('href'))));
   if (pages[page]) pages[page]();
+  // campanhas sazonais (assets/natal.js): recebem as ferramentas do site e montam as próprias seções
+  if (LR.Natal) LR.Natal.init({ $, $$, esc, wa, pic, pad, CARD_SIZES, card: (p, i, o) => ui.card(p, i, o), reveals, revealAboveFold, refreshScroll, B, page, reduced });
   cartUI(); menu(); header(); misc(); transitions();
   reveals();
   preloader().then(() => { const m = $('main'); if (m) { m.classList.add('page-enter'); m.addEventListener('animationend', () => m.classList.remove('page-enter'), { once: true }); } revealAboveFold(); smoothScroll(); scrollFx(); cursor(); });

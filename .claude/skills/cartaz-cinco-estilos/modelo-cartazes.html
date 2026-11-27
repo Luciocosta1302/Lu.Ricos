@@ -1,0 +1,80 @@
+<!doctype html><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..700&family=Gloock&family=Instrument+Sans:wght@400..700&family=Martian+Mono:wdth,wght@87.5,400..600&display=swap">
+<style>
+/* Cinco estilos de cartaz com a mesma foto (regras do vídeo + pesquisa).
+   Camadas: fundo → texto de trás → relógio recortado → texto da frente. */
+:root { --ink: #111214; --aco: #e9eae6; --red: #cc2744; --cream: #efe8da; }
+html, body { margin: 0; }
+.p { width: 1080px; height: 1350px; position: relative; overflow: hidden; font-family: "Instrument Sans", sans-serif; }
+.p > * { position: absolute; }
+.cut { left: 0; bottom: 0; width: 1080px; z-index: 2; }
+.mono { font-family: "Martian Mono", monospace; font-size: 17px; letter-spacing: .16em; text-transform: uppercase; }
+.f { z-index: 3; }
+/* selo redondo: o nome girando em volta de uma cruz */
+.selo { width: 150px; height: 150px; z-index: 3; }
+.selo text { font-family: "Martian Mono", monospace; font-size: 12.5px; letter-spacing: 3.2px; text-transform: uppercase; }
+.dot { display: inline-block; width: .19em; height: .19em; background: var(--red); margin: 0 .05em; }
+</style>
+<body>
+<script>
+// ?cut=recorte.png (assunto recortado, PNG transparente) · ?foto=foto.jpg (foto original, usada no cinematográfico) · ?s=estilo
+const Q = new URLSearchParams(location.search), CUT = Q.get('cut') || 'recorte.png', FOTO = Q.get('foto') || 'foto.jpg';
+const selo = (c, cross = c) => `<svg class="selo" viewBox="0 0 150 150"><defs><path id="r" d="M75,75 m-52,0 a52,52 0 1,1 104,0 a52,52 0 1,1 -104,0"/></defs>
+  <text fill="${c}"><textPath href="#r" textLength="320">LU.RICOS · RELÓGIOS · MARABÁ ·</textPath></text>
+  <path d="M75 60 V90 M60 75 H90" stroke="${cross}" stroke-width="2"/><circle cx="75" cy="75" r="4" fill="none" stroke="${cross}" stroke-width="1.5"/></svg>`;
+const S = {
+  // 1 · BOLD: cores em contraste e escala exagerada; o relógio na frente do título
+  bold: `<div class="p" style="background:var(--red)">
+    <div style="left:40px;top:250px;z-index:1;color:#fff;font:900 228px/.8 Archivo;font-stretch:100%;letter-spacing:-.045em">VERDE<br>SOLAR.</div>
+    <div style="left:30px;bottom:-30px;z-index:1;color:var(--ink);font:900 330px/.8 Archivo;font-stretch:125%;letter-spacing:-.05em">2026</div>
+    <img class="cut" src="${CUT}" style="width:820px;left:150px;bottom:-40px">
+    <div class="mono f" style="right:44px;top:48px;color:#fff;font-size:22px">@lu.ricos</div>
+    <div class="mono f" style="left:44px;top:150px;color:#fff;line-height:1.7">Pablo Raez<br>Esmeralda<br>Aço · dia e data</div>
+  </div>`,
+  // 2 · MINIMAL: texto bem menor e muito respiro em volta de cada elemento
+  minimal: `<div class="p" style="background:var(--aco)">
+    <div class="mono" style="left:56px;top:52px;font-size:13px;color:#565b61">LU.RICOS</div>
+    <div class="mono" style="right:56px;top:52px;font-size:13px;color:#565b61">Marabá · PA</div>
+    <div style="left:0;right:0;top:120px;text-align:center;font:600 26px/1.3 'Instrument Sans';color:var(--ink)">Pablo Raez Esmeralda.</div>
+    <img class="cut" src="${CUT}" style="width:760px;left:160px;bottom:40px;-webkit-mask-image:linear-gradient(#000 62%,transparent 94%)">
+    <div class="f" style="left:110px;top:640px;font:500 46px 'Instrument Sans';letter-spacing:-.02em;color:var(--ink)">Verde</div>
+    <div class="f" style="right:110px;top:640px;font:500 46px 'Instrument Sans';letter-spacing:-.02em;color:var(--ink)">solar</div>
+    <div style="left:56px;bottom:56px">${selo('#565b61', '#111214')}</div>
+    <div class="mono" style="right:56px;bottom:62px;font-size:13px;color:#565b61">@lu.ricos</div>
+  </div>`,
+  // 3 · BRUTALISTA: foto em preto e branco, títulos pesados numa cor só, formas soltas
+  brutal: `<div class="p" style="background:#ecebe6">
+    <div class="mono" style="left:48px;top:40px;font-size:13px">Lu.Ricos — 2026</div><div class="mono" style="right:48px;top:40px;font-size:13px">Marabá / PA</div>
+    <div style="left:36px;top:80px;z-index:1;color:var(--red);font:900 300px/.8 Archivo;font-stretch:62%;letter-spacing:-.01em">VERDE<br>VERDE<br>VERDE</div>
+    <svg style="left:360px;bottom:-60px;z-index:1" width="760" height="620" viewBox="0 0 760 620"><polygon fill="#111214" points="380,0 420,190 560,60 480,230 740,160 520,310 760,400 500,380 600,620 410,420 300,620 330,410 60,560 250,350 0,300 260,260 90,90 300,210"/></svg>
+    <img class="cut" src="${CUT}" style="width:900px;left:160px;bottom:-30px;filter:grayscale(1) contrast(1.35) brightness(1.05)">
+    <div class="f" style="left:60px;top:900px;color:var(--red);font:300 60px Archivo">+</div><div class="f" style="left:60px;bottom:60px;color:var(--red);font:300 60px Archivo">+</div>
+    <div class="mono f" style="left:60px;top:1010px;font-size:14px;line-height:1.7;color:var(--ink)">Pablo Raez<br>Pulseira integrada<br>Quartzo · dia e data</div>
+    <div style="right:60px;top:620px">${selo('#111214')}</div>
+  </div>`,
+  // 4 · CINEMATOGRÁFICO: foto escura e todo o resto numa cor clara só
+  cine: `<div class="p" style="background:#0b0c0d">
+    <img src="${FOTO}" style="left:-60px;top:-40px;width:1200px;filter:brightness(.42) contrast(1.25) saturate(.8);z-index:0">
+    <div style="left:0;right:0;top:0;height:1350px;background:linear-gradient(180deg,rgba(11,12,13,.75) 0%,rgba(11,12,13,0) 30%,rgba(11,12,13,0) 62%,rgba(11,12,13,.96) 88%);z-index:1"></div>
+    <div class="mono f" style="left:48px;right:48px;top:44px;display:flex;justify-content:space-between;font-size:14px;color:var(--red)"><span>Pablo Raez</span><span>Aço</span><span>Quartzo</span><span>Dia e data</span><span>Marabá</span></div>
+    <div class="f" style="left:48px;top:110px;color:var(--red);font:900 250px/.8 Archivo;font-stretch:62%">TEMPO</div>
+    <div class="f" style="right:48px;top:430px;color:var(--red);font:900 250px/.8 Archivo;font-stretch:62%">VERDE</div>
+    <div style="left:56px;top:740px">${selo('#cc2744')}</div>
+    <div class="f" style="left:48px;bottom:250px;color:var(--red);font:800 44px Archivo;font-stretch:100%">2026</div>
+    <div class="f" style="left:0;right:0;bottom:150px;text-align:center;color:var(--red);font:700 30px Archivo;font-stretch:125%;letter-spacing:.02em">LU<i class="dot" style="background:var(--red)"></i>RICOS APRESENTA</div>
+    <div class="f" style="left:120px;right:120px;bottom:60px;text-align:center;color:var(--red);opacity:.75;font:500 15px/1.5 'Archivo';font-stretch:62%;letter-spacing:.06em;text-transform:uppercase">Pablo Raez Esmeralda · mostrador verde com efeito solar · caixa de aço com pulseira integrada · índices e ponteiros prateados · dia da semana e data · atendimento pelo WhatsApp</div>
+  </div>`,
+  // 5 · EDITORIAL: serifa com fonte de display, e o texto atrás do assunto
+  edit: `<div class="p" style="background:var(--cream)">
+    <svg style="left:0;top:0;z-index:0;opacity:.35" width="1080" height="1350"><filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .3  0 0 0 0 .25  0 0 0 0 .2  0 0 0 .55 0"/></filter><rect width="1080" height="1350" filter="url(#g)"/></svg>
+    <div class="mono" style="left:48px;top:44px;font-size:13px;color:#5a4a3a">LU.RICOS</div><div class="mono" style="right:48px;top:44px;font-size:13px;color:#5a4a3a">Edição 2026</div>
+    <div style="left:0;right:0;top:215px;text-align:center;z-index:1;color:var(--ink);font:400 290px/.82 Gloock;letter-spacing:-.03em">VERDE</div>
+    <div style="left:150px;top:62px;z-index:3;color:var(--red);font:italic 500 140px/1 'Bodoni Moda';font-variation-settings:'opsz' 96;transform:rotate(-5deg)">o tempo,</div>
+    <img class="cut" src="${CUT}" style="width:900px;left:90px;bottom:-30px">
+    <div style="right:60px;top:600px">${selo('#5a4a3a', '#111214')}</div>
+    <div class="f" style="left:56px;bottom:70px;max-width:300px;font:italic 500 30px/1.25 'Bodoni Moda';color:var(--ink)">Esmeralda, de Pablo Raez. Verde que muda com a luz.</div>
+    <div class="mono f" style="right:48px;bottom:60px;font-size:13px;color:#5a4a3a">@lu.ricos</div>
+  </div>`,
+};
+document.write(S[new URLSearchParams(location.search).get('s')]);
+</script>
