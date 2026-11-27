@@ -35,8 +35,6 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
 .is-natal main > .ticker:not(.ticker-big) { background: var(--x-wine); color: var(--x-off); border-color: var(--x-wine); }
 .is-natal main > .ticker:not(.ticker-big) i { width: 10px; height: 10px; border-radius: 0; background: var(--x-gold); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
 
-/* o topo original da home dá lugar ao topo de Natal */
-.is-natal main > .hero { display: none; }
 
 /* ---------- Kit de enfeites ---------- */
 .k-corner { position: absolute; pointer-events: none; z-index: 2; }
@@ -321,3 +319,16 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
 .xb-photo .xb-g3 { left: -14%; bottom: -8%; top: auto; width: 34%; z-index: 3; }
 .xb-photo .xb-s1 { top: -6%; left: -8%; } .xb-photo .xb-s2 { top: 12%; right: -7%; }
 @media (max-width: 860px) { .xb-photo { justify-self: center; width: min(86%, 380px); margin-top: 1rem; } .xb-photo .xb-g3 { left: -10%; } }
+
+/* ---------- Gorro de Papai Noel no canto de alguns títulos ---------- */
+.is-natal .has-hat { position: relative; }
+.k-hat { position: absolute; left: -.1em; top: -.36em; width: .5em; z-index: 2; pointer-events: none; transform: rotate(-18deg); transform-origin: 30% 80%; animation: k-hat 4.8s ease-in-out infinite alternate; }
+.is-natal .has-hat.hat-r { width: fit-content; justify-self: start; }
+.hat-r .k-hat { left: auto; right: -.2em; top: -.14em; width: min(.3em, 64px); transform: rotate(16deg) scaleX(-1); transform-origin: 70% 80%; animation-name: k-hat-r; }
+.k-hat svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 3px 4px rgba(17, 18, 20, .22)); }
+@keyframes k-hat { from { transform: rotate(-20deg); } to { transform: rotate(-14deg); } }
+@keyframes k-hat-r { from { transform: rotate(14deg) scaleX(-1); } to { transform: rotate(20deg) scaleX(-1); } }
+@media (prefers-reduced-motion: reduce) { .k-hat { animation: none; } }
+
+/* no celular, o título com gorro fica sem os enfeites pendurados (um detalhe só) */
+@media (max-width: 860px) { .page-head:has(.has-hat) > .k-headdeco { display: none; } }

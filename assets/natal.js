@@ -112,6 +112,12 @@
     return `<svg class="k-lights" viewBox="0 0 ${w} ${sag + 40}" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 10 Q${w / 2} ${10 + 2 * sag} ${w} 10" stroke="#2a1a12" stroke-width="2" fill="none"/>${bulbs}</svg>`;
   }
 
+  // gorro de Papai Noel, para pousar no canto de um título (sem espaços entre as tags: o split de palavras não mexe nele)
+  function hat() {
+    const g = id('h'), f = id('f');
+    return `<svg class="k-hat-svg" viewBox="0 0 130 112" aria-hidden="true" focusable="false"><defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e2384d"/><stop offset=".55" stop-color="#C51D32"/><stop offset="1" stop-color="#7a0f1c"/></linearGradient><linearGradient id="${f}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#d9d6cf"/></linearGradient></defs><path d="M16 80C18 46 44 14 82 12C104 11 118 26 114 48C112 58 108 64 102 66L96 56C100 44 94 34 84 36C66 40 62 60 66 82Z" fill="url(#${g})"/><path d="M30 70C36 46 54 26 76 20" stroke="#fff" stroke-opacity=".18" stroke-width="5" fill="none" stroke-linecap="round"/><rect x="6" y="72" width="78" height="24" rx="12" fill="url(#${f})"/><circle cx="102" cy="68" r="13" fill="url(#${f})"/></svg>`;
+  }
+
   // enfeite pendurado: fio + bola ou estrela, balançando
   const hang = (thing, cls, len) => `<span class="k-hang ${cls}" style="--len:${len}" aria-hidden="true"><i class="k-string"></i>${thing}</span>`;
 
@@ -188,6 +194,16 @@
       ${link ? `<a class="link" href="${link}">${label} <span class="arrow">→</span></a>` : ''}</aside>`;
 
     if (page === 'home') home();
+    // gorros de Papai Noel em alguns títulos (poucos por página)
+    const HATS = {
+      home: ['#presentes h2', '#vitrine h2', '#jornal h2'],
+      loja: ['main > .page-head h1'], colecoes: ['main > .page-head h1'], jornal: ['main > .page-head h1'],
+      contato: ['main > .page-head h1'],
+    };
+    // nos títulos grandes das páginas, o gorro vai no fim da palavra (à esquerda fica a navegação "Início / …")
+    (HATS[page] || []).forEach(sel => { const h = $(sel); if (!h || $('.k-hat', h)) return; const big = h.tagName === 'H1';
+      h.classList.add('has-hat'); if (big) h.classList.add('hat-r');
+      h.insertAdjacentHTML(big ? 'beforeend' : 'afterbegin', `<span class="k-hat" aria-hidden="true">${hat()}</span>`); });
     // sobre as áreas vermelhas, o menu deixa de inverter as cores (natal.css: .k-dark-top)
     const darkTop = () => {
       const els = $$('.xh, .xb, .natal-foot, .natal-cols, .natal-thanks'); if (!els.length || !('IntersectionObserver' in window)) return;
@@ -382,5 +398,5 @@
     }
   }
 
-  LR.Natal = { init, kit: { pine, ball, star, bow, gift, ribbon, lights } };
+  LR.Natal = { init, kit: { pine, ball, star, bow, gift, ribbon, lights, hat } };
 })();

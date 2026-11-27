@@ -145,8 +145,6 @@ LR.natal = {
   // Campanha "Tempo de presentear" (assets/natal.js e assets/natal.css). Cada parte pode ser desligada
   // apagando a linha dela; com ativo: false, o site volta inteiro ao visual de sempre.
   campanha: 'Natal 2026',
-  hero: { id: 'technos-riviera', recorte: 'assets/img/natal/recortes/riviera.webp',
-          titulo: ['Tempo de', 'presentear'], texto: 'Presentes que marcam momentos.' },
   // guia de presentes: um relógio real para cada tipo de pessoa
   // imagem: arte de campanha (assets/img/natal/campanha). O cartão marca "Arte de campanha";
   // a página de cada relógio continua com as fotos reais.
