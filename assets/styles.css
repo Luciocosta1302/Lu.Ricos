@@ -79,11 +79,14 @@ ul, ol { list-style: none; }
   text-transform: uppercase;
   text-wrap: balance;
 }
-.display-xl { font-size: clamp(3rem, 10.5vw, 11.5rem); }
-.display-l  { font-size: clamp(2.2rem, 5.6vw, 5.6rem); }
-.display-m  { font-size: clamp(1.7rem, 3.4vw, 3.1rem); }
-.display-s  { font-size: clamp(1.4rem, 2.2vw, 2rem); letter-spacing: -.03em; line-height: 1; }
-.lead { font-size: clamp(1.1rem, 1.6vw, 1.5rem); line-height: 1.35; letter-spacing: -.015em; font-weight: 400; max-width: 32ch; }
+/* Escala de títulos com proporção fixa (nada no olho):
+   computador: proporção áurea 1,618 a partir de 16 px → 25,9 · 41,9 · 67,8 · 109,7 · 177,5
+   celular:    1,333 a partir de 16 px → 21,3 · 28,4 · 37,9 · 50,5 · 67,3 (os mínimos do clamp) */
+.display-xl { font-size: clamp(3.16rem, 10.5vw, 11.09rem); }
+.display-l  { font-size: clamp(2.37rem, 6.6vw, 6.85rem); }
+.display-m  { font-size: clamp(1.78rem, 4.2vw, 4.24rem); }
+.display-s  { font-size: clamp(1.33rem, 2.6vw, 2.62rem); letter-spacing: -.03em; line-height: 1; }
+.lead { font-size: clamp(1.1rem, 1.7vw, 1.62rem); line-height: 1.35; letter-spacing: -.015em; font-weight: 400; max-width: 32ch; }
 .body-l { font-size: clamp(1rem, 1.25vw, 1.2rem); line-height: 1.5; max-width: 60ch; }
 .muted { color: var(--mute); }
 .num { font-variant-numeric: tabular-nums; }
@@ -848,3 +851,5 @@ html.from-transition .transition::after { transform: scale(1); }
 
 @media (prefers-reduced-motion: reduce) { .orn, .orn .star { animation: none; } }
 
+/* em colunas estreitas (coleções, sobre), o título desce um nível da escala */
+.col-text .display-l, .splitsec .display-l { font-size: clamp(1.78rem, 4.2vw, 4.24rem); }

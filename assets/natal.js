@@ -118,6 +118,98 @@
     return `<svg class="k-hat-svg" viewBox="0 0 130 112" aria-hidden="true" focusable="false"><defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e2384d"/><stop offset=".55" stop-color="#C51D32"/><stop offset="1" stop-color="#7a0f1c"/></linearGradient><linearGradient id="${f}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#d9d6cf"/></linearGradient></defs><path d="M16 80C18 46 44 14 82 12C104 11 118 26 114 48C112 58 108 64 102 66L96 56C100 44 94 34 84 36C66 40 62 60 66 82Z" fill="url(#${g})"/><path d="M30 70C36 46 54 26 76 20" stroke="#fff" stroke-opacity=".18" stroke-width="5" fill="none" stroke-linecap="round"/><rect x="6" y="72" width="78" height="24" rx="12" fill="url(#${f})"/><circle cx="102" cy="68" r="13" fill="url(#${f})"/></svg>`;
   }
 
+  /* ---------- Vitrine com cúpula (HolidayWatchDisplay = ChristmasPedestal + relógio + GlassDome) ----------
+     Um SVG por relógio, com as camadas na ordem certa:
+     sombra de contato → plataforma → parede de trás do vidro → relógio → sombra dele na base → vidro da frente → reflexos. */
+  function watchDisplay(src, alt) {
+    const k = id('d'), sh = `${k}s`, bf = `${k}bf`, bt = `${k}bt`, bl = `${k}bl`, ws = `${k}ws`, gl = `${k}gl`, hl = `${k}hl`;
+    const DOME = 'M46 360 V152 A104 104 0 0 1 254 152 V360';
+    // camada 1: brilho, sombra, plataforma, parede de trás e o relógio
+    const back = `<svg class="hd-svg hd-back-svg" viewBox="0 0 300 470" role="img" aria-label="${alt}"><defs>
+      <filter id="${bl}" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur stdDeviation="7"/></filter>
+      <filter id="${ws}" x="-30%" y="-200%" width="160%" height="500%"><feGaussianBlur stdDeviation="4"/></filter>
+      <radialGradient id="${gl}" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe6c2" stop-opacity=".62"/><stop offset=".3" stop-color="#ffb57f" stop-opacity=".32"/><stop offset=".62" stop-color="#ff6450" stop-opacity=".1"/><stop offset="1" stop-color="#ff6450" stop-opacity="0"/></radialGradient>
+      <radialGradient id="${sh}" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#1a0205" stop-opacity=".75"/><stop offset="1" stop-color="#1a0205" stop-opacity="0"/></radialGradient>
+      <linearGradient id="${bf}" x1="0" x2="1"><stop offset="0" stop-color="#3d0710"/><stop offset=".16" stop-color="#7d0f1c"/><stop offset=".4" stop-color="#ad192d"/><stop offset=".52" stop-color="#bb2034"/><stop offset=".74" stop-color="#860f1e"/><stop offset="1" stop-color="#34060d"/></linearGradient>
+      <radialGradient id="${bt}" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#d02c42"/><stop offset=".7" stop-color="#9c1527"/><stop offset="1" stop-color="#7a0f1d"/></radialGradient>
+    </defs>
+    <ellipse class="hd-glow" cx="150" cy="232" rx="235" ry="250" fill="url(#${gl})"/>
+    <g class="hd-bokeh">${[[40, 150, 9, .5], [258, 196, 12, .45], [52, 262, 6, .6], [250, 300, 8, .5], [236, 120, 5, .7], [62, 330, 10, .35], [150, 70, 7, .35]].map(([cx, cy, r, o]) => `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#ffd9a3" opacity="${o}"/>`).join('')}</g>
+    <ellipse class="hd-contact" cx="150" cy="446" rx="132" ry="16" fill="url(#${sh})" filter="url(#${bl})"/>
+    <g class="hd-base">
+      <path d="M28 360 V430 A122 20 0 0 0 272 430 V360 Z" fill="url(#${bf})"/>
+      <path d="M28 404 V430 A122 20 0 0 0 272 430 V404 A122 20 0 0 1 28 404Z" fill="#000" opacity=".16"/>
+      <ellipse cx="150" cy="360" rx="122" ry="20" fill="url(#${bt})"/>
+      <ellipse cx="150" cy="360" rx="122" ry="20" fill="none" stroke="#fff" stroke-opacity=".24"/>
+      <ellipse cx="150" cy="361" rx="106" ry="17" fill="#4a0711" opacity=".35"/>
+    </g>
+    <path d="M46 360 A104 17 0 0 1 254 360" fill="none" stroke="#fff" stroke-opacity=".3"/>
+    <ellipse class="hd-wshadow" cx="150" cy="354" rx="52" ry="7" fill="#1a0205" opacity=".55" filter="url(#${ws})"/>
+    <image class="hd-watch" href="${src}" x="68" y="124" width="164" height="232" preserveAspectRatio="xMidYMax meet"/></svg>`;
+    // camada 2: o vidro (HTML, para o filtro de vidro líquido agir sobre o que está atrás)
+    const glass = `<span class="hd-glass" aria-hidden="true"></span>`;
+    // camada 3: luz de borda, reflexos e o aro encaixado na base
+    const front = `<svg class="hd-svg hd-front-svg" viewBox="0 0 300 470" aria-hidden="true" focusable="false"><defs>
+      <linearGradient id="${hl}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".55" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      <clipPath id="${k}cl"><path d="${DOME} Z"/></clipPath></defs>
+      <path d="${DOME}" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+      <path d="M62 330 V158 A88 88 0 0 1 114 78" fill="none" stroke="url(#${hl})" stroke-width="6" stroke-linecap="round" opacity=".55"/>
+      <path d="M241 318 V166 A90 90 0 0 0 226 112" fill="none" stroke="#fff" stroke-opacity=".32" stroke-width="2.5" stroke-linecap="round"/>
+      <ellipse cx="120" cy="80" rx="15" ry="5" transform="rotate(-36 120 80)" fill="#fff" opacity=".8"/>
+      <g clip-path="url(#${k}cl)"><rect class="hd-glint" x="-120" y="20" width="44" height="380" fill="#fff" opacity=".16" transform="skewX(-18)"/></g>
+      <path d="M46 360 A104 17 0 0 0 254 360" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="1.6"/>
+      <path d="M70 372 A104 17 0 0 0 150 377" fill="none" stroke="#fff" stroke-opacity=".95" stroke-width="2" stroke-linecap="round"/></svg>`;
+    return back + glass + front;
+  }
+
+  /* ---------- Vidro líquido (técnica do iOS 26 na web) ----------
+     Um mapa de deslocamento com a forma da cúpula: neutro no centro (o relógio fica nítido) e forte só nas
+     bordas, onde o vidro curva e dobra o que está atrás, como uma lente. Cada cor desloca um pouco diferente
+     (aberração cromática leve). Funciona nos navegadores Chromium; nos outros, o vidro fica translúcido sem dobra. */
+  let lgSize = '';
+  function liquidGlass() {
+    const g = document.querySelector('.hd-glass'); if (!g) return;
+    const chromium = !!(navigator.userAgentData && navigator.userAgentData.brands && navigator.userAgentData.brands.some(b => /Chromium/.test(b.brand)));
+    document.documentElement.classList.toggle('lg-ok', chromium);
+    if (!chromium) return;
+    const W = Math.round(g.offsetWidth), H = Math.round(g.offsetHeight); if (!W || !H || lgSize === `${W}x${H}`) return; lgSize = `${W}x${H}`;
+    const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d'); const img = x.createImageData(W, H);
+    const r = W / 2, band = W * .17;
+    for (let py = 0; py < H; py++) for (let px = 0; px < W; px++) {
+      let d, nx, ny;
+      if (py < r) { const dx = px - r, dy = py - r, l = Math.hypot(dx, dy) || 1; d = r - l; nx = dx / l; ny = dy / l; }
+      else { d = Math.min(px, W - px); nx = px < r ? -1 : 1; ny = 0; }
+      let t = d < 0 ? 0 : Math.max(0, 1 - d / band); t = t * t * (3 - 2 * t);
+      const o = (py * W + px) * 4;
+      img.data[o] = 128 - nx * t * 127; img.data[o + 1] = 128 - ny * t * 127; img.data[o + 2] = 128; img.data[o + 3] = 255;
+    }
+    x.putImageData(img, 0, 0);
+    const map = c.toDataURL(), S = Math.round(W * .11);
+    let svg = document.getElementById('lg-defs');
+    if (!svg) { svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); svg.id = 'lg-defs'; svg.setAttribute('aria-hidden', 'true'); svg.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden'; document.body.appendChild(svg); }
+    const ch = (n, sc, m) => `<feDisplacementMap in="SourceGraphic" in2="map" scale="${sc}" xChannelSelector="R" yChannelSelector="G" result="d${n}"/><feColorMatrix in="d${n}" type="matrix" values="${m}" result="c${n}"/>`;
+    svg.innerHTML = `<filter id="lg-dome" x="0" y="0" width="${W}" height="${H}" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feImage href="${map}" x="0" y="0" width="${W}" height="${H}" preserveAspectRatio="none" result="map"/>
+      ${ch('r', S, '1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0')}${ch('g', Math.round(S * 1.06), '0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0')}${ch('b', Math.round(S * 1.12), '0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0')}
+      <feBlend in="cr" in2="cg" mode="screen" result="rg"/><feBlend in="rg" in2="cb" mode="screen"/></filter>`;
+  }
+
+  // floco de neve de 6 pontas
+  const flake = () => '<svg viewBox="-12 -12 24 24" aria-hidden="true" focusable="false"><g stroke="#fff" stroke-width="1.3" stroke-linecap="round" fill="none">' +
+    [0, 60, 120].map(r => `<g transform="rotate(${r})"><path d="M0 -10V10"/><path d="M-3 -7L0 -4.5L3 -7M-3 7L0 4.5L3 7"/></g>`).join('') + '</g></svg>';
+  // camada de neve: flocos atrás das vitrines; na frente, só poucos e nas laterais
+  function snowLayer(front) {
+    const r = rand(front ? 91 : 37), n = front ? 6 : 26, out = [];
+    for (let i = 0; i < n; i++) {
+      const x = front ? (r() < .5 ? 1 + r() * 9 : 90 + r() * 9) : r() * 100;
+      const size = front ? 6 + r() * 6 : 8 + r() * 18, dur = 16 + r() * 18;
+      out.push(`<i style="left:${x.toFixed(1)}%;--s:${size.toFixed(1)}px;--d:${dur.toFixed(1)}s;--o:${(-r() * dur).toFixed(1)}s;--a:${(front ? .5 : .25 + r() * .5).toFixed(2)};--b:${front ? 0 : (r() * 1.6).toFixed(1)}px">${front ? '' : flake()}</i>`);
+    }
+    return `<div class="hd-snow ${front ? 'is-front' : 'is-back'}" aria-hidden="true">${out.join('')}</div>`;
+  }
+  // pinheiros desfocados no fundo
+  const blurTree = (cls) => `<svg class="hd-tree ${cls}" viewBox="0 0 100 160" aria-hidden="true" focusable="false"><path d="M50 4 L80 60 H66 L90 104 H72 L98 150 H2 L28 104 H10 L34 60 H20Z" fill="#c22a40"/><rect x="45" y="148" width="10" height="12" fill="#5a0c16"/></svg>`;
+
   // enfeite pendurado: fio + bola ou estrela, balançando
   const hang = (thing, cls, len) => `<span class="k-hang ${cls}" style="--len:${len}" aria-hidden="true"><i class="k-string"></i>${thing}</span>`;
 
@@ -206,7 +298,7 @@
       h.insertAdjacentHTML(big ? 'beforeend' : 'afterbegin', `<span class="k-hat" aria-hidden="true">${hat()}</span>`); });
     // sobre as áreas vermelhas, o menu deixa de inverter as cores (natal.css: .k-dark-top)
     const darkTop = () => {
-      const els = $$('.xh, .xb, .natal-foot, .natal-cols, .natal-thanks'); if (!els.length || !('IntersectionObserver' in window)) return;
+      const els = $$('.xh, .xb, .xs, .natal-foot, .natal-cols, .natal-thanks'); if (!els.length || !('IntersectionObserver' in window)) return;
       const on = new Set();
       const io = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? on.add(e.target) : on.delete(e.target)); document.documentElement.classList.toggle('k-dark-top', on.size > 0); },
         { rootMargin: `0px 0px -${Math.max(0, innerHeight - 70)}px 0px` });
@@ -272,22 +364,19 @@
           <span class="xg-foot"><span class="num">${esc(price(g.p))}</span><span class="xg-go">Ver <span class="arrow">→</span></span></span></span></a>`).join('')}</div>
       </section>` : '';
 
-      // Seleção de Natal: relógios recortados sobre pedestais vermelhos, como numa vitrine de loja
+      // Seleção de Natal: cada relógio numa mini vitrine (plataforma vermelha + cúpula de vidro)
       const S = (N.selecao || []).map(s => ({ ...s, p: LR.byId(s.id) })).filter(s => s.p && s.p.status !== 'esgotado');
-      const selecao = S.length ? `<section class="section xs" aria-labelledby="xs-title"><div class="wrap">
+      const selecao = S.length ? `<section class="section xs" aria-labelledby="xs-title">
+        ${snowLayer(false)}${blurTree('t1')}${blurTree('t2')}${blurTree('t3')}${blurTree('t4')}
+        <div class="wrap xs-in">
         <header class="sec-head"><span class="label" data-reveal><span class="xs-tag"><i class="k-mini-star"></i> Seleção de Natal</span></span>
           <h2 class="display display-m" id="xs-title">Escolhidos para<br>presentear.</h2>
           <a class="link sec-link" href="loja.html" data-reveal>Toda a vitrine <span class="arrow">→</span></a></header>
-        <div class="xs-stage">
-          <span class="xs-rib" aria-hidden="true">${ribbon(2)}</span>
-          <span class="k-float xs-s1" aria-hidden="true">${star()}</span><span class="k-float xs-s2" aria-hidden="true">${star('silver')}</span><span class="k-float xs-s3" aria-hidden="true">${star()}</span>
-          <span class="xs-gift xs-g1" aria-hidden="true">${gift({ body: '#E9E7E2', dark: '#bdb9b0', band: '#C51D32', w: 150, h: 120 })}</span>
-          <span class="xs-gift xs-g2" aria-hidden="true">${gift({ w: 120, h: 100 })}</span>
-          ${S.map((s, i) => `<a class="xs-item" href="${LR.url.product(s.p)}" style="--h:${[.62, .82, .52, .72][i % 4]}" data-reveal>
-            <span class="xs-watch"><img src="${s.recorte}" alt="${esc(s.p.name)}" loading="lazy"></span>
-            <span class="xs-ped" aria-hidden="true"><i></i></span>
+        <div class="xs-row">
+          ${S.map((s, i) => `<a class="hd-item" href="${LR.url.product(s.p)}" style="--i:${i}">
+            <span class="hd-scene">${watchDisplay(s.recorte, esc(s.p.name))}</span>
             <span class="xs-info"><b>${esc(s.p.name)}</b><span class="num">${esc(price(s.p))}</span>${LR.stockLabel(s.p) ? `<span class="xs-stock">${esc(LR.stockLabel(s.p))}</span>` : ''}</span></a>`).join('')}
-        </div></div></section>` : '';
+        </div></div>${snowLayer(true)}</section>` : '';
 
       // Banner: "Não deixe para a última hora", com o prazo real
       // a arte só aparece se o relógio dela estiver à venda; senão, ficam as caixas de presente desenhadas
@@ -311,6 +400,7 @@
 
       after.insertAdjacentHTML('afterend', guia + selecao + banner);
       particles($('.xb'), { luzes: 8, neve: 40 }, reduced);
+      liquidGlass(); addEventListener('resize', () => { clearTimeout(liquidGlass.t); liquidGlass.t = setTimeout(liquidGlass, 200); });
       chegando();
     }
 
