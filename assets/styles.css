@@ -904,3 +904,21 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
 .natal-orn.is-page .orn.o4 { height: clamp(36px, 4.4vw, 62px); }
 @media (max-width: 860px) { .natal-orn.is-page { display: none; } }
 @media (prefers-reduced-motion: reduce) { .orn, .orn .star { animation: none; } }
+
+/* ---------- Natal: faixa de foto (referência: relógio na caixa vermelha, luzes e neve) ---------- */
+.natal-banner { position: relative; display: block; overflow: hidden; margin: 0 0 1.6rem; aspect-ratio: 21 / 8; background: var(--ink); color: var(--paper); isolation: isolate; }
+.natal-banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; filter: brightness(.72) saturate(1.05); transition: transform 1.2s var(--ease-out); z-index: -1; }
+.natal-banner:hover img { transform: scale(1.03); }
+.natal-banner::after { content: ""; position: absolute; inset: 0; z-index: 0; background: linear-gradient(90deg, rgba(17,18,20,.88) 0%, rgba(17,18,20,.45) 42%, rgba(17,18,20,0) 70%); pointer-events: none; }
+.natal-banner .natal-snow { z-index: 1; }
+.natal-banner-txt { position: absolute; left: clamp(1.2rem, 3.4vw, 3rem); bottom: clamp(1.2rem, 3.4vw, 3rem); z-index: 2; display: grid; gap: .7rem; max-width: 30rem; }
+.natal-banner-txt .label { color: var(--paper); display: inline-flex; align-items: center; gap: .5rem; }
+.natal-banner-txt .label i.star { display: inline-block; width: 9px; height: 9px; background: var(--signal); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
+.natal-banner-txt b { font-family: var(--font-display); font-stretch: var(--display-stretch); font-weight: 700; text-transform: uppercase; letter-spacing: -.02em; line-height: .92; font-size: clamp(2.2rem, 5.4vw, 5rem); }
+.natal-banner-txt > span:not(.label):not(.link) { color: var(--grey); max-width: 30ch; }
+.natal-banner-txt .link { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+@media (max-width: 700px) {
+  .natal-banner { aspect-ratio: 4 / 5; }
+  .natal-banner img { object-position: 50% 45%; }
+  .natal-banner::after { background: linear-gradient(0deg, rgba(17,18,20,.92) 0%, rgba(17,18,20,.35) 50%, rgba(17,18,20,0) 75%); }
+}

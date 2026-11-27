@@ -142,6 +142,11 @@ LR.natal = {
   // último dia para pedir e receber em Marabá antes do Natal (2 dias úteis antes do dia 24).
   // A frase "Pedindo até …" some sozinha depois dessa data.
   ultimoDia: '2026-12-22',
+  // relógio que abre o topo da home no Natal (a foto dele na caixa de forro vermelho)
+  topo: 'technos-riviera',
+  // faixa de foto na seção de Natal
+  banner: { foto: IMG + 'hero-riviera.jpg', fotoCelular: IMG + 'riviera-01.jpg', id: 'technos-riviera',
+            titulo: 'Abra no dia 25.', texto: 'Technos Riviera na caixa de forro vermelho. Peça única.' },
   chegando: [
     { id: 'pablo-raez-retangular', name: 'Pablo Raez Retangular', subtitle: 'Branco · couro preto · algarismos romanos', para: 'ele', img: IMG + 'natal/retangular.jpg' },
     { id: 'pablo-raez-integrado', name: 'Pablo Raez Integrado', subtitle: 'Branco · pulseira integrada · dia e data', para: 'ele', img: IMG + 'natal/integrado-branco.jpg' },

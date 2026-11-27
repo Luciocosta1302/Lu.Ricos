@@ -540,6 +540,11 @@
     sec.hidden = false;
     const ano = $('[data-natal-ano]', sec); if (ano) ano.textContent = N.ano || '';
     const cnt = $('[data-natal-count]', sec); if (cnt) cnt.textContent = pad(N.chegando.length);
+    // faixa de foto: o relógio na caixa, com neve e luzes (natalCeu)
+    const BN = N.banner, bp = BN && LR.byId(BN.id);
+    if (BN && !$('.natal-banner', sec)) $('.sec-head', sec).insertAdjacentHTML('afterend', `<a class="natal-banner" href="${bp ? LR.url.product(bp) : '#vitrine'}">
+      <picture><source media="(max-width: 700px)" srcset="${BN.fotoCelular.replace(/\.jpg$/, '-600.jpg')} 600w, ${BN.fotoCelular} 1200w" sizes="100vw"><img src="${BN.foto}" srcset="${BN.foto.replace(/\.jpg$/, '-1200.jpg')} 1200w, ${BN.foto} 2400w" sizes="100vw" alt="${esc(bp ? bp.name : '')} na caixa" loading="lazy"></picture>
+      <span class="natal-banner-txt"><span class="label"><i class="star"></i> Natal ${N.ano}</span><b>${esc(BN.titulo)}</b><span>${esc(BN.texto)}</span><span class="link">Ver o relógio <span class="arrow">→</span></span></span></a>`);
     const pz = $('[data-natal-prazo]', sec); if (pz && LR.natalPrazo()) pz.innerHTML = `<b>Em Marabá, peça até ${LR.natalPrazo()} para receber antes do Natal</b> · `;
     // relógio que ainda está chegando: sem preço, sem página própria, com botão para reservar
     const chegando = (c, i) => `
@@ -609,24 +614,41 @@
     if (!LR.natal || !LR.natal.ativo) return;
     const sec = $('[data-natal]');
     if (sec && !$('.natal-orn', sec)) sec.insertAdjacentHTML('afterbegin', natalOrn());
-    const hero = $('.hero'); if (!hero || reduced || $('.natal-snow', hero)) return;
-    const cv = document.createElement('canvas'); cv.className = 'natal-snow'; cv.setAttribute('aria-hidden', 'true'); hero.appendChild(cv);
-    const ctx = cv.getContext('2d'); let W = 0, H = 0, flakes = [], on = true, raf;
-    const size = () => { const r = hero.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2); W = r.width; H = r.height; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
-      const n = Math.min(90, Math.round(W / 16)); flakes = Array.from({ length: n }, () => ({ x: Math.random() * W, y: Math.random() * H, r: .8 + Math.random() * 1.8, v: .25 + Math.random() * .7, s: Math.random() * 6.28, a: .35 + Math.random() * .5 })); };
-    const tick = () => { if (!on) return; ctx.clearRect(0, 0, W, H);
-      for (const f of flakes) { f.y += f.v; f.s += .01; f.x += Math.sin(f.s) * .3; if (f.y > H + 4) { f.y = -4; f.x = Math.random() * W; }
-        ctx.globalAlpha = f.a; ctx.fillStyle = '#e9eae6'; ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.283); ctx.fill(); }
-      raf = requestAnimationFrame(tick); };
+    const hero = $('.hero'); if (hero) natalCeu(hero, { luzes: 14 });
+    const ban = $('.natal-banner', sec || document); if (ban) natalCeu(ban, { luzes: 10, neve: 50 });
+  }
+  // neve, luzes desfocadas (como as de árvore de Natal ao fundo) e confete no formato do ponto da marca
+  function natalCeu(el, { luzes = 12, neve = 90 } = {}) {
+    if (reduced || $('.natal-snow', el)) return;
+    const cv = document.createElement('canvas'); cv.className = 'natal-snow'; cv.setAttribute('aria-hidden', 'true'); el.appendChild(cv);
+    const ctx = cv.getContext('2d'); let W = 0, H = 0, flakes = [], lights = [], on = true, raf, t = 0;
+    const size = () => { const r = el.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2); W = r.width; H = r.height; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+      const n = Math.min(neve, Math.round(W / 16));
+      flakes = Array.from({ length: n }, (_, i) => ({ x: Math.random() * W, y: Math.random() * H, r: .8 + Math.random() * 1.8, v: .25 + Math.random() * .7, s: Math.random() * 6.28, a: .35 + Math.random() * .5,
+        conf: i % 9 === 0, rot: Math.random() * 6.28, vr: (Math.random() - .5) * .06 }));
+      lights = Array.from({ length: luzes }, () => ({ x: Math.random() * W, y: Math.random() * H * .75, r: 14 + Math.random() * 46, warm: Math.random() > .25, ph: Math.random() * 6.28, sp: .006 + Math.random() * .01, dy: (Math.random() - .5) * .08 })); };
+    const tick = () => { if (!on) return; t++; ctx.clearRect(0, 0, W, H);
+      ctx.globalCompositeOperation = 'lighter';
+      for (const l of lights) { l.y += l.dy; if (l.y < -l.r || l.y > H * .8) l.dy *= -1; const a = .1 + .1 * Math.sin(l.ph + t * l.sp);
+        const g = ctx.createRadialGradient(l.x, l.y, 0, l.x, l.y, l.r); const c = l.warm ? '255,206,150' : '204,39,68';
+        g.addColorStop(0, `rgba(${c},${a + .08})`); g.addColorStop(.55, `rgba(${c},${a})`); g.addColorStop(1, `rgba(${c},0)`);
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(l.x, l.y, l.r, 0, 6.283); ctx.fill(); }
+      ctx.globalCompositeOperation = 'source-over';
+      for (const f of flakes) { f.y += f.v; f.s += .01; f.x += Math.sin(f.s) * .3; if (f.y > H + 6) { f.y = -6; f.x = Math.random() * W; }
+        if (f.conf) { f.rot += f.vr; ctx.globalAlpha = .9; ctx.fillStyle = '#cc2744'; ctx.save(); ctx.translate(f.x, f.y); ctx.rotate(f.rot); ctx.fillRect(-2.5, -2.5, 5, 5); ctx.restore(); }
+        else { ctx.globalAlpha = f.a; ctx.fillStyle = '#e9eae6'; ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.283); ctx.fill(); } }
+      ctx.globalAlpha = 1; raf = requestAnimationFrame(tick); };
     size(); addEventListener('resize', size);
     const io = new IntersectionObserver(([e]) => { const vis = e.isIntersecting && !document.hidden; if (vis && !on) { on = true; tick(); } else if (!vis) { on = false; cancelAnimationFrame(raf); } });
-    io.observe(hero); document.addEventListener('visibilitychange', () => { if (document.hidden) { on = false; cancelAnimationFrame(raf); } else if (hero.getBoundingClientRect().bottom > 0) { on = true; tick(); } });
+    io.observe(el); document.addEventListener('visibilitychange', () => { if (document.hidden) { on = false; cancelAnimationFrame(raf); } else if (el.getBoundingClientRect().bottom > 0 && el.getBoundingClientRect().top < innerHeight) { on = true; tick(); } });
     tick();
   }
 
   /* ---------- Páginas ---------- */
   const pages = {
     home() {
+      // no Natal, o topo abre com o relógio na caixa
+      if (LR.natal && LR.natal.ativo && LR.natal.topo) { const i = LR.hero.findIndex(h => h.id === LR.natal.topo); if (i > 0) LR.hero.unshift(...LR.hero.splice(i, 1)); }
       natal(); natalEnfeites();
       const novidades = LR.products.filter(p => p.status !== 'esgotado');
       ui.grid(novidades, $('[data-grid="novidades"]'), { eager: true });
