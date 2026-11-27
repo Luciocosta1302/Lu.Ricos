@@ -373,12 +373,12 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
    (aro e reflexos). O vidro é uma cápsula mais alta que a cúpula; o recorte corta a ponta de baixo, que cairia na base.
    A posição segue a cúpula do SVG (viewBox 300 × 470): x 46–254, topo em y 48, base em y 360. */
 .hd-scene { position: relative; }
-.hd-front-svg { position: absolute; inset: 0; pointer-events: none; }
+.hd-front-svg, .hd-mid-svg { position: absolute; inset: 0; pointer-events: none; }
 .hd-glass { position: absolute; left: 15.333%; width: 69.333%; top: 10.213%; height: 66.383%; overflow: hidden; pointer-events: none;
   border-radius: 50% 50% 0 0 / 33.33% 33.33% 0 0; }
 .hd-lg { position: absolute; left: 0; top: 0; width: 100%; height: 150%; border-radius: 999px; }
 /* fundo da cena: é ele que o vidro refrata no Safari e no Firefox (no Chrome o vidro refrata tudo o que está atrás) */
-.xs-bd { position: absolute; inset: -40px; z-index: 0; background: inherit; }
+.xs-bd { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
 /* o brilho atrás de cada vitrine pulsa devagar */
 .hd-glow { transform-box: fill-box; transform-origin: center; animation: hd-glow 5.5s ease-in-out infinite alternate; animation-delay: calc(var(--i, 0) * -1.3s); }
 @keyframes hd-glow { from { opacity: .85; transform: scale(.97); } to { opacity: 1; transform: scale(1.03); } }
@@ -389,3 +389,13 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
 @keyframes hd-bokeh { from { opacity: .25; } to { opacity: .75; } }
 @media (prefers-reduced-motion: reduce) { .hd-bokeh circle { animation: none; } }
 .xs-row { overflow: visible; }
+
+/* ---------- Redoma: brilho, faíscas e a luz que atravessa o vidro ----------
+   Uma direção de luz só, do alto à esquerda: borda clara desse lado e apagada do outro, brilho estreito, ponto de luz,
+   cáustica na base à esquerda e sombra do relógio puxada para a direita. */
+.hd-spark { transform-box: fill-box; transform-origin: center; animation: hd-spark 3.6s ease-in-out infinite; animation-delay: calc(var(--d) * 1s + var(--i, 0) * .7s); }
+@keyframes hd-spark { 0%, 100% { opacity: 0; scale: .4; } 40%, 60% { opacity: 1; scale: 1; } }
+.hd-caustic { animation: hd-caustic 5.5s ease-in-out infinite alternate; animation-delay: calc(var(--i, 0) * -1.3s); }
+@keyframes hd-caustic { from { opacity: .7; } to { opacity: 1; } }
+.hd-item:hover .hd-spark { animation-duration: 1.6s; }
+@media (prefers-reduced-motion: reduce) { .hd-spark { animation: none; opacity: .8; } .hd-caustic { animation: none; } }
