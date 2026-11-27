@@ -162,8 +162,12 @@
       <linearGradient id="${rim}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".45" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity=".18"/></linearGradient>
       <linearGradient id="${sheen}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".5" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
       <linearGradient id="${fr}" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".55" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity=".2"/></linearGradient>
-      <clipPath id="${k}cl"><path d="${DOME} Z"/></clipPath></defs>
-      <path d="${DOME} Z" fill="#fff" fill-opacity=".03"/>
+      <clipPath id="${k}cl"><path d="${DOME} Z"/></clipPath>
+      <linearGradient id="${k}vx" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".26"/><stop offset=".18" stop-color="#fff" stop-opacity=".09"/><stop offset=".5" stop-color="#fff" stop-opacity=".05"/><stop offset=".82" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity=".2"/></linearGradient>
+      <linearGradient id="${k}vy" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".14"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/><stop offset=".85" stop-color="#fff" stop-opacity=".03"/><stop offset="1" stop-color="#fff" stop-opacity=".12"/></linearGradient>
+      <filter id="${k}rb" x="-50%" y="-20%" width="200%" height="140%"><feGaussianBlur stdDeviation="6"/></filter></defs>
+      <path class="hd-film" d="${DOME} Z" fill="url(#${k}vx)"/><path class="hd-film" d="${DOME} Z" fill="url(#${k}vy)"/>
+      <g clip-path="url(#${k}cl)"><path class="hd-reflex" d="M86 100 L132 86 L176 360 L128 360Z" fill="#fff" opacity=".1" filter="url(#${k}rb)"/></g>
       <path d="${DOME}" fill="none" stroke="url(#${rim})" stroke-width="1.6"/>
       <path d="M50 360 V152 A100 100 0 0 1 250 152 V360" fill="none" stroke="#fff" stroke-opacity=".12"/>
       <path d="M60 332 V158 A90 90 0 0 1 112 76" fill="none" stroke="url(#${sheen})" stroke-width="5" stroke-linecap="round" opacity=".7"/>
@@ -174,7 +178,10 @@
       <g clip-path="url(#${k}cl)"><rect class="hd-glint" x="-120" y="20" width="44" height="380" fill="#fff" opacity=".18" transform="skewX(-18)"/></g>
       <path d="M46 360 A104 17 0 0 0 254 360" fill="none" stroke="url(#${fr})" stroke-width="1.8"/>
       <path d="M68 371 A104 17 0 0 0 148 377" fill="none" stroke="#fff" stroke-opacity=".95" stroke-width="2.2" stroke-linecap="round"/></svg>`;
-    return back + glass + mid + front;
+    // 5) véu da parede da frente, sobre o relógio: um pouco de branco (mais nas bordas) e menos contraste,
+    //    para o relógio parecer dentro do vidro sem perder a nitidez
+    const veil = `<span class="hd-veil" aria-hidden="true"></span>`;
+    return back + glass + mid + veil + front;
   }
 
   // floco de neve de 6 pontas

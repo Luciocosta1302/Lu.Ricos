@@ -399,3 +399,7 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
 @keyframes hd-caustic { from { opacity: .7; } to { opacity: 1; } }
 .hd-item:hover .hd-spark { animation-duration: 1.6s; }
 @media (prefers-reduced-motion: reduce) { .hd-spark { animation: none; opacity: .8; } .hd-caustic { animation: none; } }
+
+/* véu da parede da frente (sobre o relógio): mesmo formato da cúpula, sem desfoque forte */
+.hd-veil { position: absolute; left: 15.333%; width: 69.333%; top: 10.213%; height: 66.383%; pointer-events: none;
+  border-radius: 50% 50% 0 0 / 33.33% 33.33% 0 0; backdrop-filter: contrast(.93) brightness(1.04) saturate(.96); -webkit-backdrop-filter: contrast(.93) brightness(1.04) saturate(.96); }
