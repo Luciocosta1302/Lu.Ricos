@@ -75,9 +75,9 @@ LR.products = [
     specs: { 'Marca': 'Pablo Raez', 'Mostrador': 'Azul gelo, relevo em colmeia', 'Luneta': 'Prateada, trabalhada em relevo', 'Funções': 'Horas, minutos, segundos e data', 'Movimento': 'Quartzo', 'Resistência à água': 'Water resistant (respingos)', 'Pulseira': 'Aço prateado' },
   },
   {
-    id: 'pablo-raez-colmeia-branco', stock: 2, escolha: 'o branco com relevo em colmeia combina com qualquer roupa.', code: 'LR-08', brand: 'Pablo Raez',
+    id: 'pablo-raez-colmeia-branco', stock: 0, escolha: 'o branco com relevo em colmeia combina com qualquer roupa.', code: 'LR-08', brand: 'Pablo Raez',
     name: 'Pablo Raez Colmeia', subtitle: 'Branco · pulseira de aço',
-    collection: 'aco', category: 'Aço', price: 159.99, status: 'disponivel', badge: 'Novidade',
+    collection: 'aco', category: 'Aço', price: 159.99, status: 'esgotado', badge: '',
     images: [IMG + 'colmeia-branco-01.jpg', IMG + 'colmeia-branco-02.jpg', IMG + 'colmeia-branco-03.jpg', IMG + 'colmeia-branco-04.jpg'],
     colors: ['Branco'], sizes: ['Único'],
     desc: 'Mesmo relevo em colmeia, agora em branco. Algarismos aplicados no 12, 6 e 9, luneta trabalhada em relevo e pulseira de aço prateada. Tem data às 3 horas.',
@@ -158,7 +158,7 @@ LR.natal = {
   bannerArte: { id: 'pablo-raez-colmeia-branco', imagem: 'assets/img/natal/campanha/colmeia-branco.jpg' },
   // seleção de Natal: relógios recortados sobre pedestais
   selecao: [
-    { id: 'pablo-raez-colmeia-branco', recorte: 'assets/img/natal/recortes/colmeia-branco.webp' },
+    { id: 'technos-riviera', recorte: 'assets/img/natal/recortes/riviera.webp' },
     { id: 'pablo-raez-romano', recorte: 'assets/img/natal/recortes/romano.webp' },
     { id: 'sunlifex-cronografo', recorte: 'assets/img/natal/recortes/sunlifex.webp' },
     { id: 'pablo-raez-esmeralda', recorte: 'assets/img/natal/recortes/esmeralda.webp' },

@@ -290,7 +290,8 @@
         </div></div></section>` : '';
 
       // Banner: "Não deixe para a última hora", com o prazo real
-      const BA = N.bannerArte, bap = BA && LR.byId(BA.id);
+      // a arte só aparece se o relógio dela estiver à venda; senão, ficam as caixas de presente desenhadas
+      const BA = N.bannerArte, bap0 = BA && LR.byId(BA.id), bap = bap0 && bap0.status !== 'esgotado' ? bap0 : null;
       const banner = `<section class="xb" aria-labelledby="xb-title"><div class="wrap xb-in">
         <div class="xb-copy"><span class="label"><i class="k-mini-star"></i> ${esc(N.campanha)}</span>
           <h2 class="xb-title" id="xb-title">Não deixe para<br>a última hora.</h2>
