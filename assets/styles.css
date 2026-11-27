@@ -846,3 +846,39 @@ html.from-transition .transition::after { transform: scale(1); }
 .natal-more .label { color: var(--mute); }
 .natal-more b { font-family: var(--font-display); font-stretch: var(--display-stretch); font-weight: 700; text-transform: uppercase; letter-spacing: -.01em; line-height: 1; font-size: clamp(1.3rem, 2.2vw, 2rem); }
 .natal-more .link { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+
+/* ---------- Estoque, entrega e pagamento ---------- */
+.pcard-stock { position: absolute; left: .9rem; bottom: .9rem; z-index: 2; display: inline-flex; align-items: center; gap: .45rem; font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; padding: .35rem .6rem; background: var(--paper); color: var(--ink); border-radius: 999px; transition: opacity .3s; }
+.pcard-stock i, .stock-tag i { width: 7px; height: 7px; background: var(--signal); display: inline-block; flex: none; }
+@media (hover: hover) { .pcard:hover .pcard-stock { opacity: 0; } }
+.stock-tag { display: inline-flex; align-items: center; gap: .55rem; margin-top: .9rem; font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--signal-ink); }
+.pdp-facts { display: grid; gap: .5rem; padding: 1rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-size: 14px; }
+.pdp-facts li { display: flex; gap: .7rem; }
+.pdp-facts li::before { content: ""; width: 5px; height: 5px; background: var(--ink); margin-top: .55em; flex: none; }
+.pdp-facts .is-natal-line { color: var(--signal-ink); font-weight: 600; }
+.pdp-facts .is-natal-line::before { background: var(--signal); }
+.cart-why { font-size: 12.5px; line-height: 1.4; color: var(--mute); margin: .25rem 0 .2rem; max-width: 30ch; }
+.natal-note b { color: var(--signal-ink); font-weight: 500; }
+
+/* ---------- Natal: enfeites (só com html.is-natal) ----------
+   Nada de ilustração pronta: os enfeites são as formas da própria marca. O ponto vermelho vira
+   bola de Natal pendurada, a estrela tem 4 pontas e a neve é pouca, em cima da foto do topo. */
+.is-natal .ticker:not(.ticker-big) { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.ticker i.star { width: 10px; height: 10px; border-radius: 0; background: var(--signal); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
+.natal-snow { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+.natal { position: relative; }
+.natal-orn { position: absolute; top: 0; right: var(--gutter); display: flex; gap: clamp(.9rem, 2.4vw, 2rem); pointer-events: none; z-index: 1; }
+.orn { position: relative; display: block; width: 1px; background: var(--line-strong); transform-origin: top center; animation: natal-swing 4.6s ease-in-out infinite alternate; }
+.orn.o1 { height: clamp(46px, 5.5vw, 80px); }
+.orn.o2 { height: clamp(64px, 7.5vw, 104px); animation-duration: 5.4s; animation-delay: -1.2s; }
+.orn.o3 { height: clamp(36px, 4.5vw, 60px); animation-duration: 4s; animation-delay: -2.4s; }
+.orn.o4 { height: clamp(56px, 6.5vw, 90px); animation-duration: 5s; animation-delay: -.6s; }
+.orn b { position: absolute; top: 100%; left: 50%; display: block; }
+.orn .diamond { width: clamp(16px, 2vw, 24px); height: clamp(16px, 2vw, 24px); background: var(--signal); transform: translate(-50%, -2px) rotate(45deg); }
+.orn .diamond.ink { background: var(--ink); width: clamp(11px, 1.4vw, 16px); height: clamp(11px, 1.4vw, 16px); }
+.orn .ring { width: clamp(22px, 2.8vw, 34px); height: clamp(22px, 2.8vw, 34px); border: 2px solid var(--ink); border-radius: 50%; transform: translate(-50%, 0); }
+.orn .star { width: clamp(20px, 2.6vw, 30px); height: clamp(20px, 2.6vw, 30px); background: var(--signal); transform: translate(-50%, 0); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); animation: natal-twinkle 2.4s ease-in-out infinite; }
+@keyframes natal-swing { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
+@keyframes natal-twinkle { 0%, 100% { opacity: 1; scale: 1; } 50% { opacity: .55; scale: .82; } }
+@media (max-width: 860px) { .orn.o3, .orn.o4 { display: none; } .natal-orn { gap: 1.2rem; } }
+@media (prefers-reduced-motion: reduce) { .orn, .orn .star { animation: none; } }

@@ -103,7 +103,7 @@
   <div class="cart-body" data-cart-body data-scroll-native></div>
   <div class="cart-foot">
     <div class="cart-total"><span class="label">Subtotal</span><strong class="num" data-cart-total>R$ 0,00</strong></div>
-    <p class="cart-note">Frete, prazo e forma de pagamento são combinados no atendimento pelo WhatsApp.</p>
+    <p class="cart-note">Entrega em Marabá em até 2 dias úteis. Pix ou cartão de crédito, com opção de parcelar. Para outras cidades, frete e prazo pelo WhatsApp.</p>
     <a class="btn btn-block" data-cart-checkout href="#" target="_blank" rel="noopener">Finalizar pelo WhatsApp <span class="arrow">→</span></a>
   </div>
 </aside>
@@ -250,13 +250,18 @@
     key: (id, color, size) => `${id}|${color}|${size}`,
     add(id, color, size, qty = 1) {
       const p = LR.byId(id); if (!p || p.status === 'esgotado') return;
+      const noCarrinho = this.items.filter(i => i.id === id).reduce((a, i) => a + i.qty, 0);
+      if (p.stock && noCarrinho + qty > p.stock) { toast(p.stock === 1 ? `${p.name} é peça única e já está no seu carrinho` : `Temos ${p.stock} unidades do ${p.name}, e todas já estão no carrinho`); openCart(); return; }
       const k = this.key(id, color, size);
       const it = this.items.find(i => i.key === k);
       if (it) it.qty += qty; else this.items.push({ key: k, id, color, size, qty });
       this.save(); toast(`${p.name} adicionado`);
       if (LR.life && LR.life.fly && LR.life.fly()) setTimeout(openCart, 760); else openCart();
     },
-    setQty(k, q) { const it = this.items.find(i => i.key === k); if (!it) return; it.qty = q; if (it.qty <= 0) this.items = this.items.filter(i => i.key !== k); this.save(); },
+    setQty(k, q) { const it = this.items.find(i => i.key === k); if (!it) return;
+      const p = LR.byId(it.id), outros = this.items.filter(i => i.id === it.id && i.key !== k).reduce((a, i) => a + i.qty, 0);
+      if (p && p.stock && q + outros > p.stock) { q = p.stock - outros; toast(p.stock === 1 ? `${p.name} é peça única` : `Temos só ${p.stock} unidades do ${p.name}`); }
+      it.qty = q; if (it.qty <= 0) this.items = this.items.filter(i => i.key !== k); this.save(); },
     count() { return this.items.reduce((a, i) => a + i.qty, 0); },
     total() { return this.items.reduce((a, i) => a + i.qty * (LR.byId(i.id)?.price || 0), 0); },
     render() {
@@ -268,6 +273,7 @@
   <a href="${LR.url.product(p)}"><img ${pic(p.images[0], '88px')} alt="${esc(p.name)}" loading="lazy"></a>
   <div>
     <div class="cart-name">${esc(p.name)}</div>
+    ${p.escolha ? `<p class="cart-why">Boa escolha: ${esc(p.escolha)}</p>` : ''}
     <div class="label">${esc(p.code)} · ${esc(i.color)}${i.size !== 'Único' ? ' · ' + esc(i.size) : ''}</div>
     <div class="qty"><button type="button" data-qty="-1" aria-label="Diminuir">−</button><span class="num">${i.qty}</span><button type="button" data-qty="1" aria-label="Aumentar">+</button></div>
     <button type="button" class="cart-remove" data-remove>Remover</button>
@@ -278,7 +284,7 @@
       const co = $('[data-cart-checkout]');
       if (co) {
         const lines = this.items.map(i => { const p = LR.byId(i.id); return `• ${p.code} ${p.name} — ${i.color}${i.size !== 'Único' ? ' / ' + i.size : ''} × ${i.qty} = ${LR.format.price(p.price * i.qty)}`; });
-        co.href = wa(`Olá! Quero finalizar meu pedido na ${B.name}:\n\n${lines.join('\n')}\n\nSubtotal: ${LR.format.price(this.total())}`);
+        co.href = wa(`Olá! Quero finalizar meu pedido na ${B.name}:\n\n${lines.join('\n')}\n\nSubtotal: ${LR.format.price(this.total())}\n\nMeu CEP: \nÉ para presente? `);
         co.classList.toggle('is-disabled', !this.items.length);
         co.toggleAttribute('disabled', !this.items.length);
       }
@@ -515,6 +521,7 @@
     <img class="main" ${pic(p.images[0], CARD_SIZES)} alt="${esc(p.name)}" loading="${opts.eager && i < 3 ? 'eager' : 'lazy'}">
     ${p.images[1] ? `<img class="alt" ${pic(p.images[1], CARD_SIZES)} alt="" loading="lazy" aria-hidden="true">` : ''}
     ${p.badge ? `<span class="pcard-badge ${this.badgeClass(p)}">${esc(p.badge)}</span>` : ''}
+    ${LR.stockLabel(p) ? `<span class="pcard-stock"><i></i>${esc(LR.stockLabel(p))}</span>` : ''}
     <div class="pcard-quick">${p.status === 'esgotado' ? `<a class="btn btn-ghost" style="width:100%" href="${wa(`Olá! Quero ser avisado quando ${p.code} ${p.name} voltar.`)}" target="_blank" rel="noopener">Avise-me</a>` : `<button class="btn" type="button" data-add="${p.id}">${label} <span class="arrow">+</span></button>`}</div>
   </div>
   <div class="pcard-info">
@@ -533,6 +540,7 @@
     sec.hidden = false;
     const ano = $('[data-natal-ano]', sec); if (ano) ano.textContent = N.ano || '';
     const cnt = $('[data-natal-count]', sec); if (cnt) cnt.textContent = pad(N.chegando.length);
+    const pz = $('[data-natal-prazo]', sec); if (pz && LR.natalPrazo()) pz.innerHTML = `<b>Em Marabá, peça até ${LR.natalPrazo()} para receber antes do Natal</b> · `;
     // relógio que ainda está chegando: sem preço, sem página própria, com botão para reservar
     const chegando = (c, i) => `
 <article class="pcard is-chegando" data-reveal style="--d:${(i % 4) * .08}s">
@@ -573,10 +581,40 @@
     show();
   }
 
+  /* ---------- Natal: enfeites no visual do site ---------- */
+  function natalEnfeites() {
+    if (!LR.natal || !LR.natal.ativo) return;
+    html.classList.add('is-natal');
+    // faixa que corre abaixo do topo
+    const prazo = LR.natalPrazo();
+    const itens = ['Natal LU.RICOS', B.entrega, prazo ? `Peça até ${prazo} para receber antes do Natal` : 'Presentes para ele e para ela', 'Presentes para ele e para ela', B.pagamento];
+    const linha = [...new Set(itens)].map(t => `${esc(t)} <i class="star"></i>`).join(' ');
+    const tk = $('.ticker:not(.ticker-big) .ticker-track'); if (tk) tk.innerHTML = `<span>${linha}</span><span>${linha}</span>`;
+    // enfeites pendurados no título da seção de Natal: o ponto vermelho da marca vira bola de Natal
+    const sec = $('[data-natal]');
+    if (sec && !$('.natal-orn', sec)) sec.insertAdjacentHTML('afterbegin', `<div class="natal-orn" aria-hidden="true">
+      <span class="orn o1"><b class="diamond"></b></span><span class="orn o2"><b class="ring"></b></span>
+      <span class="orn o3"><b class="star"></b></span><span class="orn o4"><b class="diamond ink"></b></span></div>`);
+    // neve leve sobre o topo da home
+    const hero = $('.hero'); if (!hero || reduced || $('.natal-snow', hero)) return;
+    const cv = document.createElement('canvas'); cv.className = 'natal-snow'; cv.setAttribute('aria-hidden', 'true'); hero.appendChild(cv);
+    const ctx = cv.getContext('2d'); let W = 0, H = 0, flakes = [], on = true, raf;
+    const size = () => { const r = hero.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2); W = r.width; H = r.height; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+      const n = Math.min(90, Math.round(W / 16)); flakes = Array.from({ length: n }, () => ({ x: Math.random() * W, y: Math.random() * H, r: .8 + Math.random() * 1.8, v: .25 + Math.random() * .7, s: Math.random() * 6.28, a: .35 + Math.random() * .5 })); };
+    const tick = () => { if (!on) return; ctx.clearRect(0, 0, W, H);
+      for (const f of flakes) { f.y += f.v; f.s += .01; f.x += Math.sin(f.s) * .3; if (f.y > H + 4) { f.y = -4; f.x = Math.random() * W; }
+        ctx.globalAlpha = f.a; ctx.fillStyle = '#e9eae6'; ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.283); ctx.fill(); }
+      raf = requestAnimationFrame(tick); };
+    size(); addEventListener('resize', size);
+    const io = new IntersectionObserver(([e]) => { const vis = e.isIntersecting && !document.hidden; if (vis && !on) { on = true; tick(); } else if (!vis) { on = false; cancelAnimationFrame(raf); } });
+    io.observe(hero); document.addEventListener('visibilitychange', () => { if (document.hidden) { on = false; cancelAnimationFrame(raf); } else if (hero.getBoundingClientRect().bottom > 0) { on = true; tick(); } });
+    tick();
+  }
+
   /* ---------- Páginas ---------- */
   const pages = {
     home() {
-      natal();
+      natal(); natalEnfeites();
       const novidades = LR.products.filter(p => p.status !== 'esgotado');
       ui.grid(novidades, $('[data-grid="novidades"]'), { eager: true });
       const avail = $('[data-avail]');
@@ -646,6 +684,7 @@
     <div class="pdp-top"><span class="label">${esc(p.code)} ${p.badge ? `· <span style="color:${p.status === 'esgotado' ? 'inherit' : 'var(--signal)'}">${esc(p.badge)}</span>` : ''}</span><span class="pdp-price num">${LR.format.price(p.price)}</span></div>
     <h1 class="display pdp-title split" style="margin-top:.6rem">${esc(p.name)}</h1>
     <p class="muted" style="margin-top:.6rem">${esc(p.subtitle)}</p>
+    ${LR.stockLabel(p, true) ? `<p class="stock-tag"><i></i>${esc(LR.stockLabel(p, true))}</p>` : ''}
   </div>
   <p class="pdp-desc" data-reveal>${esc(p.desc)}</p>
   <div class="opt-group" data-reveal>
@@ -656,6 +695,13 @@
     <div class="opt-head"><span class="label">Tamanho</span></div>
     <div class="opts" data-sizes>${p.sizes.map((s, i) => `<button class="opt ${i === 0 ? 'is-active' : ''}" type="button" data-size="${esc(s)}">${esc(s)}</button>`).join('')}</div>
   </div>` : ''}
+  ${p.status === 'esgotado' ? '' : `<ul class="pdp-facts" data-reveal>
+    <li>${esc(B.entrega)}</li>
+    <li>Outras cidades: frete e prazo pelo WhatsApp</li>
+    <li>${esc(B.pagamento)}</li>
+    <li>7 dias para desistir da compra</li>
+    ${LR.natalPrazo() ? `<li class="is-natal-line">Pedindo até ${LR.natalPrazo()}, chega antes do Natal em Marabá</li>` : ''}
+  </ul>`}
   <div class="pdp-actions" data-reveal>
     ${p.status === 'esgotado'
       ? `<button class="btn" type="button" disabled>Esgotado</button><a class="btn btn-ghost" href="${wa(`Olá! Quero ser avisado quando ${p.code} ${p.name} voltar.`)}" target="_blank" rel="noopener">Avise-me quando voltar</a>`
@@ -664,7 +710,7 @@
   </div>
   <div class="acc" data-reveal>
     <div class="acc-item is-open"><button class="acc-btn" type="button" aria-expanded="true">Especificações <i></i></button><div class="acc-panel"><div><div class="inner"><ul class="spec-list">${Object.entries(p.specs).map(([k, v]) => `<li><span>${esc(k)}</span><span>${esc(v)}</span></li>`).join('')}</ul></div></div></div></div>
-    <div class="acc-item"><button class="acc-btn" type="button" aria-expanded="false">Envio e pagamento <i></i></button><div class="acc-panel"><div><div class="inner">Frete, prazo e forma de pagamento são combinados direto com a gente pelo WhatsApp, de acordo com o seu CEP. Adicione o relógio ao carrinho e finalize por lá.</div></div></div></div>
+    <div class="acc-item"><button class="acc-btn" type="button" aria-expanded="false">Envio e pagamento <i></i></button><div class="acc-panel"><div><div class="inner">Em Marabá, entregamos em até 2 dias úteis. Para outras cidades, combinamos frete e prazo pelo WhatsApp, de acordo com o seu CEP. Você paga no Pix ou no cartão de crédito, com opção de parcelar. Compras feitas pela internet ou pelo WhatsApp podem ser canceladas em até 7 dias depois do recebimento, como garante o Código de Defesa do Consumidor.</div></div></div></div>
     <div class="acc-item"><button class="acc-btn" type="button" aria-expanded="false">Cuidados <i></i></button><div class="acc-panel"><div><div class="inner">Limpe com pano macio e seco. Evite piscina e mar, e não acerte a data entre 21h e 3h. <a href="artigo-como-cuidar.html" style="text-decoration:underline">Leia o guia completo</a>.</div></div></div></div>
   </div>
   <div class="pdp-meta"><span class="label">Coleção: ${esc(col.name)}</span><span class="label">Pulseira: ${esc(p.category)}</span><span class="label">Marca: ${esc(p.brand || '')}</span></div>

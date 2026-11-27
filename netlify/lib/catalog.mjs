@@ -68,7 +68,7 @@ export function summary(p) {
     id: p.id, codigo: p.code, nome: p.name, descricao_curta: p.subtitle, marca: p.brand,
     pulseira: p.category, cores: p.colors, preco: p.price, preco_formatado: fmt(p.price),
     status: p.status, disponibilidade: STATUS_TEXT[p.status] || 'Consultar no atendimento.',
-    pode_adicionar_ao_carrinho: p.status !== 'esgotado', url: url(p),
+    pode_adicionar_ao_carrinho: p.status !== 'esgotado', unidades_em_estoque: p.stock ?? null, url: url(p),
   };
 }
 

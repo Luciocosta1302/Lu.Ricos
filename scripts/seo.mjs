@@ -143,7 +143,7 @@ for (const p of LR.products) {
   <h1 class="display pdp-title">${esc(p.name)}</h1><p class="muted">${esc(p.subtitle)}</p></div>
   <p class="pdp-desc">${esc(p.desc)}</p>
   <ul class="spec-list">${Object.entries(p.specs || {}).map(([k, v]) => `<li><span>${esc(k)}</span><span>${esc(v)}</span></li>`).join('')}</ul>
-  <p class="pdp-desc">${STATUS[p.status]}. Compra pelo WhatsApp, com frete e pagamento combinados no atendimento. <a href="${wa(`Olá! Tenho interesse no ${p.code} ${p.name}.`)}">Falar no WhatsApp</a></p>
+  <p class="pdp-desc">${STATUS[p.status]}${LR.stockLabel(p, true) ? ` · ${LR.stockLabel(p, true)}` : ''}. ${B.entrega}. ${B.pagamento}. Compra pelo WhatsApp. <a href="${wa(`Olá! Tenho interesse no ${p.code} ${p.name}.`)}">Falar no WhatsApp</a></p>
 </div>`);
   const related = LR.products.filter(x => x.id !== p.id && (x.collection === p.collection || x.category === p.category)).slice(0, 4);
   html = fill(html, '<div class="products" data-grid="related">', '</div>', (related.length ? related : LR.products.slice(0, 4)).map(card).join(''));
@@ -230,7 +230,7 @@ write('llms.txt', `# ${B.name}
 - Atendimento: ${B.address.toLowerCase()}, ${B.hours.replace(' · ', ', ')}
 - WhatsApp: ${phone} (https://wa.me/${B.whatsapp})
 - Instagram: ${B.instagram}
-- Como comprar: escolha o relógio no site, adicione ao carrinho e finalize pelo WhatsApp; frete, prazo e pagamento são combinados no atendimento.
+- Como comprar: escolha o relógio no site, adicione ao carrinho e finalize pelo WhatsApp. Entrega em Marabá em até 2 dias úteis; para outras cidades, frete e prazo pelo WhatsApp. Pagamento no Pix ou no cartão de crédito, com opção de parcelar. 7 dias para desistir da compra.
 
 ## Relógios
 

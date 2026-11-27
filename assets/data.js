@@ -17,6 +17,8 @@ LR.brand = {
   address: 'Atendimento online',      // ou o endereço da loja física
   hours: 'Seg–Sáb · 10h–19h',
   currency: 'BRL',
+  entrega: 'Entrega em Marabá em até 2 dias úteis',
+  pagamento: 'Pix ou cartão de crédito, com opção de parcelar',
   site: 'https://storeluricos.netlify.app', // endereço oficial (troque se tiver domínio próprio)
 };
 
@@ -50,9 +52,12 @@ LR.collections = [
 ];
 
 // status: 'disponivel' | 'esgotado' | 'encomenda'
+// stock: unidades que você tem. 1 mostra "Peça única", 2 ou 3 mostram "Últimas N unidades".
+//        Quando vender, diminua aqui; em 0, troque o status para 'esgotado'.
+// escolha: frase que aparece no carrinho ("Boa escolha: …") para confirmar a decisão.
 LR.products = [
   {
-    id: 'technos-riviera', code: 'LR-01', brand: 'Technos',
+    id: 'technos-riviera', stock: 1, escolha: 'o mostrador azul muda de tom com a luz, e ele ainda mostra dia e data.', code: 'LR-01', brand: 'Technos',
     name: 'Technos Riviera', subtitle: 'Azul e dourado · pulseira bicolor',
     collection: 'technos', category: 'Aço', price: 799.99, status: 'disponivel', badge: 'Destaque',
     images: [IMG + 'riviera-02.jpg', IMG + 'riviera-01.jpg', IMG + 'riviera-03.jpg'],
@@ -61,7 +66,7 @@ LR.products = [
     specs: { 'Marca': 'Technos', 'Linha': 'Riviera', 'Mostrador': 'Azul solar, índices dourados', 'Luneta': 'Canelada, dourada', 'Funções': 'Horas, minutos, segundos, dia da semana e data', 'Máquina': 'Japonesa', 'Resistência à água': '50 m', 'Pulseira': 'Aço bicolor, prata e dourado' },
   },
   {
-    id: 'pablo-raez-colmeia', code: 'LR-02', brand: 'Pablo Raez',
+    id: 'pablo-raez-colmeia', stock: 2, escolha: 'o relevo em colmeia aparece a cada reflexo do mostrador.', code: 'LR-02', brand: 'Pablo Raez',
     name: 'Pablo Raez Colmeia', subtitle: 'Azul gelo · pulseira de aço',
     collection: 'aco', category: 'Aço', price: 159.99, status: 'disponivel', badge: '',
     images: [IMG + 'colmeia-01.jpg', IMG + 'colmeia-02.jpg', IMG + 'colmeia-03.jpg', IMG + 'colmeia-04.jpg'],
@@ -70,7 +75,7 @@ LR.products = [
     specs: { 'Marca': 'Pablo Raez', 'Mostrador': 'Azul gelo, relevo em colmeia', 'Luneta': 'Prateada, trabalhada em relevo', 'Funções': 'Horas, minutos, segundos e data', 'Movimento': 'Quartzo', 'Resistência à água': 'Water resistant (respingos)', 'Pulseira': 'Aço prateado' },
   },
   {
-    id: 'pablo-raez-colmeia-branco', code: 'LR-08', brand: 'Pablo Raez',
+    id: 'pablo-raez-colmeia-branco', stock: 2, escolha: 'o branco com relevo em colmeia combina com qualquer roupa.', code: 'LR-08', brand: 'Pablo Raez',
     name: 'Pablo Raez Colmeia', subtitle: 'Branco · pulseira de aço',
     collection: 'aco', category: 'Aço', price: 159.99, status: 'disponivel', badge: 'Novidade',
     images: [IMG + 'colmeia-branco-01.jpg', IMG + 'colmeia-branco-02.jpg', IMG + 'colmeia-branco-03.jpg', IMG + 'colmeia-branco-04.jpg'],
@@ -79,7 +84,7 @@ LR.products = [
     specs: { 'Marca': 'Pablo Raez', 'Mostrador': 'Branco, relevo em colmeia', 'Luneta': 'Prateada, trabalhada em relevo', 'Funções': 'Horas, minutos, segundos e data', 'Movimento': 'Quartzo', 'Resistência à água': 'Water resistant (respingos)', 'Pulseira': 'Aço prateado' },
   },
   {
-    id: 'pablo-raez-classico', code: 'LR-03', brand: 'Pablo Raez',
+    id: 'pablo-raez-classico', stock: 0, escolha: 'limpo, com pulseira de aço, combina com tudo.', code: 'LR-03', brand: 'Pablo Raez',
     name: 'Pablo Raez Clássico', subtitle: 'Branco · pulseira de aço',
     collection: 'aco', category: 'Aço', price: 159.99, status: 'esgotado', badge: '',
     images: [IMG + 'classico-01.jpg', IMG + 'classico-02.jpg', IMG + 'classico-03.jpg', IMG + 'classico-04.jpg', IMG + 'classico-05.jpg'],
@@ -88,7 +93,7 @@ LR.products = [
     specs: { 'Marca': 'Pablo Raez', 'Mostrador': 'Branco, textura vertical', 'Índices': 'Bastão, com minuteria numerada', 'Funções': 'Horas, minutos, segundos e data', 'Pulseira': 'Aço prateado' },
   },
   {
-    id: 'pablo-raez-rosa-dos-ventos', code: 'LR-04', brand: 'Pablo Raez',
+    id: 'pablo-raez-rosa-dos-ventos', stock: 1, escolha: 'a rosa dos ventos em relevo e o couro croco chamam atenção sem exagero.', code: 'LR-04', brand: 'Pablo Raez',
     name: 'Pablo Raez Rosa dos Ventos', subtitle: 'Branco · couro marrom',
     collection: 'couro', category: 'Couro', price: 129.99, status: 'disponivel', badge: '',
     images: [IMG + 'rosa-01.jpg', IMG + 'rosa-02.jpg', IMG + 'rosa-03.jpg', IMG + 'rosa-04.jpg', IMG + 'rosa-06.jpg', IMG + 'rosa-05.jpg'],
@@ -97,7 +102,7 @@ LR.products = [
     specs: { 'Marca': 'Pablo Raez', 'Mostrador': 'Branco, rosa dos ventos em relevo', 'Escalas': 'Algarismos romanos e 24 horas', 'Funções': 'Horas, minutos, segundos e data', 'Movimento': 'Quartzo', 'Fundo': 'Aço inoxidável', 'Pulseira': 'Couro marrom, textura croco' },
   },
   {
-    id: 'pablo-raez-romano', code: 'LR-05', brand: 'Pablo Raez',
+    id: 'pablo-raez-romano', stock: 2, escolha: 'vai do trabalho ao casamento sem trocar de relógio.', code: 'LR-05', brand: 'Pablo Raez',
     name: 'Pablo Raez Romano', subtitle: 'Preto · couro preto',
     collection: 'couro', category: 'Couro', price: 129.99, status: 'disponivel', badge: '',
     images: [IMG + 'romano-01.jpg'],
@@ -106,7 +111,7 @@ LR.products = [
     specs: { 'Marca': 'Pablo Raez', 'Mostrador': 'Preto, textura quadriculada', 'Escalas': 'Algarismos romanos', 'Funções': 'Horas, minutos, segundos e data', 'Movimento': 'Quartzo', 'Pulseira': 'Couro preto, textura croco' },
   },
   {
-    id: 'pablo-raez-esmeralda', code: 'LR-06', brand: 'Pablo Raez',
+    id: 'pablo-raez-esmeralda', stock: 2, escolha: 'o verde com efeito solar muda de tom conforme a luz.', code: 'LR-06', brand: 'Pablo Raez',
     name: 'Pablo Raez Esmeralda', subtitle: 'Verde · pulseira integrada',
     collection: 'aco', category: 'Aço', price: 159.99, status: 'disponivel', badge: 'Novidade',
     images: [IMG + 'verde-01.jpg', IMG + 'verde-02.jpg', IMG + 'verde-03.jpg', IMG + 'verde-04.jpg'],
@@ -115,7 +120,7 @@ LR.products = [
     specs: { 'Marca': 'Pablo Raez', 'Mostrador': 'Verde degradê, efeito solar', 'Caixa': 'Aço, pulseira integrada', 'Funções': 'Horas, minutos, segundos, dia da semana e data', 'Movimento': 'Quartzo', 'Resistência à água': 'Water resistant 50 m', 'Pulseira': 'Aço, integrada à caixa' },
   },
   {
-    id: 'sunlifex-cronografo', code: 'LR-07', brand: 'Sunlifex',
+    id: 'sunlifex-cronografo', stock: 2, escolha: 'visual de cronógrafo, robusto, com data em janela própria.', code: 'LR-07', brand: 'Sunlifex',
     name: 'Sunlifex Cronógrafo', subtitle: 'Prata · visual cronógrafo',
     collection: 'aco', category: 'Aço', price: 199.99, status: 'disponivel', badge: 'Novidade',
     images: [IMG + 'sunlifex-01.jpg', IMG + 'sunlifex-02.jpg', IMG + 'sunlifex-03.jpg', IMG + 'sunlifex-04.jpg'],
@@ -134,6 +139,9 @@ LR.products = [
 LR.natal = {
   ativo: true,
   ano: 2026,
+  // último dia para pedir e receber em Marabá antes do Natal (2 dias úteis antes do dia 24).
+  // A frase "Pedindo até …" some sozinha depois dessa data.
+  ultimoDia: '2026-12-22',
   chegando: [
     { id: 'pablo-raez-retangular', name: 'Pablo Raez Retangular', subtitle: 'Branco · couro preto · algarismos romanos', para: 'ele', img: IMG + 'natal/retangular.jpg' },
     { id: 'pablo-raez-integrado', name: 'Pablo Raez Integrado', subtitle: 'Branco · pulseira integrada · dia e data', para: 'ele', img: IMG + 'natal/integrado-branco.jpg' },
@@ -179,6 +187,18 @@ LR.format = {
   date(iso) { const d = new Date(iso + 'T12:00:00'); return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }).replace('.', ''); },
 };
 LR.byId = id => LR.products.find(p => p.id === id);
+// estoque verdadeiro: só aparece quando é 1, 2 ou 3 unidades
+LR.stockLabel = (p, longo) => {
+  if (!p || p.status === 'esgotado' || !p.stock || p.stock > 3) return '';
+  if (p.stock === 1) return longo ? 'Peça única · não perca' : 'Peça única';
+  return longo ? `Últimas ${p.stock} unidades` : `Últimas ${p.stock}`;
+};
+// prazo de Natal: devolve a data (dd/mm) enquanto ainda dá tempo, senão ''
+LR.natalPrazo = () => {
+  const N = LR.natal; if (!N || !N.ativo || !N.ultimoDia) return '';
+  const hoje = new Date(), lim = new Date(N.ultimoDia + 'T23:59:59');
+  return hoje <= lim ? N.ultimoDia.slice(8, 10) + '/' + N.ultimoDia.slice(5, 7) : '';
+};
 // Cada relógio e cada artigo tem uma página própria, já com o conteúdo no HTML
 // (gerada por scripts/seo.mjs), para o Google e as IAs lerem sem JavaScript.
 LR.url = {
