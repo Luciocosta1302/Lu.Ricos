@@ -582,20 +582,33 @@
   }
 
   /* ---------- Natal: enfeites no visual do site ---------- */
-  function natalEnfeites() {
+  // Nada de ilustração pronta: os enfeites são as formas da marca. O ponto vermelho vira bola de Natal,
+  // a estrela tem 4 pontas, e a faixa do topo corre como a faixa da home.
+  const natalOrn = (extra = '') => `<div class="natal-orn${extra}" aria-hidden="true"><span class="orn o1"><b class="diamond"></b></span><span class="orn o2"><b class="ring"></b></span><span class="orn o3"><b class="star"></b></span><span class="orn o4"><b class="diamond ink"></b></span></div>`;
+  // em todas as páginas
+  function natalGeral() {
     if (!LR.natal || !LR.natal.ativo) return;
     html.classList.add('is-natal');
-    // faixa que corre abaixo do topo
     const prazo = LR.natalPrazo();
-    const itens = ['Natal LU.RICOS', B.entrega, prazo ? `Peça até ${prazo} para receber antes do Natal` : 'Presentes para ele e para ela', 'Presentes para ele e para ela', B.pagamento];
+    const itens = ['Natal LU.RICOS', prazo ? `Pedindo até ${prazo}, chega antes do Natal em Marabá` : 'Presentes para ele e para ela', B.entrega, 'Presentes para ele e para ela', B.pagamento];
     const linha = [...new Set(itens)].map(t => `${esc(t)} <i class="star"></i>`).join(' ');
-    const tk = $('.ticker:not(.ticker-big) .ticker-track'); if (tk) tk.innerHTML = `<span>${linha}</span><span>${linha}</span>`;
-    // enfeites pendurados no título da seção de Natal: o ponto vermelho da marca vira bola de Natal
+    if (!$('.natal-strip')) document.body.insertAdjacentHTML('afterbegin', `<div class="natal-strip" role="note">
+      <span class="sr-only">${esc([...new Set(itens)].join('. '))}.</span>
+      <div class="natal-strip-track" aria-hidden="true"><span>${linha}</span><span>${linha}</span></div></div>`);
+    // enfeites no cabeçalho das páginas internas
+    const head = $('main > .page-head, main > .about-hero, main > .notfound');
+    if (head && !$('.natal-orn', head)) head.insertAdjacentHTML('afterbegin', natalOrn(' is-page'));
+    // carrinho e rodapé
+    const note = $('.cart-note');
+    if (note && prazo && !$('.cart-natal')) note.insertAdjacentHTML('beforebegin', `<p class="cart-natal"><i class="star"></i>Pedindo até ${prazo}, chega antes do Natal em Marabá.</p>`);
+    const foot = $('.footer-bottom');
+    if (foot && !$('.natal-foot', foot)) foot.insertAdjacentHTML('beforeend', `<span class="label natal-foot"><i class="star"></i> Boas festas</span>`);
+  }
+  // só na home: enfeites na seção de Natal e neve no topo
+  function natalEnfeites() {
+    if (!LR.natal || !LR.natal.ativo) return;
     const sec = $('[data-natal]');
-    if (sec && !$('.natal-orn', sec)) sec.insertAdjacentHTML('afterbegin', `<div class="natal-orn" aria-hidden="true">
-      <span class="orn o1"><b class="diamond"></b></span><span class="orn o2"><b class="ring"></b></span>
-      <span class="orn o3"><b class="star"></b></span><span class="orn o4"><b class="diamond ink"></b></span></div>`);
-    // neve leve sobre o topo da home
+    if (sec && !$('.natal-orn', sec)) sec.insertAdjacentHTML('afterbegin', natalOrn());
     const hero = $('.hero'); if (!hero || reduced || $('.natal-snow', hero)) return;
     const cv = document.createElement('canvas'); cv.className = 'natal-snow'; cv.setAttribute('aria-hidden', 'true'); hero.appendChild(cv);
     const ctx = cv.getContext('2d'); let W = 0, H = 0, flakes = [], on = true, raf;
@@ -835,6 +848,7 @@
 
   /* ---------- Boot ---------- */
   mountChrome();
+  natalGeral();
   $$('.nav a').forEach(a => a.classList.toggle('is-active', isActive(a.getAttribute('href'))));
   if (pages[page]) pages[page]();
   cartUI(); menu(); header(); misc(); transitions();
