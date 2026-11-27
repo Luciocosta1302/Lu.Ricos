@@ -360,25 +360,36 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
 @media (max-width: 860px) { .page-head:has(.has-hat) > .k-headdeco { display: none; } }
 
 /* ---------- Texturas (para o design não ficar chapado) ----------
-   Grão claro sobre as faixas vermelhas e bordô; papel na vitrine de Natal. */
-.xb { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), linear-gradient(115deg, var(--x-red) 0%, #6a0e1a 52%, var(--x-wine) 100%); }
-.natal-foot { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), radial-gradient(90% 120% at 50% 0%, #5a0f19 0%, var(--x-wine) 55%, #1d0509 100%); }
-.natal-cols { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), var(--x-wine); }
-.natal-thanks, .natal-mini, .natal-gift, .natal-journal-card, .natal-more { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
-.xs { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E"), radial-gradient(70% 60% at 50% 42%, #b8182d 0%, #8C101D 48%, #5a0b15 100%); }
-.is-natal .natal-strip { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), var(--x-red); }
+   Duas texturas de foto, em cinza neutro e sem emenda (assets/img/natal/texturas): tricô de lã e glitter.
+   Elas entram por cima do gradiente vermelho com "overlay": a cor continua a da marca, só ganha relevo.
+   Tricô nas faixas grandes e calmas (banner, rodapé, colunas); glitter onde tem brilho (vitrine de vidro, faixa
+   do topo, cartões vermelhos). A vitrine fica mais escura nas bordas para o relógio continuar sendo o centro. */
+:root { --tex-tricot: url("img/natal/texturas/tricot.webp"); --tex-glitter: url("img/natal/texturas/glitter.webp"); }
+.xb { background: linear-gradient(90deg, rgba(40, 4, 10, .38) 0%, rgba(40, 4, 10, .12) 50%, transparent 75%),
+    var(--tex-tricot) 0 0 / 330px auto repeat, linear-gradient(115deg, var(--x-red) 0%, #6a0e1a 52%, var(--x-wine) 100%);
+  background-blend-mode: normal, overlay, normal; }
+.natal-foot { background: var(--tex-tricot) center 0 / 330px auto repeat, radial-gradient(90% 120% at 50% 0%, #6a111d 0%, var(--x-wine) 55%, #1d0509 100%);
+  background-blend-mode: overlay, normal; }
+.natal-cols { background: var(--tex-tricot) 0 0 / 280px auto repeat, var(--x-wine); background-blend-mode: overlay, normal; }
+.xs { background: radial-gradient(70% 60% at 50% 42%, transparent 40%, rgba(30, 3, 8, .45) 100%),
+    var(--tex-glitter) 0 0 / 240px auto repeat,
+    radial-gradient(70% 60% at 50% 42%, #b8182d 0%, #8C101D 48%, #5a0b15 100%);
+  background-blend-mode: normal, overlay, normal; }
+.is-natal .natal-strip { background: var(--tex-glitter) 0 0 / 200px auto repeat, var(--x-red); background-blend-mode: overlay, normal; }
+.natal-thanks, .natal-mini, .natal-gift, .natal-journal-card, .natal-more, .cart-natal {
+  background-image: var(--tex-glitter); background-size: 220px auto; background-repeat: repeat; background-blend-mode: overlay; }
 
-/* ---------- Vidro líquido da cúpula ----------
-   Três camadas por vitrine: SVG de trás (brilho, base, relógio) → .hd-glass (vidro que dobra o fundo nas
-   bordas) → SVG da frente (luz de borda e reflexos). A posição do vidro segue a cúpula do SVG (viewBox 300 × 470). */
+/* ---------- Vidro da cúpula (biblioteca liquid-glass) ----------
+   Camadas por vitrine: SVG de trás (brilho, base, relógio) → .hd-glass (recorte) > .glass (vidro) → SVG da frente
+   (aro e reflexos). O vidro é uma cápsula mais alta que a cúpula; o recorte corta a ponta de baixo, que cairia na base.
+   A posição segue a cúpula do SVG (viewBox 300 × 470): x 46–254, topo em y 48, base em y 360. */
 .hd-scene { position: relative; }
-.hd-front-svg { position: absolute; inset: 0; pointer-events: none; }
-.hd-glass { position: absolute; left: 15.333%; width: 69.333%; top: 10.213%; height: 66.383%; pointer-events: none;
-  border-radius: 50% 50% 50% 50% / 33.33% 33.33% 5.45% 5.45%;
-  background: linear-gradient(90deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,.03) 18%, rgba(255,255,255,0) 50%, rgba(255,255,255,.03) 82%, rgba(255,255,255,.18) 100%);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,.28), inset 3px 4px 10px rgba(255,255,255,.22), inset -4px -6px 16px rgba(255,255,255,.08), inset 0 -18px 26px rgba(255,255,255,.05);
-  -webkit-backdrop-filter: saturate(1.08) brightness(1.04); backdrop-filter: saturate(1.08) brightness(1.04); }
-.lg-ok .hd-glass { backdrop-filter: url(#lg-dome) saturate(1.08) brightness(1.04); }
+.hd-front-svg, .hd-mid-svg { position: absolute; inset: 0; pointer-events: none; }
+.hd-glass { position: absolute; left: 15.333%; width: 69.333%; top: 10.213%; height: 66.383%; overflow: hidden; pointer-events: none;
+  border-radius: 50% 50% 0 0 / 33.33% 33.33% 0 0; }
+.hd-lg { position: absolute; left: 0; top: 0; width: 100%; height: 150%; border-radius: 999px; }
+/* fundo da cena: é ele que o vidro refrata no Safari e no Firefox (no Chrome o vidro refrata tudo o que está atrás) */
+.xs-bd { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
 /* o brilho atrás de cada vitrine pulsa devagar */
 .hd-glow { transform-box: fill-box; transform-origin: center; animation: hd-glow 5.5s ease-in-out infinite alternate; animation-delay: calc(var(--i, 0) * -1.3s); }
 @keyframes hd-glow { from { opacity: .85; transform: scale(.97); } to { opacity: 1; transform: scale(1.03); } }
@@ -389,3 +400,17 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
 @keyframes hd-bokeh { from { opacity: .25; } to { opacity: .75; } }
 @media (prefers-reduced-motion: reduce) { .hd-bokeh circle { animation: none; } }
 .xs-row { overflow: visible; }
+
+/* ---------- Redoma: brilho, faíscas e a luz que atravessa o vidro ----------
+   Uma direção de luz só, do alto à esquerda: borda clara desse lado e apagada do outro, brilho estreito, ponto de luz,
+   cáustica na base à esquerda e sombra do relógio puxada para a direita. */
+.hd-spark { transform-box: fill-box; transform-origin: center; animation: hd-spark 3.6s ease-in-out infinite; animation-delay: calc(var(--d) * 1s + var(--i, 0) * .7s); }
+@keyframes hd-spark { 0%, 100% { opacity: 0; scale: .4; } 40%, 60% { opacity: 1; scale: 1; } }
+.hd-caustic { animation: hd-caustic 5.5s ease-in-out infinite alternate; animation-delay: calc(var(--i, 0) * -1.3s); }
+@keyframes hd-caustic { from { opacity: .7; } to { opacity: 1; } }
+.hd-item:hover .hd-spark { animation-duration: 1.6s; }
+@media (prefers-reduced-motion: reduce) { .hd-spark { animation: none; opacity: .8; } .hd-caustic { animation: none; } }
+
+/* véu da parede da frente (sobre o relógio): mesmo formato da cúpula, sem desfoque forte */
+.hd-veil { position: absolute; left: 15.333%; width: 69.333%; top: 10.213%; height: 66.383%; pointer-events: none;
+  border-radius: 50% 50% 0 0 / 33.33% 33.33% 0 0; backdrop-filter: contrast(.93) brightness(1.04) saturate(.96); -webkit-backdrop-filter: contrast(.93) brightness(1.04) saturate(.96); }

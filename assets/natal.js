@@ -122,76 +122,66 @@
      Um SVG por relógio, com as camadas na ordem certa:
      sombra de contato → plataforma → parede de trás do vidro → relógio → sombra dele na base → vidro da frente → reflexos. */
   function watchDisplay(src, alt) {
-    const k = id('d'), sh = `${k}s`, bf = `${k}bf`, bt = `${k}bt`, bl = `${k}bl`, ws = `${k}ws`, gl = `${k}gl`, hl = `${k}hl`;
+    const k = id('d'), sh = `${k}s`, bf = `${k}bf`, bt = `${k}bt`, bl = `${k}bl`, ws = `${k}ws`, gl = `${k}gl`, rim = `${k}rm`, sheen = `${k}sn`, cau = `${k}ca`, fr = `${k}fr`;
     const DOME = 'M46 360 V152 A104 104 0 0 1 254 152 V360';
-    // camada 1: brilho, sombra, plataforma, parede de trás e o relógio
+    // pontos de luz atrás da redoma: o vidro de trás desfoca e dobra esses pontos (é aí que o vidro "aparece")
+    const BOKEH = [[40, 150, 9, .55], [258, 196, 12, .5], [52, 262, 6, .6], [250, 300, 8, .5], [236, 120, 5, .7], [62, 330, 10, .4], [150, 70, 7, .4],
+      [92, 120, 11, .55], [206, 150, 9, .5], [84, 232, 13, .45], [218, 262, 12, .45], [118, 186, 6, .6], [190, 214, 7, .55], [100, 318, 9, .45], [204, 326, 8, .45]];
+    // 1) ambiente atrás de tudo: luz quente (vinda do alto à esquerda), pontos de luz, sombra no chão, plataforma, aro de trás
     const back = `<svg class="hd-svg hd-back-svg" viewBox="0 0 300 470" role="img" aria-label="${alt}"><defs>
       <filter id="${bl}" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur stdDeviation="7"/></filter>
-      <filter id="${ws}" x="-30%" y="-200%" width="160%" height="500%"><feGaussianBlur stdDeviation="4"/></filter>
-      <radialGradient id="${gl}" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe6c2" stop-opacity=".62"/><stop offset=".3" stop-color="#ffb57f" stop-opacity=".32"/><stop offset=".62" stop-color="#ff6450" stop-opacity=".1"/><stop offset="1" stop-color="#ff6450" stop-opacity="0"/></radialGradient>
+      <radialGradient id="${gl}" cx="44%" cy="44%" r="50%"><stop offset="0" stop-color="#fff0d6" stop-opacity=".78"/><stop offset=".26" stop-color="#ffc48c" stop-opacity=".42"/><stop offset=".6" stop-color="#ff6a50" stop-opacity=".12"/><stop offset="1" stop-color="#ff6a50" stop-opacity="0"/></radialGradient>
       <radialGradient id="${sh}" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#1a0205" stop-opacity=".75"/><stop offset="1" stop-color="#1a0205" stop-opacity="0"/></radialGradient>
-      <linearGradient id="${bf}" x1="0" x2="1"><stop offset="0" stop-color="#3d0710"/><stop offset=".16" stop-color="#7d0f1c"/><stop offset=".4" stop-color="#ad192d"/><stop offset=".52" stop-color="#bb2034"/><stop offset=".74" stop-color="#860f1e"/><stop offset="1" stop-color="#34060d"/></linearGradient>
-      <radialGradient id="${bt}" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#d02c42"/><stop offset=".7" stop-color="#9c1527"/><stop offset="1" stop-color="#7a0f1d"/></radialGradient>
+      <linearGradient id="${bf}" x1="0" x2="1"><stop offset="0" stop-color="#4a0912"/><stop offset=".14" stop-color="#8a1120"/><stop offset=".36" stop-color="#bd2236"/><stop offset=".5" stop-color="#ad1a2e"/><stop offset=".76" stop-color="#7a0e1b"/><stop offset="1" stop-color="#2e050b"/></linearGradient>
+      <radialGradient id="${bt}" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#d93348"/><stop offset=".7" stop-color="#9c1527"/><stop offset="1" stop-color="#6e0d1a"/></radialGradient>
     </defs>
-    <ellipse class="hd-glow" cx="150" cy="232" rx="235" ry="250" fill="url(#${gl})"/>
-    <g class="hd-bokeh">${[[40, 150, 9, .5], [258, 196, 12, .45], [52, 262, 6, .6], [250, 300, 8, .5], [236, 120, 5, .7], [62, 330, 10, .35], [150, 70, 7, .35]].map(([cx, cy, r, o]) => `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#ffd9a3" opacity="${o}"/>`).join('')}</g>
-    <ellipse class="hd-contact" cx="150" cy="446" rx="132" ry="16" fill="url(#${sh})" filter="url(#${bl})"/>
+    <ellipse class="hd-glow" cx="140" cy="215" rx="240" ry="255" fill="url(#${gl})"/>
+    <g class="hd-bokeh">${BOKEH.map(([cx, cy, r, o]) => `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#ffdcaa" opacity="${o}"/>`).join('')}</g>
+    <ellipse class="hd-contact" cx="160" cy="447" rx="134" ry="16" fill="url(#${sh})" filter="url(#${bl})"/>
     <g class="hd-base">
       <path d="M28 360 V430 A122 20 0 0 0 272 430 V360 Z" fill="url(#${bf})"/>
       <path d="M28 404 V430 A122 20 0 0 0 272 430 V404 A122 20 0 0 1 28 404Z" fill="#000" opacity=".16"/>
       <ellipse cx="150" cy="360" rx="122" ry="20" fill="url(#${bt})"/>
-      <ellipse cx="150" cy="360" rx="122" ry="20" fill="none" stroke="#fff" stroke-opacity=".24"/>
+      <path d="M28 360 A122 20 0 0 1 272 360" fill="none" stroke="#fff" stroke-opacity=".35"/>
       <ellipse cx="150" cy="361" rx="106" ry="17" fill="#4a0711" opacity=".35"/>
     </g>
-    <path d="M46 360 A104 17 0 0 1 254 360" fill="none" stroke="#fff" stroke-opacity=".3"/>
-    <ellipse class="hd-wshadow" cx="150" cy="354" rx="52" ry="7" fill="#1a0205" opacity=".55" filter="url(#${ws})"/>
-    <image class="hd-watch" href="${src}" x="68" y="124" width="164" height="232" preserveAspectRatio="xMidYMax meet"/></svg>`;
-    // camada 2: o vidro (HTML, para o filtro de vidro líquido agir sobre o que está atrás)
-    const glass = `<span class="hd-glass" aria-hidden="true"></span>`;
-    // camada 3: luz de borda, reflexos e o aro encaixado na base
+    <path d="M46 360 A104 17 0 0 1 254 360" fill="none" stroke="#fff" stroke-opacity=".3"/></svg>`;
+    // 2) parede de trás da redoma: vidro (biblioteca liquid-glass) que desfoca, dobra nas bordas e separa as cores.
+    //    Fica atrás do relógio, então só o ambiente é desfocado; o relógio continua nítido.
+    const glass = `<span class="hd-glass" aria-hidden="true"><span class="glass hd-lg" data-glass-appearance="dark" data-glass-refraction="34" data-glass-bezel="24" data-glass-dispersion="0.18"></span></span>`;
+    // 3) o relógio, a sombra dele e a luz que atravessa o vidro e cai na base (cáustica)
+    const mid = `<svg class="hd-svg hd-mid-svg" viewBox="0 0 300 470" aria-hidden="true" focusable="false"><defs>
+      <filter id="${ws}" x="-30%" y="-200%" width="160%" height="500%"><feGaussianBlur stdDeviation="4"/></filter>
+      <radialGradient id="${cau}" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe9c9" stop-opacity=".55"/><stop offset="1" stop-color="#ffe9c9" stop-opacity="0"/></radialGradient></defs>
+      <ellipse class="hd-caustic" cx="104" cy="362" rx="44" ry="7" fill="url(#${cau})"/>
+      <ellipse class="hd-wshadow" cx="160" cy="355" rx="54" ry="7" fill="#1a0205" opacity=".55" filter="url(#${ws})"/>
+      <image class="hd-watch" href="${src}" x="68" y="124" width="164" height="232" preserveAspectRatio="xMidYMax meet"/></svg>`;
+    // 4) parede da frente: borda clara do lado da luz e escura do outro, brilho estreito, ponto de luz, faíscas e o aro
+    const spark = (x, y, s, d) => `<path class="hd-spark" style="--d:${d}s" transform="translate(${x} ${y}) scale(${s})" d="M0 -10 L2 -2 L10 0 L2 2 L0 10 L-2 2 L-10 0 L-2 -2Z" fill="#fff"/>`;
     const front = `<svg class="hd-svg hd-front-svg" viewBox="0 0 300 470" aria-hidden="true" focusable="false"><defs>
-      <linearGradient id="${hl}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".55" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-      <clipPath id="${k}cl"><path d="${DOME} Z"/></clipPath></defs>
-      <path d="${DOME}" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
-      <path d="M62 330 V158 A88 88 0 0 1 114 78" fill="none" stroke="url(#${hl})" stroke-width="6" stroke-linecap="round" opacity=".55"/>
-      <path d="M241 318 V166 A90 90 0 0 0 226 112" fill="none" stroke="#fff" stroke-opacity=".32" stroke-width="2.5" stroke-linecap="round"/>
-      <ellipse cx="120" cy="80" rx="15" ry="5" transform="rotate(-36 120 80)" fill="#fff" opacity=".8"/>
-      <g clip-path="url(#${k}cl)"><rect class="hd-glint" x="-120" y="20" width="44" height="380" fill="#fff" opacity=".16" transform="skewX(-18)"/></g>
-      <path d="M46 360 A104 17 0 0 0 254 360" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="1.6"/>
-      <path d="M70 372 A104 17 0 0 0 150 377" fill="none" stroke="#fff" stroke-opacity=".95" stroke-width="2" stroke-linecap="round"/></svg>`;
-    return back + glass + front;
-  }
-
-  /* ---------- Vidro líquido (técnica do iOS 26 na web) ----------
-     Um mapa de deslocamento com a forma da cúpula: neutro no centro (o relógio fica nítido) e forte só nas
-     bordas, onde o vidro curva e dobra o que está atrás, como uma lente. Cada cor desloca um pouco diferente
-     (aberração cromática leve). Funciona nos navegadores Chromium; nos outros, o vidro fica translúcido sem dobra. */
-  let lgSize = '';
-  function liquidGlass() {
-    const g = document.querySelector('.hd-glass'); if (!g) return;
-    const chromium = !!(navigator.userAgentData && navigator.userAgentData.brands && navigator.userAgentData.brands.some(b => /Chromium/.test(b.brand)));
-    document.documentElement.classList.toggle('lg-ok', chromium);
-    if (!chromium) return;
-    const W = Math.round(g.offsetWidth), H = Math.round(g.offsetHeight); if (!W || !H || lgSize === `${W}x${H}`) return; lgSize = `${W}x${H}`;
-    const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d'); const img = x.createImageData(W, H);
-    const r = W / 2, band = W * .17;
-    for (let py = 0; py < H; py++) for (let px = 0; px < W; px++) {
-      let d, nx, ny;
-      if (py < r) { const dx = px - r, dy = py - r, l = Math.hypot(dx, dy) || 1; d = r - l; nx = dx / l; ny = dy / l; }
-      else { d = Math.min(px, W - px); nx = px < r ? -1 : 1; ny = 0; }
-      let t = d < 0 ? 0 : Math.max(0, 1 - d / band); t = t * t * (3 - 2 * t);
-      const o = (py * W + px) * 4;
-      img.data[o] = 128 - nx * t * 127; img.data[o + 1] = 128 - ny * t * 127; img.data[o + 2] = 128; img.data[o + 3] = 255;
-    }
-    x.putImageData(img, 0, 0);
-    const map = c.toDataURL(), S = Math.round(W * .11);
-    let svg = document.getElementById('lg-defs');
-    if (!svg) { svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); svg.id = 'lg-defs'; svg.setAttribute('aria-hidden', 'true'); svg.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden'; document.body.appendChild(svg); }
-    const ch = (n, sc, m) => `<feDisplacementMap in="SourceGraphic" in2="map" scale="${sc}" xChannelSelector="R" yChannelSelector="G" result="d${n}"/><feColorMatrix in="d${n}" type="matrix" values="${m}" result="c${n}"/>`;
-    svg.innerHTML = `<filter id="lg-dome" x="0" y="0" width="${W}" height="${H}" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-      <feImage href="${map}" x="0" y="0" width="${W}" height="${H}" preserveAspectRatio="none" result="map"/>
-      ${ch('r', S, '1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0')}${ch('g', Math.round(S * 1.06), '0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0')}${ch('b', Math.round(S * 1.12), '0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0')}
-      <feBlend in="cr" in2="cg" mode="screen" result="rg"/><feBlend in="rg" in2="cb" mode="screen"/></filter>`;
+      <linearGradient id="${rim}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".45" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity=".18"/></linearGradient>
+      <linearGradient id="${sheen}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".5" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      <linearGradient id="${fr}" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".55" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity=".2"/></linearGradient>
+      <clipPath id="${k}cl"><path d="${DOME} Z"/></clipPath>
+      <linearGradient id="${k}vx" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".26"/><stop offset=".18" stop-color="#fff" stop-opacity=".09"/><stop offset=".5" stop-color="#fff" stop-opacity=".05"/><stop offset=".82" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity=".2"/></linearGradient>
+      <linearGradient id="${k}vy" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".14"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/><stop offset=".85" stop-color="#fff" stop-opacity=".03"/><stop offset="1" stop-color="#fff" stop-opacity=".12"/></linearGradient>
+      <filter id="${k}rb" x="-50%" y="-20%" width="200%" height="140%"><feGaussianBlur stdDeviation="6"/></filter></defs>
+      <path class="hd-film" d="${DOME} Z" fill="url(#${k}vx)"/><path class="hd-film" d="${DOME} Z" fill="url(#${k}vy)"/>
+      <g clip-path="url(#${k}cl)"><path class="hd-reflex" d="M86 100 L132 86 L176 360 L128 360Z" fill="#fff" opacity=".1" filter="url(#${k}rb)"/></g>
+      <path d="${DOME}" fill="none" stroke="url(#${rim})" stroke-width="1.6"/>
+      <path d="M50 360 V152 A100 100 0 0 1 250 152 V360" fill="none" stroke="#fff" stroke-opacity=".12"/>
+      <path d="M60 332 V158 A90 90 0 0 1 112 76" fill="none" stroke="url(#${sheen})" stroke-width="5" stroke-linecap="round" opacity=".7"/>
+      <path d="M71 300 V172" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M242 312 V170 A90 90 0 0 0 228 116" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="2" stroke-linecap="round"/>
+      <ellipse cx="118" cy="79" rx="16" ry="5" transform="rotate(-36 118 79)" fill="#fff" opacity=".9"/>
+      ${spark(126, 72, .9, 0)}${spark(62, 214, .55, 1.3)}${spark(240, 150, .45, 2.4)}
+      <g clip-path="url(#${k}cl)"><rect class="hd-glint" x="-120" y="20" width="44" height="380" fill="#fff" opacity=".18" transform="skewX(-18)"/></g>
+      <path d="M46 360 A104 17 0 0 0 254 360" fill="none" stroke="url(#${fr})" stroke-width="1.8"/>
+      <path d="M68 371 A104 17 0 0 0 148 377" fill="none" stroke="#fff" stroke-opacity=".95" stroke-width="2.2" stroke-linecap="round"/></svg>`;
+    // 5) véu da parede da frente, sobre o relógio: um pouco de branco (mais nas bordas) e menos contraste,
+    //    para o relógio parecer dentro do vidro sem perder a nitidez
+    const veil = `<span class="hd-veil" aria-hidden="true"></span>`;
+    return back + glass + mid + veil + front;
   }
 
   // floco de neve de 6 pontas
@@ -367,7 +357,8 @@
       // Seleção de Natal: cada relógio numa mini vitrine (plataforma vermelha + cúpula de vidro)
       const S = (N.selecao || []).map(s => ({ ...s, p: LR.byId(s.id) })).filter(s => s.p && s.p.status !== 'esgotado');
       const selecao = S.length ? `<section class="section xs" aria-labelledby="xs-title">
-        ${snowLayer(false)}${blurTree('t1')}${blurTree('t2')}${blurTree('t3')}${blurTree('t4')}
+        <div class="xs-bd" aria-hidden="true">${blurTree('t1')}${blurTree('t2')}${blurTree('t3')}${blurTree('t4')}</div>
+        ${snowLayer(false)}
         <div class="wrap xs-in">
         <header class="sec-head"><span class="label" data-reveal><span class="xs-tag"><i class="k-mini-star"></i> Seleção de Natal</span></span>
           <h2 class="display display-m" id="xs-title">Escolhidos para<br>presentear.</h2>
@@ -400,7 +391,6 @@
 
       after.insertAdjacentHTML('afterend', guia + selecao + banner);
       particles($('.xb'), { luzes: 8, neve: 40 }, reduced);
-      liquidGlass(); addEventListener('resize', () => { clearTimeout(liquidGlass.t); liquidGlass.t = setTimeout(liquidGlass, 200); });
       chegando();
     }
 
