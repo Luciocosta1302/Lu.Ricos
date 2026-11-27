@@ -283,7 +283,7 @@
           <span class="k-float xs-s1" aria-hidden="true">${star()}</span><span class="k-float xs-s2" aria-hidden="true">${star('silver')}</span><span class="k-float xs-s3" aria-hidden="true">${star()}</span>
           <span class="xs-gift xs-g1" aria-hidden="true">${gift({ body: '#E9E7E2', dark: '#bdb9b0', band: '#C51D32', w: 150, h: 120 })}</span>
           <span class="xs-gift xs-g2" aria-hidden="true">${gift({ w: 120, h: 100 })}</span>
-          ${S.map((s, i) => `<a class="xs-item" href="${LR.url.product(s.p)}" style="--h:${[.62, .82, .52, .72][i % 4]}" data-reveal>
+          ${S.map((s, i) => `<a class="xs-item" href="${LR.url.product(s.p)}" style="--h:.62" data-reveal>
             <span class="xs-watch"><img src="${s.recorte}" alt="${esc(s.p.name)}" loading="lazy"></span>
             <span class="xs-ped" aria-hidden="true"><i></i></span>
             <span class="xs-info"><b>${esc(s.p.name)}</b><span class="num">${esc(price(s.p))}</span>${LR.stockLabel(s.p) ? `<span class="xs-stock">${esc(LR.stockLabel(s.p))}</span>` : ''}</span></a>`).join('')}

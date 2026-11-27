@@ -159,7 +159,7 @@ LR.natal = {
   // seleção de Natal: relógios recortados sobre pedestais
   selecao: [
     { id: 'technos-riviera', recorte: 'assets/img/natal/recortes/riviera.webp' },
-    { id: 'pablo-raez-romano', recorte: 'assets/img/natal/recortes/romano.webp' },
+    { id: 'pablo-raez-rosa-dos-ventos', recorte: 'assets/img/natal/recortes/rosa.webp' },
     { id: 'sunlifex-cronografo', recorte: 'assets/img/natal/recortes/sunlifex.webp' },
     { id: 'pablo-raez-esmeralda', recorte: 'assets/img/natal/recortes/esmeralda.webp' },
   ],
