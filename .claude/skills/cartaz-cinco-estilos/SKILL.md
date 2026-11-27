@@ -108,6 +108,25 @@ Estilo de que o dono da loja gosta (referência enviada em 27/11/2026: anúncio 
   - Sunlifex: vinho `#4a0d16` + `#e2d5c1` + ouro `#d3a95e`
 - **Modelo:** `modelo-faixas.html?w=riviera&f=feed` (ou `f=story`), com o recorte em PNG ao lado (`riviera.png`, `esmeralda.png`, `romano.png`, `sunlifex.png`). O story é o mesmo layout descido 285 px. Exemplos em `brand/anuncios-faixas/`.
 
+## Estilo extra: Vitrine de Natal (foto de produto com efeitos)
+
+Pedido do dono da loja em 27/11/2026: "melhorar o desenho e os efeitos visuais", com as proporções dos vídeos de design. Regra: **o relógio real como numa foto de estúdio, com camadas de profundidade e tipografia na escala áurea.**
+
+- **Escala (1080 px):** 300 (palavra gigante) · 115 (título) · 44 (logo e frase em itálico) · 21–27 (fatos em mono).
+- **Fundo:** foto desfocada (a arte de campanha da própria peça, desfoque de 46 px e escurecida), um tom da cor da peça por cima, glitter em overlay, feixes de luz diagonais e luzes desfocadas (bokeh).
+- **Palavra gigante atrás do relógio:** serifa com gradiente dourado, curta e ligada à peça (Natal, Aço, Verde, Couro, Romano). Ela precisa aparecer dos dois lados do relógio. Se for longa, desce para 185.
+- **Piso espelhado:**
+  - uma linha de luz no horizonte, em 1100 px;
+  - o reflexo do relógio virado, com 32% de opacidade, sumindo para baixo;
+  - sombra de contato.
+- **Relógio:** luz de borda quente, halo atrás e 2 faíscas (estrela de 4 pontas) nos pontos de brilho do aro e do vidro.
+- **Profundidade de campo:**
+  - caixas e saco desfocados atrás, nos lados;
+  - duas bolas bem desfocadas na frente, nos cantos de baixo;
+  - pinheiro e o cacho de bolas nítidos no topo.
+- **Fatos:** uma linha só, em mono: "Entrega em Marabá ◆ Pix ou cartão ◆ [estoque]", com o estoque num selo dourado. Sem preço.
+- **Modelo:** `modelo-natal-vitrine.html?w=riviera&f=feed` (ou `f=story`). Ele usa `brand/recortes-png/`, `brand/natal-2026/` e `assets/img/natal/elementos/`. Exemplos em `brand/anuncios-natal/`.
+
 ## Conferência antes de entregar
 
 1. O cartaz segue a regra do seu estilo e só ela?
