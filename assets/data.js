@@ -156,12 +156,12 @@ LR.natal = {
   ],
   // arte da faixa "Não deixe para a última hora"
   bannerArte: { id: 'pablo-raez-colmeia-branco', imagem: 'assets/img/natal/campanha/colmeia-branco.jpg' },
-  // seleção de Natal: relógios recortados sobre pedestais
+  // seleção de Natal: relógios em mini vitrines (plataforma + cúpula de vidro). Recorte: 600 × 828, mostrador no centro
   selecao: [
-    { id: 'technos-riviera', recorte: 'assets/img/natal/recortes/riviera.webp' },
-    { id: 'pablo-raez-rosa-dos-ventos', recorte: 'assets/img/natal/recortes/rosa.webp' },
-    { id: 'sunlifex-cronografo', recorte: 'assets/img/natal/recortes/sunlifex.webp' },
-    { id: 'pablo-raez-esmeralda', recorte: 'assets/img/natal/recortes/esmeralda.webp' },
+    { id: 'technos-riviera', recorte: 'assets/img/natal/vitrine/riviera.webp' },
+    { id: 'pablo-raez-rosa-dos-ventos', recorte: 'assets/img/natal/vitrine/rosa.webp' },
+    { id: 'sunlifex-cronografo', recorte: 'assets/img/natal/vitrine/sunlifex.webp' },
+    { id: 'pablo-raez-esmeralda', recorte: 'assets/img/natal/vitrine/esmeralda.webp' },
   ],
   chegando: [
     { id: 'pablo-raez-retangular', name: 'Pablo Raez Retangular', subtitle: 'Branco · couro preto · algarismos romanos', para: 'ele', img: IMG + 'natal/retangular.jpg' },

@@ -152,33 +152,58 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
   .xg-bow { width: 44px; } .xg-ribbon { top: 16px; left: -46px; width: 140px; height: 16px; }
 }
 
-/* ---------- Seleção de Natal: vitrine com pedestais ---------- */
-.xs { background: linear-gradient(180deg, #efece6 0%, #e4dfd5 100%); overflow: hidden; }
-.xs-tag { display: inline-flex; align-items: center; gap: .5rem; padding: .4rem .7rem; background: var(--x-red); color: var(--x-off); border-radius: 999px; }
-.xs-stage { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: end; gap: clamp(.6rem, 2vw, 2rem); min-height: clamp(460px, 48vw, 660px); padding-top: clamp(2rem, 4vw, 3rem); }
-.xs-rib { position: absolute; left: -4%; right: -4%; bottom: 26%; height: clamp(70px, 10vw, 140px); z-index: 0; pointer-events: none; opacity: .95; }
-.xs-rib svg { display: block; width: 100%; height: 100%; }
-.xs-s1 { top: 6%; left: 3%; } .xs-s2 { top: 14%; left: 46%; width: clamp(16px, 1.8vw, 26px); } .xs-s3 { top: 4%; right: 24%; }
-.xs-gift { position: absolute; z-index: 0; pointer-events: none; animation: k-bob 5s ease-in-out infinite alternate; }
-.xs-gift svg { display: block; width: 100%; height: auto; }
-.xs-g1 { top: 2%; right: 0; width: clamp(80px, 9vw, 140px); } .xs-g2 { top: 12%; right: 11%; width: clamp(60px, 6.5vw, 100px); animation-delay: -2s; }
-.xs-item { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; color: var(--ink); min-width: 0; }
-.xs-watch { position: relative; z-index: 0; display: block; width: 78%; margin-bottom: -17%; transition: transform .6s var(--ease-out); }
-/* o relógio fica atrás da borda do pedestal: a pulseira de baixo entra nele, como numa vitrine */
-.xs-watch img { display: block; width: 100%; height: auto; filter: drop-shadow(0 18px 18px rgba(0,0,0,.35)); }
-.xs-item:hover .xs-watch { transform: translateY(-6px); }
-.xs-ped { position: relative; z-index: 1; display: block; width: 86%; height: calc(var(--h) * clamp(150px, 20vw, 280px)); border-radius: 0 0 50% 50% / 0 0 16px 16px;
-  background: linear-gradient(90deg, #5e0d18 0%, var(--x-red) 18%, #b3182d 46%, var(--x-red) 76%, #4c0a14 100%); box-shadow: 0 24px 40px rgba(70, 12, 19, .3); }
-.xs-ped i { position: absolute; left: 0; right: 0; top: -16px; height: 32px; border-radius: 50%; background: radial-gradient(ellipse at 50% 40%, #d23047, #9b1426 70%); box-shadow: inset 0 -2px 0 rgba(0,0,0,.2); }
-.xs-info { display: grid; gap: .2rem; justify-items: center; text-align: center; padding-top: 1rem; font-size: 14px; }
+/* ---------- Seleção de Natal: mini vitrines com cúpula de vidro ----------
+   Camadas da seção: fundo vermelho → neve distante → pinheiros desfocados → vitrines (cada uma é um SVG
+   com plataforma, relógio e vidro na ordem certa) → poucos flocos na frente, só nas laterais. */
+.xs { position: relative; overflow: hidden; isolation: isolate; color: var(--x-off); }
+.xs::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 34%; z-index: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(40, 4, 10, 0) 0%, rgba(40, 4, 10, .28) 100%); }
+.xs-in { position: relative; z-index: 2; }
+.xs .sec-head { border-color: rgba(233, 231, 226, .22); }
+.xs .sec-head .display { color: var(--x-off); }
+.xs .sec-link { color: var(--x-off); }
+.xs-tag { display: inline-flex; align-items: center; gap: .5rem; padding: .4rem .7rem; background: var(--x-off); color: var(--x-red); border-radius: 999px; }
+.xs-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(1rem, 2.6vw, 2.6rem); padding-top: clamp(2rem, 4vw, 3.5rem); }
+.hd-item { display: flex; flex-direction: column; align-items: center; min-width: 0; color: var(--x-off); }
+.hd-scene { display: block; width: 100%; max-width: 300px; }
+.hd-svg { display: block; width: 100%; height: auto; overflow: visible; }
+/* o relógio flutua muito pouco dentro da cúpula; a sombra dele acompanha */
+.hd-watch { animation: hd-float 6s ease-in-out infinite alternate; animation-delay: calc(var(--i, 0) * -1.4s); }
+.hd-wshadow { transform-box: fill-box; transform-origin: center; animation: hd-shadow 6s ease-in-out infinite alternate; animation-delay: calc(var(--i, 0) * -1.4s); }
+@keyframes hd-float { from { transform: translateY(0); } to { transform: translateY(-3px); } }
+@keyframes hd-shadow { from { transform: scaleX(1); opacity: .55; } to { transform: scaleX(.9); opacity: .4; } }
+/* reflexo que passa pelo vidro: de tempos em tempos e ao passar o mouse */
+.hd-glint { animation: hd-glint 9s ease-in-out infinite; animation-delay: calc(var(--i, 0) * 1.7s); }
+@keyframes hd-glint { 0%, 70% { transform: skewX(-18deg) translateX(0); } 88%, 100% { transform: skewX(-18deg) translateX(560px); } }
+.hd-item:hover .hd-glint, .hd-item:focus-visible .hd-glint { animation: hd-glint-now 1.1s var(--ease-out) both; }
+@keyframes hd-glint-now { from { transform: skewX(-18deg) translateX(0); } to { transform: skewX(-18deg) translateX(560px); } }
+.hd-scene { transition: transform .6s var(--ease-out); }
+.hd-item:hover .hd-scene { transform: translateY(-4px); }
+.hd-contact { transition: opacity .6s; } .hd-item:hover .hd-contact { opacity: .7; }
+.xs-info { display: grid; gap: .25rem; justify-items: center; text-align: center; padding-top: .9rem; font-size: 14px; }
 .xs-info b { font-family: var(--font-display); font-stretch: 112%; text-transform: uppercase; letter-spacing: -.01em; font-size: clamp(.82rem, 1.1vw, 1rem); line-height: 1.1; }
-.xs-stock { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--signal-ink); }
-@media (max-width: 760px) {
-  .xs-stage { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2.4rem; min-height: 0; padding-top: 4rem; }
-  .xs-ped { height: calc(var(--h) * 150px); }
-  .xs-rib { display: none; }
-  .xs-g1 { top: 0; width: 70px; } .xs-g2 { display: none; }
+.xs-stock { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--x-gold); }
+
+/* neve: atrás das vitrines (desfocada, cai devagar) e na frente (pouca, só nas laterais) */
+.hd-snow { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.hd-snow.is-back { z-index: 0; } .hd-snow.is-front { z-index: 3; }
+.hd-snow i { position: absolute; top: -40px; width: var(--s); height: var(--s); opacity: var(--a); filter: blur(var(--b)); animation: hd-fall var(--d) linear infinite; animation-delay: var(--o); }
+.hd-snow i svg { display: block; width: 100%; height: 100%; animation: hd-spin calc(var(--d) * 1.3) linear infinite; }
+.hd-snow.is-front i { border-radius: 50%; background: #fff; filter: blur(.4px); }
+@keyframes hd-fall { from { transform: translate(0, 0); } to { transform: translate(24px, 1400px); } }
+@keyframes hd-spin { to { transform: rotate(360deg); } }
+/* pinheiros desfocados no fundo */
+.hd-tree { position: absolute; z-index: 0; pointer-events: none; filter: blur(5px); opacity: .55; }
+.hd-tree.t1 { left: -2%; bottom: 2%; width: clamp(90px, 11vw, 170px); } .hd-tree.t2 { left: 7%; bottom: 0; width: clamp(60px, 7vw, 110px); opacity: .4; }
+.hd-tree.t3 { right: -2%; bottom: 3%; width: clamp(100px, 12vw, 180px); } .hd-tree.t4 { right: 8%; bottom: 0; width: clamp(56px, 6.5vw, 100px); opacity: .4; }
+@media (max-width: 860px) {
+  /* celular: a vitrine vira uma fileira que se arrasta para o lado, com a próxima aparecendo */
+  .xs-row { display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 1rem; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scrollbar-width: none; }
+  .xs-row::-webkit-scrollbar { display: none; }
+  .hd-item { flex: 0 0 68%; scroll-snap-align: center; }
+  .hd-tree.t2, .hd-tree.t4 { display: none; }
 }
+@media (prefers-reduced-motion: reduce) { .hd-watch, .hd-wshadow, .hd-glint, .hd-snow i, .hd-snow i svg { animation: none !important; } }
 
 /* ---------- Banner: NÃO DEIXE PARA A ÚLTIMA HORA ---------- */
 .xb { position: relative; overflow: hidden; isolation: isolate; color: var(--x-off); background: linear-gradient(115deg, var(--x-red) 0%, #6a0e1a 52%, var(--x-wine) 100%); padding-block: clamp(4rem, 9vw, 8rem); }
@@ -286,7 +311,7 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
 
 /* ---------- Menos movimento ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .natal-strip-track, .k-hang, .k-hang .k-star, .k-float .k-star, .k-halo, .xs-gift, .xb-g, .xh-copy > *, .xh-stage { animation: none !important; }
+  .natal-strip-track, .k-hang, .k-hang .k-star, .k-float .k-star, .k-halo, .xb-g, .xh-copy > *, .xh-stage { animation: none !important; }
 }
 
 /* o pinheiro do canto sai da borda de propósito, mas sem criar rolagem para o lado */
@@ -340,5 +365,5 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
 .natal-foot { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), radial-gradient(90% 120% at 50% 0%, #5a0f19 0%, var(--x-wine) 55%, #1d0509 100%); }
 .natal-cols { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), var(--x-wine); }
 .natal-thanks, .natal-mini, .natal-gift, .natal-journal-card, .natal-more { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
-.xs { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .25 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E"), linear-gradient(180deg, #efece6 0%, #e4dfd5 100%); }
+.xs { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E"), radial-gradient(70% 60% at 50% 42%, #b8182d 0%, #8C101D 48%, #5a0b15 100%); }
 .is-natal .natal-strip { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), var(--x-red); }
