@@ -1,0 +1,460 @@
+/* ============================================================
+   LU.RICOS — campanha de Natal 2026 ("Tempo de presentear")
+   Só vale com html.is-natal (ligado por assets/natal.js quando
+   LR.natal.ativo é true). Sem a classe, nada daqui aparece.
+
+   Direção: a identidade de sempre (grotesca larga em caixa alta,
+   mono nos rótulos, aço e grafite) com áreas vermelhas e bordô,
+   dourado suave nos detalhes e enfeites desenhados em SVG.
+   ============================================================ */
+
+html.is-natal {
+  --x-red: #8C101D;    /* vermelho natalino */
+  --x-wine: #460C13;   /* bordô profundo */
+  --x-hot: #C51D32;    /* vermelho de destaque */
+  --x-gold: #C5A16B;   /* dourado suave */
+  --x-off: #E9E7E2;    /* off-white */
+  --x-black: #141414;
+  --natal-strip: 30px;
+  --header-h: calc(64px + var(--natal-strip));
+}
+@media (max-width: 860px) { html.is-natal { --header-h: calc(56px + var(--natal-strip)); } }
+
+/* ---------- Faixa do topo e menu ---------- */
+.is-natal .header { top: var(--natal-strip); height: calc(var(--header-h) - var(--natal-strip)); }
+.is-natal .header.is-hidden { transform: translateY(calc(-100% - var(--natal-strip))); }
+/* sobre as áreas vermelhas, o menu deixa de inverter as cores (senão o branco viraria verde-água) */
+html.is-natal.k-dark-top .header { mix-blend-mode: normal; }
+.natal-strip { position: fixed; top: 0; left: 0; right: 0; z-index: 805; height: var(--natal-strip); overflow: hidden; display: flex; align-items: center; background: var(--x-red); color: var(--x-off); white-space: nowrap; transition: transform .6s var(--ease); }
+html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%); }
+.natal-strip-track { display: inline-flex; gap: 2.4rem; animation: ticker 50s linear infinite; will-change: transform; }
+.natal-strip-track span { display: inline-flex; align-items: center; gap: 2.4rem; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; }
+.k-mini-star { display: inline-block; width: 9px; height: 9px; flex: none; background: var(--x-gold); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); vertical-align: -1px; }
+
+/* a faixa da home vira bordô, com estrelas douradas no lugar dos pontos */
+.is-natal main > .ticker:not(.ticker-big) { background: var(--x-wine); color: var(--x-off); border-color: var(--x-wine); }
+.is-natal main > .ticker:not(.ticker-big) i { width: 10px; height: 10px; border-radius: 0; background: var(--x-gold); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
+
+
+/* ---------- Kit de enfeites ---------- */
+.k-corner { position: absolute; pointer-events: none; z-index: 2; }
+.k-corner svg { display: block; width: 100%; height: auto; }
+.k-tl { top: -12px; left: -40px; width: clamp(150px, 20vw, 320px); transform: rotate(10deg); }
+.k-tr { top: -18px; right: -46px; width: clamp(170px, 26vw, 420px); transform: scaleX(-1) rotate(8deg); }
+.k-hang { position: absolute; top: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; transform-origin: top center; pointer-events: none; animation: k-swing 5.2s ease-in-out infinite alternate; }
+.k-hang .k-string { display: block; width: 1px; height: var(--len, 60px); background: linear-gradient(rgba(197,161,107,.25), var(--x-gold)); }
+.k-hang .k-ball { width: clamp(34px, 3.8vw, 60px); height: auto; margin-top: -2px; filter: drop-shadow(0 8px 10px rgba(0,0,0,.25)); }
+.k-hang .k-star { width: clamp(40px, 4.8vw, 74px); height: auto; margin-top: -4px; animation: k-shine 3.4s ease-in-out infinite; }
+.k-float { position: absolute; pointer-events: none; z-index: 2; width: clamp(22px, 2.6vw, 40px); }
+.k-float .k-star { width: 100%; height: auto; display: block; animation: k-shine 3s ease-in-out infinite; }
+.k-float:nth-child(2n) .k-star { animation-delay: -1.2s; }
+.k-lights-row { position: absolute; left: 0; right: 0; top: 0; z-index: 2; pointer-events: none; }
+.k-lights { display: block; width: 100%; height: clamp(36px, 5vw, 80px); overflow: visible; }
+.k-halo { fill: rgba(255, 196, 120, .35); animation: k-pulse 3.8s ease-in-out infinite; animation-delay: calc(var(--i) * -.63s); }
+.k-core { fill: #ffd48a; }
+.k-sky { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+@keyframes k-swing { from { transform: rotate(-3.5deg); } to { transform: rotate(3.5deg); } }
+@keyframes k-pulse { 0%, 100% { opacity: .3; } 50% { opacity: 1; } }
+@keyframes k-shine { 0%, 100% { filter: brightness(1); transform: scale(1); } 50% { filter: brightness(1.2) drop-shadow(0 0 6px rgba(240, 210, 150, .55)); transform: scale(1.05); } }
+@keyframes k-bob { from { transform: translateY(0); } to { transform: translateY(-6px); } }
+.k-hang:nth-of-type(2n) { animation-duration: 6.1s; animation-delay: -1.4s; }
+.k-hang:nth-of-type(3n) { animation-duration: 4.6s; animation-delay: -2.6s; }
+
+/* enfeites no cabeçalho das páginas internas e da seção "chegando" */
+.page-head, .about-hero, .notfound, .natal, .xg, .xs { position: relative; }
+.k-headdeco { position: absolute; left: 0; right: 0; top: 0; height: 0; pointer-events: none; z-index: 2; }
+.page-head > .k-headdeco, .about-hero > .k-headdeco, .notfound > .k-headdeco { top: var(--header-h); }
+.k-headdeco .k-tr { top: -30px; }
+.k-headdeco .h1 { right: 18%; } .k-headdeco .h2 { right: 11%; } .k-headdeco .h3 { right: 5%; }
+@media (max-width: 860px) { .k-headdeco .k-corner, .k-headdeco .h3 { display: none; } .k-headdeco .h1 { right: 22%; } .k-headdeco .h2 { right: 8%; } }
+
+/* ---------- Hero: TEMPO DE PRESENTEAR ---------- */
+.xh { position: relative; overflow: hidden; isolation: isolate; min-height: 100svh; padding-top: var(--header-h); display: grid; align-items: center; color: var(--x-off);
+  background: radial-gradient(110% 90% at 72% 46%, #a3142a 0%, var(--x-red) 30%, var(--x-wine) 68%, #24060b 100%); }
+.xh-deco { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.xh-lights { top: calc(var(--header-h) - 26px); }
+.xh-deco .k-tl { top: calc(var(--natal-strip) - 10px); }
+.xh-deco .k-tr { top: calc(var(--natal-strip) - 20px); width: clamp(190px, 28vw, 460px); }
+.xh-h1 { left: 46%; top: var(--header-h); } .xh-h2 { left: 54%; top: var(--header-h); } .xh-h3 { left: 91%; top: var(--header-h); }
+.xh-in { position: relative; z-index: 3; display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr); align-items: center; gap: clamp(1.5rem, 4vw, 4rem); padding-block: clamp(3rem, 6vw, 5rem) clamp(2.5rem, 5vw, 4rem); }
+.xh-copy { display: grid; gap: 1.3rem; align-content: center; min-width: 0; }
+.xh-eyebrow { color: var(--x-off); display: inline-flex; gap: .6rem; align-items: center; }
+.xh-title { font-family: var(--font-display); font-stretch: 100%; font-weight: 800; text-transform: uppercase; letter-spacing: -.035em; line-height: .86; font-size: clamp(3rem, 7.6vw, 9rem); display: grid; }
+.xh-title span { display: block; white-space: nowrap; }
+.xh-title .dot { width: .17em; height: .17em; background: var(--x-hot); margin-left: .04em; display: inline-block; }
+.xh-lead { font-size: clamp(1.05rem, 1.5vw, 1.35rem); max-width: 30ch; color: var(--x-off); }
+.xh-fact { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--x-gold); display: flex; gap: .6rem; align-items: center; }
+.xh-cta { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: .4rem; }
+.xh .btn, .xb .btn { background: var(--x-off); color: var(--x-wine); border-color: var(--x-off); }
+.xh .btn:hover, .xb .btn:hover { background: #fff; }
+.xh .btn-ghost { background: transparent; color: var(--x-off); border: 1px solid rgba(233, 231, 226, .55); }
+.xh .btn-ghost:hover { background: rgba(233, 231, 226, .1); color: #fff; }
+
+/* a caixa de presente aberta, com o relógio de verdade dentro */
+.xh-stage { position: relative; display: block; width: min(100%, 560px); aspect-ratio: 4 / 5; justify-self: center; color: var(--x-black); }
+.xh-stage > * { position: absolute; }
+.xh-lid { left: 10%; right: 12%; top: 8%; height: 28%; background: linear-gradient(170deg, #b3182d, #6a0e1a 70%); transform: rotate(-9deg); box-shadow: 0 20px 40px rgba(0,0,0,.35); }
+.xh-lid::after { content: ""; position: absolute; left: 46%; width: 8%; top: 0; bottom: 0; background: linear-gradient(90deg, #8a6a3a, #f0d9a5, #8a6a3a); }
+.xh-back { left: 7%; right: 7%; top: 30%; bottom: 20%; background: linear-gradient(#1c0408, #3a0a11); }
+.xh-cushion { left: 20%; right: 20%; top: 40%; bottom: 22%; background: radial-gradient(ellipse at 50% 24%, #2e2e31, #0c0c0e 72%); border-radius: 46% 46% 10% 10% / 26% 26% 8% 8%; }
+.xh-watch { left: 50%; top: 6%; height: 70%; width: auto; max-width: none; transform: translateX(-50%); z-index: 3; filter: drop-shadow(0 22px 26px rgba(0,0,0,.55)); transition: transform .6s var(--ease-out); }
+.xh-stage:hover .xh-watch { transform: translateX(-50%) translateY(-6px) scale(1.02); }
+.xh-front { left: 3%; right: 3%; bottom: 2%; height: 30%; z-index: 4; box-shadow: 0 34px 60px rgba(0,0,0,.45);
+  background: repeating-linear-gradient(45deg, rgba(255,255,255,.035) 0 2px, transparent 2px 6px), linear-gradient(180deg, #b8192f 0%, var(--x-red) 42%, #560c17 100%); }
+.xh-band { position: absolute; left: 46%; width: 8%; top: 0; bottom: 0; background: linear-gradient(90deg, #8a6a3a, #f0d9a5 50%, #8a6a3a); }
+.xh-bow { left: 50%; bottom: 23%; width: 30%; z-index: 5; transform: translateX(-50%); }
+.xh-bow svg, .xh-rib svg { display: block; width: 100%; height: 100%; }
+.xh-rib { left: -16%; right: -10%; bottom: -7%; height: 26%; z-index: 6; pointer-events: none; }
+.xh-tag { right: -4%; top: 22%; z-index: 6; display: grid; gap: .15rem; padding: .6rem .8rem; background: var(--x-off); color: var(--x-black); transform: rotate(5deg); box-shadow: 0 10px 24px rgba(0,0,0,.3); }
+.xh-tag::before { content: ""; position: absolute; left: -7px; top: 50%; width: 10px; height: 10px; border-radius: 50%; background: var(--x-wine); transform: translateY(-50%); }
+.xh-tag b { font-family: var(--font-display); font-stretch: 112%; font-size: 13px; text-transform: uppercase; letter-spacing: -.01em; }
+.xh-tag span { font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; }
+/* entrada única ao abrir a página */
+.xh-copy > * { animation: xh-up .9s var(--ease-out) both; }
+.xh-copy > :nth-child(2) { animation-delay: .08s; } .xh-copy > :nth-child(3) { animation-delay: .18s; } .xh-copy > :nth-child(4) { animation-delay: .26s; } .xh-copy > :nth-child(5) { animation-delay: .34s; }
+.xh-stage { animation: xh-stage 1.2s .15s var(--ease-out) both; }
+@keyframes xh-up { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+@keyframes xh-stage { from { opacity: 0; transform: translateY(40px) scale(.97); } to { opacity: 1; transform: none; } }
+@media (max-width: 860px) {
+  .xh { min-height: 0; align-items: start; }
+  .xh-in { grid-template-columns: minmax(0, 1fr); padding-block: 2.6rem 3rem; }
+  .xh-title { font-size: clamp(2.6rem, 12.4vw, 5.2rem); }
+  .xh-stage { width: min(86%, 420px); }
+  .xh-tag { right: -2%; }
+  .xh-h1 { left: auto; right: 30%; } .xh-h2 { left: auto; right: 12%; } .xh-h3 { display: none; }
+  .xh-deco .k-tl { display: none; }
+  .xh-cta .btn { flex: 1 1 100%; justify-content: center; }
+}
+
+/* ---------- Guia de presentes: O PRESENTE CERTO ---------- */
+.xg .sec-head .label { display: inline-flex; gap: .55rem; align-items: center; }
+.xg-sub { font-size: clamp(1.05rem, 1.4vw, 1.25rem); max-width: 40ch; margin: 1.2rem 0 2rem; }
+.xg-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(.8rem, 1.6vw, 1.4rem); }
+.xg-card { display: flex; flex-direction: column; background: var(--x-off); border: 1px solid var(--line); color: var(--ink); transition: transform .4s var(--ease-out), box-shadow .4s; min-width: 0; }
+.xg-card:hover { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(17, 18, 20, .12); }
+.xg-media { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; background: var(--paper-2); }
+.xg-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease-out); }
+.xg-card:hover .xg-media img { transform: scale(1.03); }
+.xg-ribbon { position: absolute; top: 22px; left: -42px; width: 160px; height: 20px; transform: rotate(-45deg); background: linear-gradient(90deg, var(--x-red), var(--x-hot) 50%, var(--x-red)); box-shadow: inset 0 2px 0 rgba(197,161,107,.9), inset 0 -2px 0 rgba(197,161,107,.9), 0 4px 8px rgba(0,0,0,.2); }
+.xg-bow { position: absolute; top: 2px; left: 4px; width: 58px; }
+.xg-bow svg { display: block; width: 100%; height: auto; }
+.xg-body { display: grid; gap: .45rem; padding: 1rem 1rem 1.1rem; flex: 1; align-content: start; }
+.xg-body .label { color: var(--signal-ink); }
+.xg-name { font-family: var(--font-display); font-stretch: 112%; font-weight: 700; text-transform: uppercase; letter-spacing: -.01em; font-size: 1.05rem; line-height: 1.05; }
+.xg-text { font-size: 14px; color: var(--mute); }
+.xg-foot { display: flex; justify-content: space-between; align-items: baseline; margin-top: .4rem; padding-top: .6rem; border-top: 1px solid var(--line); font-size: 14px; }
+.xg-go { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+@media (max-width: 1000px) { .xg-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) {
+  .xg-grid { grid-template-columns: minmax(0, 1fr); }
+  .xg-card { display: grid; grid-template-columns: 40% minmax(0, 1fr); }
+  .xg-media { aspect-ratio: auto; min-height: 100%; }
+  .xg-bow { width: 44px; } .xg-ribbon { top: 16px; left: -46px; width: 140px; height: 16px; }
+}
+
+/* ---------- Seleção de Natal: mini vitrines com cúpula de vidro ----------
+   Camadas da seção: fundo vermelho → neve distante → pinheiros desfocados → vitrines (cada uma é um SVG
+   com plataforma, relógio e vidro na ordem certa) → poucos flocos na frente, só nas laterais. */
+.xs { position: relative; overflow: hidden; isolation: isolate; color: var(--x-off); }
+.xs::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 34%; z-index: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(40, 4, 10, 0) 0%, rgba(40, 4, 10, .28) 100%); }
+.xs-in { position: relative; z-index: 2; }
+.xs .sec-head { border-color: rgba(233, 231, 226, .22); }
+.xs .sec-head .display { color: var(--x-off); }
+.xs .sec-link { color: var(--x-off); }
+.xs-tag { display: inline-flex; align-items: center; gap: .5rem; padding: .4rem .7rem; background: var(--x-off); color: var(--x-red); border-radius: 999px; }
+.xs-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(1rem, 2.6vw, 2.6rem); padding-top: clamp(2rem, 4vw, 3.5rem); }
+.hd-item { display: flex; flex-direction: column; align-items: center; min-width: 0; color: var(--x-off); }
+.hd-scene { display: block; width: 100%; max-width: 300px; }
+.hd-svg { display: block; width: 100%; height: auto; overflow: visible; }
+/* o relógio flutua muito pouco dentro da cúpula; a sombra dele acompanha */
+.hd-watch { animation: hd-float 6s ease-in-out infinite alternate; animation-delay: calc(var(--i, 0) * -1.4s); }
+.hd-wshadow { transform-box: fill-box; transform-origin: center; animation: hd-shadow 6s ease-in-out infinite alternate; animation-delay: calc(var(--i, 0) * -1.4s); }
+@keyframes hd-float { from { transform: translateY(0); } to { transform: translateY(-3px); } }
+@keyframes hd-shadow { from { transform: scaleX(1); opacity: .55; } to { transform: scaleX(.9); opacity: .4; } }
+/* reflexo que passa pelo vidro: de tempos em tempos e ao passar o mouse */
+.hd-glint { animation: hd-glint 9s ease-in-out infinite; animation-delay: calc(var(--i, 0) * 1.7s); }
+@keyframes hd-glint { 0%, 70% { transform: skewX(-18deg) translateX(0); } 88%, 100% { transform: skewX(-18deg) translateX(560px); } }
+.hd-item:hover .hd-glint, .hd-item:focus-visible .hd-glint { animation: hd-glint-now 1.1s var(--ease-out) both; }
+@keyframes hd-glint-now { from { transform: skewX(-18deg) translateX(0); } to { transform: skewX(-18deg) translateX(560px); } }
+.hd-scene { transition: transform .6s var(--ease-out); }
+.hd-item:hover .hd-scene { transform: translateY(-4px); }
+.hd-contact { transition: opacity .6s; } .hd-item:hover .hd-contact { opacity: .7; }
+.xs-info { display: grid; gap: .25rem; justify-items: center; text-align: center; padding-top: .9rem; font-size: 14px; }
+.xs-info b { font-family: var(--font-display); font-stretch: 112%; text-transform: uppercase; letter-spacing: -.01em; font-size: clamp(.82rem, 1.1vw, 1rem); line-height: 1.1; }
+.xs-stock { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--x-gold); }
+
+/* neve: atrás das vitrines (desfocada, cai devagar) e na frente (pouca, só nas laterais) */
+.hd-snow { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.hd-snow.is-back { z-index: 0; } .hd-snow.is-front { z-index: 3; }
+.hd-snow i { position: absolute; top: -40px; width: var(--s); height: var(--s); opacity: var(--a); filter: blur(var(--b)); animation: hd-fall var(--d) linear infinite; animation-delay: var(--o); }
+.hd-snow i svg { display: block; width: 100%; height: 100%; animation: hd-spin calc(var(--d) * 1.3) linear infinite; }
+.hd-snow.is-front i { border-radius: 50%; background: #fff; filter: blur(.4px); }
+@keyframes hd-fall { from { transform: translate(0, 0); } to { transform: translate(24px, 1400px); } }
+@keyframes hd-spin { to { transform: rotate(360deg); } }
+/* pinheiros desfocados no fundo */
+.hd-tree { position: absolute; z-index: 0; pointer-events: none; filter: blur(5px); opacity: .55; }
+.hd-tree.t1 { left: -2%; bottom: 2%; width: clamp(90px, 11vw, 170px); } .hd-tree.t2 { left: 7%; bottom: 0; width: clamp(60px, 7vw, 110px); opacity: .4; }
+.hd-tree.t3 { right: -2%; bottom: 3%; width: clamp(100px, 12vw, 180px); } .hd-tree.t4 { right: 8%; bottom: 0; width: clamp(56px, 6.5vw, 100px); opacity: .4; }
+@media (max-width: 860px) {
+  /* celular e tablet: grade 2 × 2, as quatro vitrines aparecem inteiras sem precisar arrastar */
+  .xs-row { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: .75rem; row-gap: 1.6rem; }
+  .xs-info { padding-top: .6rem; font-size: 13px; }
+  .xs-info b { font-size: .78rem; }
+  .hd-tree.t2, .hd-tree.t4 { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .hd-watch, .hd-wshadow, .hd-glint, .hd-snow i, .hd-snow i svg { animation: none !important; } }
+
+/* ---------- Banner: NÃO DEIXE PARA A ÚLTIMA HORA ---------- */
+.xb { position: relative; overflow: hidden; isolation: isolate; color: var(--x-off); background: linear-gradient(115deg, var(--x-red) 0%, #6a0e1a 52%, var(--x-wine) 100%); padding-block: clamp(4rem, 9vw, 8rem); }
+.xb-in { position: relative; z-index: 3; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); align-items: center; gap: clamp(1.5rem, 4vw, 4rem); }
+.xb-copy { display: grid; gap: 1.2rem; min-width: 0; }
+.xb-copy .label { color: var(--x-off); display: inline-flex; gap: .55rem; align-items: center; }
+.xb-title { font-family: var(--font-display); font-stretch: 112%; font-weight: 800; text-transform: uppercase; letter-spacing: -.03em; line-height: .88; font-size: clamp(2.37rem, 6.6vw, 6.85rem); }
+.xb-text { font-size: clamp(1.05rem, 1.4vw, 1.3rem); max-width: 34ch; }
+.xb-fact { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--x-gold); max-width: 52ch; line-height: 1.7; }
+.xb-btn { justify-self: start; }
+.xb-art { position: relative; min-height: clamp(260px, 30vw, 440px); }
+.xb-g { position: absolute; display: block; animation: k-bob 6s ease-in-out infinite alternate; }
+.xb-g svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 26px 30px rgba(0,0,0,.35)); }
+.xb-g1 { left: 2%; bottom: 0; width: 48%; } .xb-g2 { right: 4%; bottom: 0; width: 38%; animation-delay: -2.2s; } .xb-g3 { left: 34%; bottom: 44%; width: 30%; animation-delay: -4s; }
+.xb-rib { position: absolute; left: -20%; right: -14%; bottom: -14%; height: 40%; z-index: 2; pointer-events: none; }
+.xb-rib svg { display: block; width: 100%; height: 100%; }
+.xb-s1 { top: 0; left: 6%; } .xb-s2 { top: 16%; right: 8%; width: clamp(28px, 3.4vw, 52px); } .xb-s3 { top: 46%; left: -2%; width: clamp(16px, 1.8vw, 26px); }
+@media (max-width: 860px) {
+  .xb-in { grid-template-columns: minmax(0, 1fr); }
+  .xb-art { min-height: 230px; max-width: 420px; width: 100%; }
+  .xb-btn { justify-self: stretch; justify-content: center; }
+}
+
+/* ---------- Chegando para o Natal (relógios a caminho) ---------- */
+.natal-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .8rem 1.5rem; margin-bottom: 1.2rem; }
+.natal-note { color: var(--mute); }
+.natal-note b { color: var(--signal-ink); font-weight: 500; }
+.natal .chip .num { opacity: .55; margin-left: .3em; }
+.pcard.is-chegando .pcard-price { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); white-space: nowrap; }
+.pcard-note { position: absolute; left: .6rem; bottom: .6rem; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .08em; text-transform: uppercase; background: rgba(233,234,230,.9); color: var(--ink); padding: .3rem .5rem; pointer-events: none; }
+.natal-more { display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem; padding: clamp(1rem, 2vw, 1.6rem); background: var(--x-red); color: var(--x-off); min-height: 100%; transition: background .4s; }
+.natal-more:hover { background: var(--x-wine); }
+.natal-more .label { color: var(--x-gold); }
+.natal-more b { font-family: var(--font-display); font-stretch: var(--display-stretch); font-weight: 700; text-transform: uppercase; letter-spacing: -.01em; line-height: 1; font-size: clamp(1.3rem, 2.2vw, 2rem); }
+.natal-more .link { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+
+/* ---------- Páginas internas ---------- */
+.natal-mini-wrap { padding-block: 1.4rem 0; }
+.natal-mini { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 1.2rem; padding: 1rem 1.4rem; background: var(--x-red); color: var(--x-off); position: relative; overflow: hidden; }
+.natal-mini-gift { width: 64px; display: block; }
+.natal-mini-gift svg { display: block; width: 100%; height: auto; }
+.natal-mini .label { color: var(--x-gold); display: inline-flex; gap: .5rem; align-items: center; }
+.natal-mini p { margin-top: .3rem; font-size: 15px; max-width: 60ch; }
+.natal-mini .link { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+@media (max-width: 640px) { .natal-mini { grid-template-columns: 52px minmax(0, 1fr); } .natal-mini-gift { width: 52px; } .natal-mini .link { grid-column: 1 / -1; } }
+
+.natal-cols { background: var(--x-wine); color: var(--x-off); position: relative; overflow: hidden; }
+.natal-cols-in { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(1.5rem, 4vw, 4rem); padding-block: clamp(2.5rem, 5vw, 4rem); align-items: center; }
+.natal-cols .label { color: var(--x-gold); display: inline-flex; gap: .5rem; align-items: center; }
+.natal-cols-title { font-family: var(--font-display); font-stretch: 112%; font-weight: 800; text-transform: uppercase; letter-spacing: -.02em; line-height: .92; font-size: clamp(1.78rem, 4.2vw, 4.24rem); margin-top: .8rem; }
+.natal-cols-fact { margin-top: 1rem; font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--x-gold); }
+.natal-cols-list { display: grid; }
+.natal-cols-list a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .2rem 1rem; padding: 1rem 0; border-top: 1px solid rgba(233, 231, 226, .2); transition: padding .4s var(--ease-out); }
+.natal-cols-list li:last-child a { border-bottom: 1px solid rgba(233, 231, 226, .2); }
+.natal-cols-list a:hover { padding-left: .5rem; }
+.natal-cols-list .label { grid-column: 1; }
+.natal-cols-list b { grid-column: 1; font-family: var(--font-display); font-stretch: 112%; text-transform: uppercase; font-size: clamp(1.1rem, 2vw, 1.6rem); }
+.natal-cols-list .arrow { grid-row: 1 / 3; grid-column: 2; align-self: center; }
+.natal-cols-bow { position: absolute; right: 2%; top: 6%; width: clamp(60px, 7vw, 110px); pointer-events: none; }
+.natal-cols-bow svg { display: block; width: 100%; height: auto; }
+@media (max-width: 760px) { .natal-cols-in { grid-template-columns: minmax(0, 1fr); } .natal-cols-bow { width: 56px; } }
+
+.natal-gift { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 1rem; align-items: start; padding: 1rem 1.1rem; background: var(--x-red); color: var(--x-off); }
+.natal-gift-bow svg { display: block; width: 100%; height: auto; }
+.natal-gift .label { color: var(--x-gold); display: inline-flex; gap: .5rem; align-items: center; }
+.natal-gift p { margin-top: .35rem; font-size: 14px; }
+.natal-gift-small { color: rgba(233, 231, 226, .78); }
+
+.natal-thanks { background: var(--x-red); color: var(--x-off); position: relative; overflow: hidden; }
+.natal-thanks-in { position: relative; display: grid; gap: 1rem; padding-block: clamp(2.8rem, 6vw, 5rem); }
+.natal-thanks .label { color: var(--x-gold); display: inline-flex; gap: .5rem; align-items: center; }
+.natal-thanks-title { font-family: var(--font-display); font-stretch: 112%; font-weight: 800; text-transform: uppercase; letter-spacing: -.02em; line-height: .92; font-size: clamp(1.78rem, 4.2vw, 4.24rem); max-width: 18ch; }
+.natal-thanks p:not(.natal-thanks-title) { max-width: 52ch; }
+.natal-thanks .k-tr { top: -10px; right: -50px; }
+@media (max-width: 640px) { .natal-thanks .k-tr { width: 150px; opacity: .8; } }
+
+.natal-journal { padding-block: 1.6rem 0; }
+.natal-journal-card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); background: var(--x-red); color: var(--x-off); overflow: hidden; transition: transform .4s var(--ease-out); }
+.natal-journal-card:hover { transform: translateY(-2px); }
+.natal-journal-media { position: relative; display: block; overflow: hidden; aspect-ratio: 16 / 10; }
+.natal-journal-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease-out); }
+.natal-journal-card:hover .natal-journal-media img { transform: scale(1.03); }
+.k-hang-wrap .h1 { right: 22%; } .k-hang-wrap .h2 { right: 9%; }
+.natal-journal-copy { display: grid; gap: .8rem; align-content: center; padding: clamp(1.4rem, 3vw, 2.6rem); }
+.natal-journal-copy .label { color: var(--x-gold); display: inline-flex; gap: .5rem; align-items: center; }
+.natal-journal-copy b { font-family: var(--font-display); font-stretch: 112%; font-weight: 700; text-transform: uppercase; letter-spacing: -.01em; line-height: 1; font-size: clamp(1.4rem, 2.6vw, 2.3rem); }
+.natal-journal-copy .link { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+@media (max-width: 760px) { .natal-journal-card { grid-template-columns: minmax(0, 1fr); } }
+
+/* carrinho */
+.cart-natal { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: .7rem; align-items: center; margin-bottom: .6rem; padding: .7rem .8rem; background: var(--x-red); color: var(--x-off); font-size: 13px; line-height: 1.4; }
+.cart-natal-bow svg { display: block; width: 100%; height: auto; }
+
+/* ---------- Rodapé: QUE O SEU NATAL SEJA ATEMPORAL ---------- */
+.natal-foot { position: relative; overflow: hidden; isolation: isolate; color: var(--x-off); background: radial-gradient(90% 120% at 50% 0%, #5a0f19 0%, var(--x-wine) 55%, #1d0509 100%); padding: clamp(5rem, 10vw, 8rem) var(--gutter) clamp(3.5rem, 7vw, 6rem); text-align: center; }
+.natal-foot .k-lights-row { top: 0; }
+.natal-foot .k-tl { top: -6px; } .natal-foot .k-tr { top: -10px; }
+.natal-foot-in { position: relative; z-index: 3; display: grid; gap: 1.2rem; justify-items: center; }
+.natal-foot .label { color: var(--x-gold); display: inline-flex; gap: .5rem; align-items: center; }
+.natal-foot-title { font-family: var(--font-display); font-stretch: 112%; font-weight: 800; text-transform: uppercase; letter-spacing: -.03em; line-height: .88; font-size: clamp(2.37rem, 6.6vw, 6.85rem); }
+.natal-foot-sign { font-family: var(--font-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: rgba(233, 231, 226, .8); }
+.natal-foot-sign .dot { display: inline-block; width: .5em; height: .5em; background: var(--x-hot); margin: 0 .1em; }
+.natal-foot .k-f1 { left: 12%; top: 30%; } .natal-foot .k-f2 { right: 14%; top: 44%; width: clamp(28px, 3vw, 48px); } .natal-foot .k-f3 { left: 26%; bottom: 14%; width: clamp(16px, 1.6vw, 24px); }
+@media (max-width: 640px) { .natal-foot .k-tl, .natal-foot .k-tr { width: 150px; } .natal-foot .k-f1 { top: 18%; left: 6%; } }
+
+/* ---------- Menos movimento ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .natal-strip-track, .k-hang, .k-hang .k-star, .k-float .k-star, .k-halo, .xb-g, .xh-copy > *, .xh-stage { animation: none !important; }
+}
+
+/* o pinheiro do canto sai da borda de propósito, mas sem criar rolagem para o lado */
+.is-natal .page-head, .is-natal .about-hero, .is-natal .notfound { overflow-x: clip; }
+
+/* Sobre: o título ocupa a largura toda, então o pinheiro sai e os enfeites ficam mais curtos e à direita */
+.about-hero > .k-headdeco .k-corner { display: none; }
+.about-hero > .k-headdeco .h1 { --len: 24px; right: 7%; } .about-hero > .k-headdeco .h2 { --len: 40px; right: 3%; } .about-hero > .k-headdeco .h3 { display: none; }
+/* artigo: enfeites à direita do título */
+.k-headdeco.is-article { top: var(--header-h); }
+.k-headdeco.is-article .h1 { right: 14%; } .k-headdeco.is-article .h2 { right: 7%; } .k-headdeco.is-article .h3 { right: 2%; }
+@media (max-width: 860px) { .about-hero > .k-headdeco { display: none; } }
+/* celular: a etiqueta de preço do topo entra para dentro da caixa */
+@media (max-width: 860px) { .xh-tag { right: 0; top: 12%; transform: rotate(3deg); max-width: 62%; } }
+
+.is-natal .natal-thanks, .is-natal .natal-cols, .is-natal .natal-foot, .is-natal .xh, .is-natal .xb, .is-natal .xs { overflow-x: clip; }
+
+/* os pinheiros dos cantos ficam dentro da tela (sem rolagem para o lado) */
+.is-natal .k-headdeco { overflow: clip; height: 260px; }
+.is-natal .k-tr { right: 0; transform: scaleX(-1) rotate(6deg); transform-origin: right top; }
+.is-natal .k-tl { left: 0; transform: rotate(8deg); transform-origin: left top; }
+.is-natal .k-tr { transform-origin: center top; }
+.is-natal .k-tl { transform-origin: center top; }
+.k-headdeco.is-article .h1 { right: 7%; } .k-headdeco.is-article .h2 { right: 3.5%; } .k-headdeco.is-article .h3 { display: none; }
+
+/* ---------- Arte de campanha (imagens de Natal dos relógios) ---------- */
+.xg-art { position: absolute; right: .6rem; bottom: .6rem; z-index: 2; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; padding: .3rem .5rem; background: rgba(20, 20, 20, .62); color: var(--x-off); pointer-events: none; }
+.xb-photo { position: relative; display: block; justify-self: end; width: min(100%, 440px); aspect-ratio: 4 / 5; box-shadow: 0 40px 70px rgba(0, 0, 0, .4); outline: 1px solid rgba(197, 161, 107, .55); outline-offset: 10px; transition: transform .5s var(--ease-out); }
+.xb-photo:hover { transform: translateY(-2px); }
+.xb-photo > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.xb-photo .xb-g3 { left: -14%; bottom: -8%; top: auto; width: 34%; z-index: 3; }
+.xb-photo .xb-s1 { top: -6%; left: -8%; } .xb-photo .xb-s2 { top: 12%; right: -7%; }
+@media (max-width: 860px) { .xb-photo { justify-self: center; width: min(86%, 380px); margin-top: 1rem; } .xb-photo .xb-g3 { left: -10%; } }
+
+/* ---------- Gorro de Papai Noel no canto de alguns títulos ---------- */
+.is-natal .has-hat { position: relative; }
+.k-hat { position: absolute; left: -.1em; top: -.36em; width: .5em; z-index: 2; pointer-events: none; transform: rotate(-18deg); transform-origin: 30% 80%; animation: k-hat 4.8s ease-in-out infinite alternate; }
+.is-natal .has-hat.hat-r { width: fit-content; justify-self: start; }
+.hat-r .k-hat { left: auto; right: -.2em; top: -.14em; width: min(.3em, 64px); transform: rotate(16deg) scaleX(-1); transform-origin: 70% 80%; animation-name: k-hat-r; }
+.k-hat svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 3px 4px rgba(17, 18, 20, .22)); }
+@keyframes k-hat { from { transform: rotate(-20deg); } to { transform: rotate(-14deg); } }
+@keyframes k-hat-r { from { transform: rotate(14deg) scaleX(-1); } to { transform: rotate(20deg) scaleX(-1); } }
+@media (prefers-reduced-motion: reduce) { .k-hat { animation: none; } }
+
+/* no celular, o título com gorro fica sem os enfeites pendurados (um detalhe só) */
+@media (max-width: 860px) { .page-head:has(.has-hat) > .k-headdeco { display: none; } }
+
+/* ---------- Texturas (para o design não ficar chapado) ----------
+   Duas texturas de foto, em cinza neutro e sem emenda (assets/img/natal/texturas): tricô de lã e glitter.
+   Elas entram por cima do gradiente vermelho com "overlay": a cor continua a da marca, só ganha relevo.
+   Tricô nas faixas grandes e calmas (banner, rodapé, colunas); glitter onde tem brilho (vitrine de vidro, faixa
+   do topo, cartões vermelhos). A vitrine fica mais escura nas bordas para o relógio continuar sendo o centro. */
+:root { --tex-tricot: url("img/natal/texturas/tricot.webp"); --tex-glitter: url("img/natal/texturas/glitter.webp"); }
+.xb { background: linear-gradient(90deg, rgba(40, 4, 10, .38) 0%, rgba(40, 4, 10, .12) 50%, transparent 75%),
+    var(--tex-tricot) 0 0 / 330px auto repeat, linear-gradient(115deg, var(--x-red) 0%, #6a0e1a 52%, var(--x-wine) 100%);
+  background-blend-mode: normal, overlay, normal; }
+.natal-foot { background: var(--tex-tricot) center 0 / 330px auto repeat, radial-gradient(90% 120% at 50% 0%, #6a111d 0%, var(--x-wine) 55%, #1d0509 100%);
+  background-blend-mode: overlay, normal; }
+.natal-cols { background: var(--tex-tricot) 0 0 / 280px auto repeat, var(--x-wine); background-blend-mode: overlay, normal; }
+.xs { background: radial-gradient(70% 60% at 50% 42%, transparent 40%, rgba(30, 3, 8, .45) 100%),
+    var(--tex-glitter) 0 0 / 240px auto repeat,
+    radial-gradient(70% 60% at 50% 42%, #b8182d 0%, #8C101D 48%, #5a0b15 100%);
+  background-blend-mode: normal, overlay, normal; }
+.is-natal .natal-strip { background: var(--tex-glitter) 0 0 / 200px auto repeat, var(--x-red); background-blend-mode: overlay, normal; }
+.natal-thanks, .natal-mini, .natal-gift, .natal-journal-card, .natal-more, .cart-natal {
+  background-image: var(--tex-glitter); background-size: 220px auto; background-repeat: repeat; background-blend-mode: overlay; }
+
+/* ---------- Vidro da cúpula (biblioteca liquid-glass) ----------
+   Camadas por vitrine: SVG de trás (brilho, base, relógio) → .hd-glass (recorte) > .glass (vidro) → SVG da frente
+   (aro e reflexos). O vidro é uma cápsula mais alta que a cúpula; o recorte corta a ponta de baixo, que cairia na base.
+   A posição segue a cúpula do SVG (viewBox 300 × 470): x 46–254, topo em y 48, base em y 360. */
+.hd-scene { position: relative; }
+.hd-front-svg, .hd-mid-svg { position: absolute; inset: 0; pointer-events: none; }
+.hd-glass { position: absolute; left: 15.333%; width: 69.333%; top: 10.213%; height: 66.383%; overflow: hidden; pointer-events: none;
+  border-radius: 50% 50% 0 0 / 33.33% 33.33% 0 0; }
+.hd-lg { position: absolute; left: 0; top: 0; width: 100%; height: 150%; border-radius: 999px; }
+/* fundo da cena: é ele que o vidro refrata no Safari e no Firefox (no Chrome o vidro refrata tudo o que está atrás) */
+.xs-bd { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+/* o brilho atrás de cada vitrine pulsa devagar */
+.hd-glow { transform-box: fill-box; transform-origin: center; animation: hd-glow 5.5s ease-in-out infinite alternate; animation-delay: calc(var(--i, 0) * -1.3s); }
+@keyframes hd-glow { from { opacity: .85; transform: scale(.97); } to { opacity: 1; transform: scale(1.03); } }
+.hd-item:hover .hd-glow { animation-duration: 2.2s; }
+@media (prefers-reduced-motion: reduce) { .hd-glow { animation: none; } }
+.hd-bokeh circle { filter: blur(3px); animation: hd-bokeh 4.5s ease-in-out infinite alternate; }
+.hd-bokeh circle:nth-child(2n) { animation-delay: -1.6s; } .hd-bokeh circle:nth-child(3n) { animation-delay: -3.1s; }
+@keyframes hd-bokeh { from { opacity: .25; } to { opacity: .75; } }
+@media (prefers-reduced-motion: reduce) { .hd-bokeh circle { animation: none; } }
+.xs-row { overflow: visible; }
+
+/* ---------- Redoma: brilho, faíscas e a luz que atravessa o vidro ----------
+   Uma direção de luz só, do alto à esquerda: borda clara desse lado e apagada do outro, brilho estreito, ponto de luz,
+   cáustica na base à esquerda e sombra do relógio puxada para a direita. */
+.hd-spark { transform-box: fill-box; transform-origin: center; animation: hd-spark 3.6s ease-in-out infinite; animation-delay: calc(var(--d) * 1s + var(--i, 0) * .7s); }
+@keyframes hd-spark { 0%, 100% { opacity: 0; scale: .4; } 40%, 60% { opacity: 1; scale: 1; } }
+.hd-caustic { animation: hd-caustic 5.5s ease-in-out infinite alternate; animation-delay: calc(var(--i, 0) * -1.3s); }
+@keyframes hd-caustic { from { opacity: .7; } to { opacity: 1; } }
+.hd-item:hover .hd-spark { animation-duration: 1.6s; }
+@media (prefers-reduced-motion: reduce) { .hd-spark { animation: none; opacity: .8; } .hd-caustic { animation: none; } }
+
+/* véu da parede da frente (sobre o relógio): mesmo formato da cúpula, sem desfoque forte */
+.hd-veil { position: absolute; left: 15.333%; width: 69.333%; top: 10.213%; height: 66.383%; pointer-events: none;
+  border-radius: 50% 50% 0 0 / 33.33% 33.33% 0 0; backdrop-filter: contrast(.93) brightness(1.04) saturate(.96); -webkit-backdrop-filter: contrast(.93) brightness(1.04) saturate(.96); }
+
+/* ---------- Enfeites em foto (bolas de glitter, gorro, saco de presentes e caixas) ----------
+   Fotos recortadas com fundo transparente em assets/img/natal/elementos, no lugar dos desenhos. */
+.k-hang img.k-ball { display: block; width: clamp(36px, 4vw, 62px); height: auto; margin-top: -3px; filter: drop-shadow(0 10px 12px rgba(0,0,0,.28)); }
+.k-hat img { display: block; width: 100%; height: auto; filter: drop-shadow(0 4px 5px rgba(17, 18, 20, .25)); }
+.k-hat { width: .9em; top: -.56em; left: -.3em; }
+.hat-r .k-hat { width: min(.52em, 118px); top: -.26em; right: -.36em; }
+.natal-mini-gift img, .xb-g img { display: block; width: 100%; height: auto; filter: drop-shadow(0 22px 26px rgba(0,0,0,.35)); }
+.natal-mini-gift { width: 76px; }
+.xb-art { min-height: clamp(300px, 34vw, 500px); }
+.xb-saco { left: 4%; bottom: 0; width: 50%; }
+.xb-caixas { right: 0; bottom: -2%; width: 56%; z-index: 2; animation-delay: -2.6s; }
+.xb-photo .xb-g3 { width: 40%; }
+@media (max-width: 860px) { .xb-art { min-height: 300px; } .natal-mini-gift { width: 60px; } }
+/* "Chegando para o Natal": cacho de bolas pendurado do alto, à direita do título */
+[data-natal] { position: relative; }
+.k-bolas { position: absolute; top: 0; right: clamp(5.5rem, 13vw, 14rem); z-index: 2; width: clamp(90px, 11vw, 170px); pointer-events: none; transform-origin: top center; animation: k-swing 6s ease-in-out infinite alternate; }
+.k-bolas img { display: block; width: 100%; height: auto; filter: drop-shadow(0 14px 16px rgba(0,0,0,.22)); }
+@media (max-width: 860px) { .k-bolas { width: 66px; right: .6rem; } }
+@media (prefers-reduced-motion: reduce) { .k-bolas { animation: none; } }
+
+/* Banner "Não deixe para a última hora" mais compacto no celular */
+@media (max-width: 860px) {
+  .xb { padding-block: 2.6rem 1.6rem; }
+  .xb-in { gap: 1rem; }
+  .xb-copy { gap: .8rem; }
+  .xb-title { font-size: clamp(1.9rem, 8.6vw, 2.6rem); line-height: .92; }
+  .xb-text { font-size: 1rem; }
+  .xb-fact { font-size: 10px; line-height: 1.6; }
+  .xb-art { min-height: 0; height: 190px; max-width: 300px; justify-self: center; }
+  .xb-saco { width: 48%; } .xb-caixas { width: 54%; }
+  .xb-s3 { display: none; }
+}
+
+/* ---------- Desempenho ----------
+   Fora da tela, nada de Natal anima. No celular, a neve atrás das redomas fica com metade dos flocos,
+   sem desfoque e sem girar (cada floco desfocado e girando custava um quadro a cada rolagem). */
+.k-paused, .k-paused * { animation-play-state: paused !important; }
+@media (max-width: 860px), (pointer: coarse) {
+  .hd-snow.is-back i:nth-child(2n) { display: none; }
+  .hd-snow i { filter: none !important; }
+  .hd-snow i svg { animation: none; }
+  .hd-tree { filter: none; opacity: .3; }
+}

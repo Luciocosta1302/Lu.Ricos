@@ -1,0 +1,11 @@
+node_modules/
+_site/
+.netlify/
+.env
+.env.*
+# Playwright CLI output (may contain credentials)
+.playwright-cli/
+# Taste skill: perfis do Chrome e capturas dos verificadores
+.taste-skill/
+# Taste skill (40 MB de exemplos): reinstale com "npx skills install" (lê skills-lock.json)
+.claude/skills/design-taste-frontend/
