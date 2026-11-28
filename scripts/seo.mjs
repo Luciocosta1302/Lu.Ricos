@@ -107,7 +107,7 @@ function fill(html, openTag, closeTag, content) {
 
 /* ---------- card (o mesmo desenho do app.js) ---------- */
 const rel = s => /assets\/img\/relogios\/[^/]+\.jpg$/.test(s) && !/-600\.jpg$/.test(s);
-const pic = (s, sizes) => rel(s) ? `src="${s}" srcset="${s.replace(/\.jpg$/, '-600.jpg')} 600w, ${s} 1200w" sizes="${sizes}"` : `src="${s}"`;
+const pic = (s, sizes) => rel(s) ? `src="${s}" srcset="${s.replace(/\.jpg$/, '-600.webp')} 600w, ${s.replace(/\.jpg$/, '.webp')} 1200w" sizes="${sizes}"` : `src="${s}"`;
 const CARD_SIZES = '(max-width: 520px) 50vw, (max-width: 860px) 50vw, (max-width: 1100px) 33vw, 25vw';
 const badgeClass = p => p.status === 'esgotado' ? 'is-out' : /destaque|novidade|edição|encomenda/i.test(p.badge) ? 'is-signal' : '';
 const card = (p, i) => `

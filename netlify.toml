@@ -22,3 +22,24 @@
   status = 301
   force = true
   query = {slug = ":slug"}
+
+# Cache: fotos e fontes podem ficar guardadas no aparelho; CSS/JS revalidam rápido (os nomes não mudam a cada versão)
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=86400"
+
+[[headers]]
+  for = "/assets/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, stale-while-revalidate=604800"
+
+[[headers]]
+  for = "/assets/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, stale-while-revalidate=604800"
+
+[[headers]]
+  for = "/assets/vendor/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=604800"

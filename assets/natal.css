@@ -447,3 +447,14 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
   .xb-saco { width: 48%; } .xb-caixas { width: 54%; }
   .xb-s3 { display: none; }
 }
+
+/* ---------- Desempenho ----------
+   Fora da tela, nada de Natal anima. No celular, a neve atrás das redomas fica com metade dos flocos,
+   sem desfoque e sem girar (cada floco desfocado e girando custava um quadro a cada rolagem). */
+.k-paused, .k-paused * { animation-play-state: paused !important; }
+@media (max-width: 860px), (pointer: coarse) {
+  .hd-snow.is-back i:nth-child(2n) { display: none; }
+  .hd-snow i { filter: none !important; }
+  .hd-snow i svg { animation: none; }
+  .hd-tree { filter: none; opacity: .3; }
+}

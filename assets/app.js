@@ -23,8 +23,10 @@
   const dotName = n => esc(n).replace('.', '<span class="lr-dot">.</span>');
   /* fotos responsivas: cada foto tem uma versão de 600 px ao lado (foto-600.jpg);
      o navegador escolhe pelo tamanho em que a foto aparece (sizes) */
-  const rel = src => /assets\/img\/relogios\/[^/]+\.jpg$/.test(src) && !/-600\.jpg$/.test(src);
-  const pic = (src, sizes) => rel(src) ? `src="${src}" srcset="${src.replace(/\.jpg$/, '-600.jpg')} 600w, ${src} 1200w" sizes="${sizes}"` : `src="${src}"`;
+  const rel = src => /assets\/img\/relogios\/(natal\/)?[^/]+\.jpg$/.test(src) && !/-600\.jpg$/.test(src);
+  // srcset em WebP (cerca de 45% mais leve); o src em JPG fica de reserva para navegador antigo
+  const webp = s => s.replace(/\.jpg$/, '.webp');
+  const pic = (src, sizes) => rel(src) ? `src="${src}" srcset="${src.replace(/\.jpg$/, '-600.webp')} 600w, ${webp(src)} 1200w" sizes="${sizes}"` : `src="${src}"`;
 
   /* ---------- Molas ----------
      Modelo do guia de física da skill react-spring-physics (tensão, atrito,
@@ -738,8 +740,8 @@
     // foto larga de ponta a ponta no computador; no celular, a vertical
     slides.innerHTML = LR.hero.map((h, i) => {
       const p = LR.byId(h.id), wide = h.wide || h.img;
-      const wideSet = h.wide ? `${wide.replace(/\.jpg$/, '-1200.jpg')} 1200w, ${wide} 2400w` : wide;
-      const mob = rel(h.img) ? `${h.img.replace(/\.jpg$/, '-600.jpg')} 600w, ${h.img} 1200w` : h.img;
+      const wideSet = h.wide ? `${wide.replace(/\.jpg$/, '-1200.webp')} 1200w, ${webp(wide)} 2400w` : webp(wide);
+      const mob = rel(h.img) ? `${h.img.replace(/\.jpg$/, '-600.webp')} 600w, ${webp(h.img)} 1200w` : webp(h.img);
       return `<picture class="${i ? '' : 'is-active'}"><source media="(max-width: 860px)" srcset="${mob}" sizes="100vw"><img src="${wide}" srcset="${wideSet}" sizes="100vw" alt="${esc(p ? p.name : '')}" style="object-position:${h.pos || '50% 50%'}" loading="${i ? 'lazy' : 'eager'}"${i ? '' : ' fetchpriority="high"'}></picture>`;
     }).join('');
     const imgs = $$('picture', slides), code = $('[data-hero-code]'), link = $('[data-hero-link]'), count = $('[data-hero-count]');
