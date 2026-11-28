@@ -414,3 +414,23 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
 /* véu da parede da frente (sobre o relógio): mesmo formato da cúpula, sem desfoque forte */
 .hd-veil { position: absolute; left: 15.333%; width: 69.333%; top: 10.213%; height: 66.383%; pointer-events: none;
   border-radius: 50% 50% 0 0 / 33.33% 33.33% 0 0; backdrop-filter: contrast(.93) brightness(1.04) saturate(.96); -webkit-backdrop-filter: contrast(.93) brightness(1.04) saturate(.96); }
+
+/* ---------- Enfeites em foto (bolas de glitter, gorro, saco de presentes e caixas) ----------
+   Fotos recortadas com fundo transparente em assets/img/natal/elementos, no lugar dos desenhos. */
+.k-hang img.k-ball { display: block; width: clamp(36px, 4vw, 62px); height: auto; margin-top: -3px; filter: drop-shadow(0 10px 12px rgba(0,0,0,.28)); }
+.k-hat img { display: block; width: 100%; height: auto; filter: drop-shadow(0 4px 5px rgba(17, 18, 20, .25)); }
+.k-hat { width: .9em; top: -.56em; left: -.3em; }
+.hat-r .k-hat { width: min(.52em, 118px); top: -.26em; right: -.36em; }
+.natal-mini-gift img, .xb-g img { display: block; width: 100%; height: auto; filter: drop-shadow(0 22px 26px rgba(0,0,0,.35)); }
+.natal-mini-gift { width: 76px; }
+.xb-art { min-height: clamp(300px, 34vw, 500px); }
+.xb-saco { left: 4%; bottom: 0; width: 50%; }
+.xb-caixas { right: 0; bottom: -2%; width: 56%; z-index: 2; animation-delay: -2.6s; }
+.xb-photo .xb-g3 { width: 40%; }
+@media (max-width: 860px) { .xb-art { min-height: 300px; } .natal-mini-gift { width: 60px; } }
+/* "Chegando para o Natal": cacho de bolas pendurado do alto, à direita do título */
+[data-natal] { position: relative; }
+.k-bolas { position: absolute; top: 0; right: clamp(5.5rem, 13vw, 14rem); z-index: 2; width: clamp(90px, 11vw, 170px); pointer-events: none; transform-origin: top center; animation: k-swing 6s ease-in-out infinite alternate; }
+.k-bolas img { display: block; width: 100%; height: auto; filter: drop-shadow(0 14px 16px rgba(0,0,0,.22)); }
+@media (max-width: 860px) { .k-bolas { width: 66px; right: .6rem; } }
+@media (prefers-reduced-motion: reduce) { .k-bolas { animation: none; } }

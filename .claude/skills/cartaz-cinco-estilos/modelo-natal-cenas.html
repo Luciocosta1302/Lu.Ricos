@@ -1,0 +1,170 @@
+<!doctype html><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500;1,600&family=Martian+Mono:wght@400;500&display=swap">
+<script src="file:///home/user/aurea-estetica/assets/data.js"></script>
+<script src="file:///home/user/aurea-estetica/assets/natal.js"></script>
+<style>
+/* Natal 2026 — seis cenas, uma ideia por relógio, com a essência da LU.RICOS:
+   Archivo larga e pesada em caixa alta + uma palavra em serifa itálica dourada, rótulos em mono,
+   o ponto vermelho quadrado e sempre a foto real da peça. Escala áurea (1080 px): 185 · 115 · 71 · 44 · 27 · 21. */
+:root { --gold: #c9a462; --gold2: #f3d9a0; --steel: #e9eae6; --ink: #111214; --red: #cc2744; }
+html, body { margin: 0; background: #000; }
+.p { position: relative; width: 1080px; height: var(--h); overflow: hidden; isolation: isolate; font-family: Archivo, sans-serif; }
+.p * { box-sizing: border-box; }
+.a { position: absolute; }
+.img { display: block; width: 100%; height: auto; }
+.mono { font: 500 21px "Martian Mono", monospace; letter-spacing: .16em; text-transform: uppercase; }
+.title { font-weight: 800; font-stretch: 112%; text-transform: uppercase; letter-spacing: -.025em; line-height: .9; }
+.title em { font: italic 600 1.08em/.8 "Cormorant Garamond", serif; text-transform: none; letter-spacing: -.01em; color: var(--gold2); }
+.logo { font-weight: 800; font-size: 44px; font-stretch: 125%; letter-spacing: -.01em; }
+.logo i { display: inline-block; width: 8px; height: 8px; background: var(--red); margin: 0 3px; }
+.chip { display: inline-block; padding: 9px 16px; border-radius: 999px; color: #2a0a0f; background: linear-gradient(180deg, var(--gold2), var(--gold)); }
+.grain { inset: 0; z-index: 50; opacity: .07; mix-blend-mode: overlay; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); pointer-events: none; }
+.glitter { inset: 0; background: url(file:///home/user/aurea-estetica/assets/img/natal/texturas/glitter.webp) 0 0 / 280px auto repeat; mix-blend-mode: overlay; }
+.shadow { filter: drop-shadow(18px 28px 26px rgba(0,0,0,.5)) drop-shadow(0 6px 6px rgba(0,0,0,.3)); }
+.glint { width: 70px; height: 70px; mix-blend-mode: screen; z-index: 30; }
+.glint::before, .glint::after { content: ""; position: absolute; left: 50%; top: 50%; background: radial-gradient(closest-side, #fff, rgba(255,240,210,.6) 30%, transparent); }
+.glint::before { width: 100%; height: 6%; transform: translate(-50%, -50%); } .glint::after { width: 6%; height: 100%; transform: translate(-50%, -50%); }
+</style>
+<body>
+<script>
+const Q = new URLSearchParams(location.search), W = Q.get('w') || 'riviera', F = Q.get('f') || 'feed';
+const H = F === 'story' ? 1920 : 1350, OY = F === 'story' ? 285 : 0; // story: o mesmo quadro descido (fora dos 250 px de cima e dos 300 de baixo)
+const E = 'file:///home/user/aurea-estetica/assets/img/natal/elementos/', R = 'file:///home/user/aurea-estetica/brand/recortes-png/';
+const K = LR.Natal.kit;
+const PECA = {
+  riviera:   { img: 'riviera.png', ratio: 997 / 635, nome: 'Technos Riviera', stock: 'Peça única' },
+  colmeia:   { img: 'colmeia.png', ratio: 1400 / 620, nome: 'Pablo Raez Colmeia', stock: 'Últimas 2 peças' },
+  esmeralda: { img: 'esmeralda.png', ratio: 1391 / 774, nome: 'Pablo Raez Esmeralda', stock: 'Últimas 2 peças' },
+  rosa:      { img: 'rosa-dos-ventos.png', ratio: 1333 / 441, nome: 'Pablo Raez Rosa dos Ventos', stock: 'Peça única' },
+  romano:    { img: 'romano.png', ratio: 704 / 606, nome: 'Pablo Raez Romano', stock: 'Últimas 2 peças' },
+  sunlifex:  { img: 'sunlifex.png', ratio: 1149 / 707, nome: 'Sunlifex Cronógrafo', stock: 'Últimas 2 peças' },
+}[W];
+let seed = 7; const rnd = () => (seed = seed * 16807 % 2147483647) / 2147483647;
+const watch = (x, y, w, extra = '') => `<div class="a shadow" style="left:${x}px;top:${y}px;width:${w}px;z-index:20;${extra}"><img class="img" src="${R}${PECA.img}"></div>`;
+const glint = (x, y, k = 1) => `<div class="a glint" style="left:${x - 35 * k}px;top:${y - 35 * k}px;transform:scale(${k}) rotate(12deg)"></div>`;
+const flake = (x, y, s, o, blur = 0) => `<svg class="a" viewBox="-12 -12 24 24" style="left:${x}px;top:${y}px;width:${s}px;opacity:${o};filter:blur(${blur}px);z-index:25"><g stroke="#fff" stroke-width="1.4" stroke-linecap="round">${[0, 60, 120].map(a => `<g transform="rotate(${a})"><path d="M0 -10V10"/><path d="M-3 -7L0 -4L3 -7M-3 7L0 4L3 7"/></g>`).join('')}</g></svg>`;
+const snow = (n, area, big = 60) => Array.from({ length: n }, () => { const s = 10 + rnd() * big, b = rnd() < .4 ? 2 + rnd() * 3 : 0; return flake(area[0] + rnd() * (area[2] - area[0]), area[1] + rnd() * (area[3] - area[1]), s, (.5 + rnd() * .5).toFixed(2), b); }).join('')
+  + Array.from({ length: n * 2 }, () => { const d = 4 + rnd() * 9; return `<i class="a" style="left:${rnd() * 1080}px;top:${area[1] + rnd() * (area[3] - area[1])}px;width:${d}px;height:${d}px;border-radius:50%;background:#fff;opacity:${(.4 + rnd() * .5).toFixed(2)};filter:blur(${(rnd() * 2).toFixed(1)}px);z-index:24"></i>`; }).join('');
+const bokeh = (n, area, col = '255,214,150') => Array.from({ length: n }, () => { const d = 14 + rnd() * 70; return `<i class="a" style="left:${rnd() * 1080}px;top:${area[1] + rnd() * (area[3] - area[1])}px;width:${d}px;height:${d}px;border-radius:50%;opacity:${(.15 + rnd() * .5).toFixed(2)};filter:blur(${(1 + rnd() * 4).toFixed(1)}px);background:radial-gradient(circle, rgba(${col},.95), rgba(${col},.25) 50%, transparent 70%)"></i>`; }).join('');
+// árvore vermelha "de gelo": três camadas de cone com pontinhos brancos
+const tree = (x, y, w, blur, z = 2, tone = ['#e0344a', '#9c1426', '#5e0a16']) => { const h = w * 1.5, id = 't' + Math.round(rnd() * 1e9); let dots = '';
+  for (let i = 0; i < 320; i++) { const ty = rnd(), half = (.12 + ty * .38) * 100, tx = 50 + (rnd() * 2 - 1) * half * .95; dots += `<circle cx="${tx.toFixed(1)}" cy="${(ty * 150).toFixed(1)}" r="${(.35 + rnd() * 1.1).toFixed(1)}" fill="#fff" opacity="${(.4 + rnd() * .6).toFixed(2)}"/>`; }
+  return `<svg class="a" viewBox="0 0 100 150" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;filter:blur(${blur}px) drop-shadow(0 14px 16px rgba(0,0,0,.3));z-index:${z}">
+  <defs><linearGradient id="${id}" x1="0" x2="1"><stop offset="0" stop-color="${tone[2]}"/><stop offset=".45" stop-color="${tone[0]}"/><stop offset="1" stop-color="${tone[1]}"/></linearGradient></defs>
+  <path d="M50 0 L74 52 L62 50 L86 100 L72 98 L98 150 L2 150 L28 98 L14 100 L38 50 L26 52 Z" fill="url(#${id})"/>${dots}</svg>`; };
+const pedestal = (cx, top, w, tone = 'red', z = 10) => { const c = tone === 'stone' ? ['#efe4d2', '#d8c7ad', '#9c8562', '#f8efe2'] : ['#d8263c', '#9c1426', '#4a0912', '#ec4a5e']; const id = 'pd' + Math.round(rnd() * 1e9);
+  return `<svg class="a" viewBox="0 0 400 300" style="left:${cx - w / 2}px;top:${top}px;width:${w}px;z-index:${z};overflow:visible"><defs>
+  <linearGradient id="${id}f" x1="0" x2="1"><stop offset="0" stop-color="${c[2]}"/><stop offset=".3" stop-color="${c[0]}"/><stop offset=".55" stop-color="${c[1]}"/><stop offset="1" stop-color="${c[2]}"/></linearGradient>
+  <radialGradient id="${id}t" cx="42%" cy="40%" r="70%"><stop offset="0" stop-color="${c[3]}"/><stop offset="1" stop-color="${c[1]}"/></radialGradient></defs>
+  <ellipse cx="200" cy="292" rx="220" ry="26" fill="#000" opacity=".35" style="filter:blur(10px)"/>
+  <path d="M10 40 V262 A190 30 0 0 0 390 262 V40 Z" fill="url(#${id}f)"/><ellipse cx="200" cy="40" rx="190" ry="30" fill="url(#${id}t)"/>
+  <path d="M10 40 A190 30 0 0 1 390 40" fill="none" stroke="#fff" stroke-opacity=".4" stroke-width="1.5"/></svg>`; };
+// rodapé e topo com a cara da loja
+const frame = (dark = true, extra = '') => { const c = dark ? '#f6ead6' : '#111214';
+  return `<div class="a mono" style="left:64px;top:${60 + OY}px;color:${c};opacity:.85;z-index:40">Natal 2026 &nbsp;—&nbsp; ${PECA.nome}</div>
+  <div class="a logo" style="left:64px;top:${1252 + OY}px;color:${c};z-index:40">LU<i></i>RICOS</div>
+  <div class="a mono" style="right:64px;top:${1262 + OY}px;color:${c};z-index:40;display:flex;gap:18px;align-items:center">Entrega em Marabá <span class="chip">${PECA.stock}</span></div>${extra}`; };
+
+const SCENES = {
+  /* 1) RIVIERA — dentro da redoma, com árvores vermelhas de gelo e neve (referência 6) */
+  riviera() {
+    const ww = 250, wH = ww * PECA.ratio, cx = 540, base = 1080 + OY, wTop = base - wH - 6, dW = 450, dTop = wTop - 90;
+    return `<div class="a" style="inset:0;background:radial-gradient(70% 55% at 50% 50%, #e3324a 0%, #b5182d 40%, #6e0c19 100%)"></div><div class="a glitter" style="opacity:.45"></div>
+    ${tree(-60, 560 + OY, 260, 6)}${tree(140, 660 + OY, 200, 3)}${tree(760, 600 + OY, 240, 5)}${tree(880, 700 + OY, 220, 2)}${tree(-80, 760 + OY, 330, 0, 26)}${tree(820, 780 + OY, 330, 0, 26)}
+    <div class="a" style="left:${cx - 300}px;top:${base - 520}px;width:600px;height:600px;border-radius:50%;background:radial-gradient(closest-side, rgba(255,230,200,.55), transparent);z-index:5"></div>
+    ${pedestal(cx, base - 34, 560, 'red', 12)}
+    ${watch(cx - ww / 2, wTop, ww)}
+    <svg class="a" viewBox="0 0 470 ${base - dTop}" style="left:${cx - dW / 2}px;top:${dTop}px;width:${dW}px;z-index:22;overflow:visible"><defs>
+      <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".5" stop-color="#fff" stop-opacity=".45"/><stop offset="1" stop-color="#fff" stop-opacity=".15"/></linearGradient>
+      <linearGradient id="film" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset=".22" stop-color="#fff" stop-opacity=".05"/><stop offset=".78" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="#fff" stop-opacity=".22"/></linearGradient></defs>
+      <path d="M10 ${base - dTop - 4} V235 A225 225 0 0 1 460 235 V${base - dTop - 4} Z" fill="url(#film)"/>
+      <path d="M10 ${base - dTop - 4} V235 A225 225 0 0 1 460 235 V${base - dTop - 4}" fill="none" stroke="url(#rim)" stroke-width="3"/>
+      <path d="M44 ${base - dTop - 60} V240 A190 190 0 0 1 140 70" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="10" stroke-linecap="round" style="filter:blur(1px)"/>
+      <path d="M66 ${base - dTop - 120} V250" stroke="#fff" stroke-opacity=".3" stroke-width="3" stroke-linecap="round"/>
+      <path d="M420 ${base - dTop - 80} V240 A190 190 0 0 0 380 120" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="150" cy="58" rx="40" ry="11" transform="rotate(-32 150 58)" fill="#fff" opacity=".9"/>
+      <path d="M10 ${base - dTop - 4} A225 30 0 0 0 460 ${base - dTop - 4}" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="2.5"/></svg>
+    ${glint(cx - dW / 2 + 150, dTop + 58, 1.3)}${glint(cx - ww / 2 + ww * .2, wTop + wH * .22, .8)}
+    ${snow(18, [0, 120 + OY, 1080, 1250 + OY])}
+    <div class="a title" style="left:0;right:0;top:${130 + OY}px;text-align:center;font-size:115px;color:#fff;z-index:40;text-shadow:0 6px 30px rgba(90,0,10,.45)">Tempo de<br><em style="font-size:1.25em">presentear.</em></div>
+    ${frame(true)}`;
+  },
+  /* 2) ESMERALDA — pendurado no pinheiro, como enfeite, entre as bolas de glitter */
+  esmeralda() {
+    const ww = 300, wH = ww * PECA.ratio, cx = 560, wTop = 470 + OY;
+    return `<div class="a" style="inset:0;background:radial-gradient(70% 60% at 55% 45%, #1f4d3c 0%, #12302a 50%, #06120e 100%)"></div><div class="a glitter" style="opacity:.3"></div>
+    ${bokeh(26, [0, 200 + OY, 1080, 1200 + OY])}
+    <svg class="a" style="left:${cx - 1}px;top:${120 + OY}px;width:3px;height:${wTop - 110 - OY}px;z-index:19"><rect width="3" height="100%" fill="#c9a462"/></svg>
+    <div class="a" style="left:${cx - 22}px;top:${wTop - 24}px;width:44px;height:44px;border-radius:50%;border:5px solid #c9a462;z-index:19"></div>
+    ${watch(cx - ww / 2, wTop, ww, 'transform:rotate(-6deg);transform-origin:50% 0')}
+    ${glint(cx - ww / 2 + ww * .26, wTop + wH * .36, 1)}
+    <svg class="a" style="left:240px;top:${120 + OY}px;width:3px;height:${330}px;z-index:15"><rect width="3" height="100%" fill="#c9a462"/></svg>
+    <div class="a shadow" style="left:${240 - 85}px;top:${430 + OY}px;width:170px;z-index:16"><img class="img" src="${E}bola-a.webp"></div>
+    <svg class="a" style="left:860px;top:${120 + OY}px;width:3px;height:${470}px;z-index:15"><rect width="3" height="100%" fill="#c9a462"/></svg>
+    <div class="a shadow" style="left:${860 - 75}px;top:${570 + OY}px;width:150px;z-index:16"><img class="img" src="${E}bola-b.webp"></div>
+    <div class="a" style="left:-60px;top:${30 + OY}px;width:1260px;z-index:30;filter:drop-shadow(0 18px 20px rgba(0,0,0,.5));transform:rotate(4deg)">${K.pine(23, 620).replace('<svg', '<svg style="width:100%;height:auto;display:block"')}</div>
+    <div class="a" style="left:-200px;top:${-60 + OY}px;width:900px;z-index:8;filter:blur(6px) brightness(.7);transform:rotate(-6deg)">${K.pine(11, 520).replace('<svg', '<svg style="width:100%;height:auto;display:block"')}</div>
+    <div class="a title" style="left:64px;right:64px;top:${985 + OY}px;font-size:115px;color:#f6ead6;z-index:40">O enfeite<br><em>que faltava.</em></div>
+    ${frame(true).replace(`top:${60 + OY}px`, `top:${940 + OY}px`)}`;
+  },
+  /* 3) COLMEIA — embrulhado: "PRESENTE" gigante atrás e a fita vermelha cruzando o quadro (essência editorial da loja) */
+  colmeia() {
+    const ww = 300, wH = ww * PECA.ratio, cx = 540, wTop = 330 + OY, band = 150;
+    const satin = dir => `linear-gradient(${dir}, #6e0c19, #c51d32 22%, #e65468 48%, #c51d32 70%, #6e0c19)`;
+    return `<div class="a" style="inset:0;background:#e9eae6"></div>
+    <div class="a" style="inset:0;opacity:.6;background:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .4 0 0 0 0 .36 0 0 0 0 .3 0 0 0 .12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E&quot;)"></div>
+    <div class="a title" style="left:0;right:0;top:${560 + OY}px;text-align:center;font-size:185px;font-stretch:100%;letter-spacing:-.04em;color:#cc2744;z-index:3">Presente</div>
+    <div class="a" style="left:${cx - band / 2}px;top:0;bottom:0;width:${band}px;background:${satin('90deg')};z-index:6;box-shadow:0 0 30px rgba(0,0,0,.25)"></div>
+    <div class="a" style="left:0;right:0;top:${760 + OY}px;height:${band * .8}px;background:${satin('180deg')};z-index:5;box-shadow:0 0 30px rgba(0,0,0,.25)"></div>
+    ${watch(cx - ww / 2, wTop, ww)}
+    <div class="a" style="left:${cx - 210}px;top:${wTop - 150}px;width:420px;z-index:22;filter:drop-shadow(0 14px 16px rgba(0,0,0,.35))">${K.bow('red').replace('<svg', '<svg style="width:100%;height:auto;display:block"')}</div>
+    ${glint(cx - ww / 2 + ww * .2, wTop + wH * .34, 1)}
+    <div class="a title" style="left:64px;top:${1035 + OY}px;font-size:71px;color:#111214;z-index:40">Para<br><em style="color:#cc2744">marcar.</em></div>
+    ${frame(false).replace('Natal 2026 &nbsp;—&nbsp; ' + PECA.nome, 'Natal 2026').replace('Entrega em Marabá <span', '<span')}
+    <div class="a mono" style="right:64px;top:${60 + OY}px;color:#111214;opacity:.85;z-index:40">${PECA.nome}</div>`;
+  },
+  /* 4) SUNLIFEX — de gorro de Papai Noel: o relógio entrou no clima */
+  sunlifex() {
+    const ww = 420, wH = ww * PECA.ratio, cx = 560, wTop = 470 + OY;
+    return `<div class="a" style="inset:0;background:radial-gradient(60% 50% at 52% 60%, #3a3b40 0%, #1a1b1f 50%, #08080a 100%)"></div>
+    <div class="a" style="left:${cx - 420}px;top:${wTop - 160}px;width:840px;height:840px;border-radius:50%;background:radial-gradient(closest-side, rgba(204,39,68,.45), transparent);z-index:2"></div>
+    ${snow(14, [0, 100 + OY, 1080, 1250 + OY], 40)}
+    ${watch(cx - ww / 2, wTop, ww)}
+    <div class="a" style="left:${cx - ww / 2 - 70}px;top:${wTop - 120}px;width:${ww * .95}px;z-index:28;transform:rotate(-14deg);filter:drop-shadow(0 16px 16px rgba(0,0,0,.5))"><img class="img" src="${E}gorro.webp"></div>
+    ${glint(cx - ww / 2 + ww * .78, wTop + wH * .36, .9)}
+    <div class="a title" style="left:64px;right:64px;top:${130 + OY}px;font-size:115px;color:#f6ead6;z-index:40">Até ele<br><em style="color:#ff5d73">entrou no clima.</em></div>
+    ${frame(true)}`;
+  },
+  /* 5) ROMANO — meia-noite: holofote, XII gigante e "doze badaladas" */
+  romano() {
+    const ww = 430, wH = ww * PECA.ratio, cx = 540, base = 1080 + OY, wTop = base - wH;
+    return `<div class="a" style="inset:0;background:#09090b"></div>
+    <div class="a" style="left:${cx - 520}px;top:${-40 + OY}px;width:1040px;height:${base + 60 - OY}px;background:linear-gradient(180deg, rgba(255,236,200,.42), rgba(255,236,200,.06) 85%);clip-path:polygon(40% 0, 60% 0, 100% 100%, 0 100%);filter:blur(18px);z-index:2"></div>
+    <div class="a" style="left:${cx - 400}px;top:${base - 50}px;width:800px;height:110px;border-radius:50%;background:radial-gradient(closest-side, rgba(255,236,200,.35), transparent);z-index:3"></div>
+    <div class="a" style="left:0;right:0;top:${330 + OY}px;text-align:center;font:700 300px/1 'Cormorant Garamond';color:transparent;-webkit-text-stroke:2px rgba(201,164,98,.75);z-index:4">XII</div>
+    ${Array.from({ length: 70 }, () => { const d = 1 + rnd() * 3.5; const y = 60 + OY + rnd() * (base - 80 - OY); const spread = (y - OY) / (base - OY) * 480 + 100; return `<i class="a" style="left:${cx + (rnd() * 2 - 1) * spread}px;top:${y}px;width:${d}px;height:${d}px;border-radius:50%;background:#fff3dc;opacity:${(.3 + rnd() * .6).toFixed(2)};filter:blur(${(rnd() * 1.2).toFixed(1)}px);z-index:6"></i>`; }).join('')}
+    <div class="a" style="left:${cx - ww * .5}px;top:${base - 14}px;width:${ww}px;height:30px;border-radius:50%;background:radial-gradient(closest-side, rgba(0,0,0,.9), transparent);z-index:19"></div>
+    ${watch(cx - ww / 2, wTop, ww)}
+    ${glint(cx - ww / 2 + ww * .2, wTop + wH * .24, 1.1)}${glint(cx - ww / 2 + ww * .82, wTop + wH * .5, .6)}
+    <div class="a title" style="left:64px;right:64px;top:${130 + OY}px;font-size:115px;color:#f6ead6;z-index:40;text-align:center">Doze<br><em>badaladas.</em></div>
+    <div class="a" style="left:0;right:0;top:${base + 70}px;text-align:center;font:italic 500 44px 'Cormorant Garamond';color:#e9dcc3;z-index:40">Números romanos para a noite de Natal.</div>
+    ${frame(true)}`;
+  },
+  /* 6) ROSA DOS VENTOS — saindo do saco do Noel: só tem um */
+  rosa() {
+    const sw = 640, sTop = 560 + OY, ww = 230, wH = ww * PECA.ratio, cx = 470, wTop = sTop - wH * .55;
+    return `<div class="a" style="inset:0;background:radial-gradient(70% 60% at 45% 55%, #7a1020 0%, #4a0912 55%, #1a0306 100%)"></div><div class="a glitter" style="opacity:.4"></div>
+    ${bokeh(22, [0, 200 + OY, 1080, 1200 + OY])}
+    <div class="a" style="left:${cx - 360}px;top:${sTop - 260}px;width:720px;height:720px;border-radius:50%;background:radial-gradient(closest-side, rgba(255,210,150,.35), transparent);z-index:2"></div>
+    <div class="a" style="left:${cx - ww / 2}px;top:${wTop}px;width:${ww}px;z-index:9;transform:rotate(8deg);transform-origin:50% 100%;filter:drop-shadow(10px 16px 18px rgba(0,0,0,.45));-webkit-mask-image:linear-gradient(180deg,#000 72%,transparent 86%)"><img class="img" src="${R}${PECA.img}"></div>
+    <div class="a" style="left:${cx - sw / 2 - 20}px;top:${sTop}px;width:${sw}px;z-index:10;filter:drop-shadow(0 30px 30px rgba(0,0,0,.5))"><img class="img" src="${E}saco.webp"></div>
+    <div class="a shadow" style="left:640px;top:${sTop + 380}px;width:420px;z-index:12"><img class="img" src="${E}caixas.webp"></div>
+    ${glint(cx - ww / 2 + ww * .25, wTop + wH * .4, .9)}
+    ${snow(12, [0, 100 + OY, 1080, 1200 + OY], 36)}
+    <div class="a title" style="left:64px;right:64px;top:${130 + OY}px;font-size:115px;color:#f6ead6;z-index:40">Só tem <em>um.</em></div>
+    <div class="a" style="left:64px;top:${250 + OY}px;width:560px;font:italic 500 44px/1.15 'Cormorant Garamond';color:#efe2cb;z-index:40">E ele já está no saco do Noel.</div>
+    ${frame(true).replace(`top:${60 + OY}px`, `top:${60 + OY}px;display:none`)}`;
+  },
+}[W];
+document.body.innerHTML = `<div class="p" style="--h:${H}px">${SCENES()}<div class="a grain"></div></div>`;
+</script>

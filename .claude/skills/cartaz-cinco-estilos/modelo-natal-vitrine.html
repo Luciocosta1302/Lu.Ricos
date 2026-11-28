@@ -1,0 +1,106 @@
+<!doctype html><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Martian+Mono:wght@400;500&display=swap">
+<script src="file:///home/user/aurea-estetica/assets/data.js"></script>
+<script src="file:///home/user/aurea-estetica/assets/natal.js"></script>
+<style>
+/* Anúncio de Natal LU.RICOS, versão 2.
+   Escala áurea para 1080 px (skill escala-e-texturas): 300 · 185 · 115 · 71 · 44 · 27.
+   Fundo = foto desfocada (a arte de campanha da própria peça, bem desfocada) + grão.
+   Efeitos: palavra gigante atrás do relógio, piso espelhado com reflexo, profundidade de campo
+   (enfeites da frente e de trás desfocados), feixes de luz, luz de borda e faíscas no vidro. */
+:root { --gold: #c9a462; --gold2: #f3d9a0; }
+html, body { margin: 0; background: #000; }
+.p { position: relative; width: 1080px; height: var(--h); overflow: hidden; color: var(--txt); isolation: isolate; }
+.p > * { position: absolute; }
+/* 1. fundo */
+.photo { inset: -80px; background: var(--photo) center / cover; filter: blur(46px) saturate(1.15) brightness(var(--bright, .55)); transform: scale(1.1); }
+.tint { inset: 0; background: var(--tint); mix-blend-mode: multiply; }
+.glitter { inset: 0; background: url(file:///home/user/aurea-estetica/assets/img/natal/texturas/glitter.webp) 0 0 / 280px auto repeat; mix-blend-mode: overlay; opacity: .35; }
+.rays { inset: 0; background:
+  linear-gradient(115deg, transparent 18%, rgba(255,226,180,.16) 24%, transparent 30%),
+  linear-gradient(118deg, transparent 32%, rgba(255,226,180,.10) 37%, transparent 43%),
+  linear-gradient(112deg, transparent 6%, rgba(255,226,180,.08) 10%, transparent 15%);
+  filter: blur(14px); mix-blend-mode: screen; }
+.bokeh i { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(255,220,160,.9), rgba(255,170,90,.25) 50%, transparent 70%); }
+/* 2. palavra gigante atrás do relógio (texto entre o fundo e o assunto) */
+.giant { left: 0; right: 0; text-align: center; font: 700 300px/.8 "Cormorant Garamond"; letter-spacing: -.02em; text-transform: uppercase;
+  background: linear-gradient(180deg, var(--gold2) 0%, var(--gold) 45%, #7c5a2c 100%); -webkit-background-clip: text; background-clip: text; color: transparent; opacity: var(--giantop, .9);
+  filter: drop-shadow(0 18px 30px rgba(0,0,0,.35)); }
+/* 3. piso espelhado */
+.floor { left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(255,255,255,.10) 0, rgba(0,0,0,.0) 2px, rgba(0,0,0,.35) 40%, rgba(0,0,0,.75) 100%); }
+.floor::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,230,190,.55), transparent); }
+/* 4. relógio: luz de fundo, sombra de contato, reflexo, foto e faíscas */
+.halo { border-radius: 50%; background: radial-gradient(closest-side, rgba(255,214,160,.55), rgba(255,170,100,.15) 55%, transparent); }
+.contact { border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.8), transparent); }
+.watch { z-index: 4; filter: drop-shadow(0 0 22px rgba(255,214,160,.22)) drop-shadow(16px 26px 26px rgba(0,0,0,.55)); }
+.watch img { display: block; width: 100%; }
+.refl { z-index: 3; transform: scaleY(-1); opacity: .32; filter: blur(1.5px); -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 42%); }
+.refl img { display: block; width: 100%; }
+.glint { z-index: 5; width: 70px; height: 70px; mix-blend-mode: screen; }
+.glint::before, .glint::after { content: ""; position: absolute; left: 50%; top: 50%; background: radial-gradient(closest-side, #fff, rgba(255,240,210,.6) 30%, transparent); }
+.glint::before { width: 100%; height: 6%; transform: translate(-50%, -50%); }
+.glint::after { width: 6%; height: 100%; transform: translate(-50%, -50%); }
+.glint i { position: absolute; inset: 35%; border-radius: 50%; background: radial-gradient(closest-side, #fff, transparent); }
+/* 5. enfeites com profundidade de campo */
+.el img { display: block; width: 100%; }
+.el.dof-back { filter: blur(7px) brightness(.7); z-index: 1; }
+.el.dof-front { filter: blur(9px); z-index: 7; }
+.el.sharp { z-index: 6; filter: drop-shadow(0 18px 22px rgba(0,0,0,.45)); }
+.pine { z-index: 6; filter: drop-shadow(0 12px 14px rgba(0,0,0,.45)); } .pine svg { display: block; width: 100%; height: auto; }
+/* 6. tipografia na escala áurea */
+.logo { left: 0; right: 0; top: 64px; z-index: 8; display: flex; justify-content: center; align-items: center; gap: 28px; }
+.logo b { font: 800 44px Archivo; font-stretch: 125%; color: #fff; letter-spacing: -.01em; }
+.logo b i { display: inline-block; width: 8px; height: 8px; background: #d0243b; margin: 0 3px; }
+.logo span { width: 115px; height: 1.5px; background: linear-gradient(90deg, transparent, var(--gold)); } .logo span + b + span { background: linear-gradient(90deg, var(--gold), transparent); }
+.title { left: 0; right: 0; z-index: 8; text-align: center; font: 600 115px/.92 "Cormorant Garamond"; text-transform: uppercase; color: var(--txt); text-shadow: 0 4px 24px rgba(0,0,0,.35); }
+.sub { left: 0; right: 0; z-index: 8; text-align: center; font: italic 500 44px/1.2 "Cormorant Garamond"; color: var(--txt); opacity: .92; }
+.facts { left: 0; right: 0; z-index: 8; display: flex; justify-content: center; align-items: center; gap: 20px; white-space: nowrap; font: 500 21px "Martian Mono"; letter-spacing: .12em; text-transform: uppercase; color: var(--txt); opacity: .9; }
+.facts b { font-weight: 500; color: #2a0a0f; background: linear-gradient(180deg, var(--gold2), var(--gold)); padding: 9px 16px; border-radius: 999px; }
+.facts i { width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); }
+.grain { inset: 0; z-index: 9; opacity: .08; mix-blend-mode: overlay; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.vig { inset: 0; z-index: 9; background: radial-gradient(80% 70% at 50% 52%, transparent 55%, rgba(0,0,0,.5) 100%); pointer-events: none; }
+</style>
+<body>
+<script>
+const Q = new URLSearchParams(location.search), W = Q.get('w') || 'riviera', F = Q.get('f') || 'feed';
+const H = F === 'story' ? 1920 : 1350, OY = F === 'story' ? 285 : 0;   // story: o mesmo layout descido (fora dos 250 px de cima e dos 300 de baixo)
+const E = 'file:///home/user/aurea-estetica/assets/img/natal/elementos/', R = 'file:///home/user/aurea-estetica/brand/recortes-png/', C = 'file:///home/user/aurea-estetica/brand/natal-2026/';
+const K = LR.Natal.kit;
+// ratio = altura/largura do recorte; gl = faíscas em % da caixa do relógio (pontos de brilho do aro e do vidro)
+const A = {
+  riviera:   { img: 'riviera.png', ratio: 997 / 635, ww: 400, photo: 'feed-riviera.jpg', tint: '#7a1020', giant: 'Natal', t: 'Tempo de<br>presentear.', s: 'Ouro e azul para marcar o Natal.', stock: 'Peça única', gl: [[22, 22, 1], [80, 44, .6]] },
+  colmeia:   { img: 'colmeia.png', ratio: 1400 / 620, ww: 280, photo: 'feed-colmeia-azul.jpg', tint: '#7a1020', giant: 'Aço', t: 'Um presente<br>para marcar.', s: 'Mostrador colmeia, aço e data.', stock: 'Últimas 2 peças', gl: [[20, 33, 1], [78, 47, .6]] },
+  esmeralda: { img: 'esmeralda.png', ratio: 1391 / 774, ww: 350, photo: 'feed-esmeralda.jpg', tint: '#14382c', giant: 'Verde', t: 'Um toque de<br>verde.', s: 'Verde solar, com dia e data.', stock: 'Últimas 2 peças', gl: [[24, 34, 1], [72, 30, .55]] },
+  rosa:      { img: 'rosa-dos-ventos.png', ratio: 1333 / 441, ww: 212, photo: 'feed-rosa-dos-ventos.jpg', tint: '#1c3024', giant: 'Couro', t: 'Clássico e<br>atemporal.', s: 'Couro caramelo e mostrador branco.', stock: 'Peça única', gl: [[18, 36, .9], [80, 44, .5]] },
+  romano:    { img: 'romano.png', ratio: 704 / 606, ww: 470, photo: 'feed-romano.jpg', tint: '#3a0a12', giant: 'Romano', gs: 185, t: 'Presença em<br>cada detalhe.', s: 'Números romanos e couro preto.', stock: 'Últimas 2 peças', gl: [[20, 26, 1], [82, 52, .6]] },
+  sunlifex:  { img: 'sunlifex.png', ratio: 1149 / 707, ww: 380, photo: 'feed-colmeia-branco.jpg', tint: '#7a1020', giant: 'Aço', gs: 300, t: 'Três visores,<br>um presente.', s: 'Cronógrafo de aço, fundo prata.', stock: 'Últimas 2 peças', gl: [[22, 22, 1], [78, 38, .6]] },
+}[W];
+// geometria por proporção áurea: o piso fica em 1350/φ + 300 ≈ a 4/5 da altura; o relógio fica em pé no piso
+const floorY = 1100 + OY, wH = A.ww * A.ratio, wTop = floorY - wH, cx = 540;
+let s = 9; const rnd = () => (s = s * 16807 % 2147483647) / 2147483647;
+const bokeh = Array.from({ length: 22 }, () => { const d = 10 + rnd() * 70; return `<i style="left:${rnd() * 1080}px;top:${380 + OY + rnd() * 700}px;width:${d}px;height:${d}px;opacity:${(.15 + rnd() * .5).toFixed(2)};filter:blur(${(1 + rnd() * 4).toFixed(1)}px)"></i>`; }).join('');
+const glints = A.gl.map(([x, y, k]) => `<div class="glint" style="left:${cx - A.ww / 2 + A.ww * x / 100 - 35 * k}px;top:${wTop + wH * y / 100 - 35 * k}px;transform:scale(${k}) rotate(12deg)"><i></i></div>`).join('');
+document.body.innerHTML = `<div class="p" style="--h:${H}px;--txt:#f6ead6;--photo:url(${C}${A.photo});--tint:${A.tint}">
+  <div class="photo"></div><div class="tint" style="opacity:.45"></div><div class="glitter"></div><div class="rays"></div>
+  <div class="bokeh" style="inset:0">${bokeh}</div>
+  <div class="giant" style="top:${floorY - 470 + (300 - (A.gs || 300)) * .5}px;font-size:${A.gs || 300}px">${A.giant}</div>
+  <div class="floor" style="top:${floorY}px"></div>
+  <div class="el dof-back" style="left:-60px;top:${floorY - 300}px;width:400px"><img src="${E}caixas.webp"></div>
+  <div class="el dof-back" style="right:-80px;top:${floorY - 430}px;width:330px"><img src="${E}saco.webp"></div>
+  <div class="halo" style="left:${cx - A.ww * 1.3}px;top:${wTop + wH / 2 - A.ww * 1.3}px;width:${A.ww * 2.6}px;height:${A.ww * 2.6}px"></div>
+  <div class="contact" style="left:${cx - A.ww * .55}px;top:${floorY - 20}px;width:${A.ww * 1.1}px;height:40px;z-index:3"></div>
+  <div class="refl" style="left:${cx - A.ww / 2}px;top:${floorY + 4}px;width:${A.ww}px"><img src="${R}${A.img}"></div>
+  <div class="watch" style="left:${cx - A.ww / 2}px;top:${wTop}px;width:${A.ww}px"><img src="${R}${A.img}"></div>
+  ${glints}
+  <div class="pine" style="right:-80px;top:${-70 + OY * 0}px;width:440px;transform:rotate(150deg)">${K.pine(23, 340)}</div>
+  <div class="el sharp" style="right:8px;top:-70px;width:112px;z-index:6"><img src="${E}bolas.webp"></div>
+  <div class="pine" style="left:-120px;top:${-40 + OY * 0}px;width:380px;transform:scaleX(-1) rotate(150deg);filter:blur(3px) brightness(.8) drop-shadow(0 12px 14px rgba(0,0,0,.45))">${K.pine(11, 300)}</div>
+  <div class="el dof-front" style="left:-50px;top:${floorY + 40}px;width:230px"><img src="${E}bola-a.webp"></div>
+  <div class="el dof-front" style="right:-40px;top:${floorY + 70}px;width:200px"><img src="${E}bola-b.webp"></div>
+  <div class="logo" style="top:${64 + OY}px"><span></span><b>LU<i></i>RICOS</b><span></span></div>
+  <div class="title" style="top:${150 + OY}px">${A.t}</div>
+  <div class="sub" style="top:${375 + OY}px">${A.s}</div>
+  <div class="facts" style="top:${floorY + 150}px">Entrega em Marabá<i></i>Pix ou cartão<i></i><b>${A.stock}</b></div>
+  <div class="grain"></div><div class="vig"></div>
+</div>`;
+</script>
