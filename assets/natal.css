@@ -434,3 +434,16 @@ html.is-natal:has(.header.is-hidden) .natal-strip { transform: translateY(-100%)
 .k-bolas img { display: block; width: 100%; height: auto; filter: drop-shadow(0 14px 16px rgba(0,0,0,.22)); }
 @media (max-width: 860px) { .k-bolas { width: 66px; right: .6rem; } }
 @media (prefers-reduced-motion: reduce) { .k-bolas { animation: none; } }
+
+/* Banner "Não deixe para a última hora" mais compacto no celular */
+@media (max-width: 860px) {
+  .xb { padding-block: 2.6rem 1.6rem; }
+  .xb-in { gap: 1rem; }
+  .xb-copy { gap: .8rem; }
+  .xb-title { font-size: clamp(1.9rem, 8.6vw, 2.6rem); line-height: .92; }
+  .xb-text { font-size: 1rem; }
+  .xb-fact { font-size: 10px; line-height: 1.6; }
+  .xb-art { min-height: 0; height: 190px; max-width: 300px; justify-self: center; }
+  .xb-saco { width: 48%; } .xb-caixas { width: 54%; }
+  .xb-s3 { display: none; }
+}
