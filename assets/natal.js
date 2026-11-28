@@ -129,7 +129,9 @@
     <path d="M46 360 A104 17 0 0 1 254 360" fill="none" stroke="#fff" stroke-opacity=".3"/></svg>`;
     // 2) parede de trás da redoma: vidro (biblioteca liquid-glass) que desfoca, dobra nas bordas e separa as cores.
     //    Fica atrás do relógio, então só o ambiente é desfocado; o relógio continua nítido.
-    const glass = `<span class="hd-glass" aria-hidden="true"><span class="glass hd-lg" data-glass-appearance="dark" data-glass-refraction="34" data-glass-bezel="24" data-glass-dispersion="0.18"></span></span>`;
+    // no celular a refração (filtro SVG sobre o fundo) pesa demais ao rolar: lá o vidro fica no modo fosco, que é leve
+    const lite = matchMedia('(max-width: 860px), (pointer: coarse)').matches;
+    const glass = `<span class="hd-glass" aria-hidden="true"><span class="glass hd-lg" data-glass-appearance="dark" data-glass-refraction="34" data-glass-bezel="24" data-glass-dispersion="0.18"${lite ? ' data-glass-mode="fallback"' : ''}></span></span>`;
     // 3) o relógio, a sombra dele e a luz que atravessa o vidro e cai na base (cáustica)
     const mid = `<svg class="hd-svg hd-mid-svg" viewBox="0 0 300 470" aria-hidden="true" focusable="false"><defs>
       <filter id="${ws}" x="-30%" y="-200%" width="160%" height="500%"><feGaussianBlur stdDeviation="4"/></filter>
@@ -216,7 +218,7 @@
     const prazoTxt = prazo ? `Em Marabá, pedindo até ${prazo}, chega antes do Natal.` : '';
     const price = p => LR.format.price(p.price);
     // arte de campanha: versão de 600 px ao lado (nome-600.jpg)
-    const camp = (src, sizes) => `src="${src}" srcset="${src.replace(/\.jpg$/, '-600.jpg')} 480w, ${src} 960w" sizes="${sizes}"`;
+    const camp = (src, sizes) => `src="${src}" srcset="${src.replace(/\.jpg$/, '-600.webp')} 480w, ${src.replace(/\.jpg$/, '.webp')} 960w" sizes="${sizes}"`;
 
     // Faixa do topo: vermelho natalino, estrelas douradas, mensagens reais
     (function strip() {
@@ -276,6 +278,13 @@
       els.forEach(el => io.observe(el));
     };
     setTimeout(darkTop, 0);
+    // desempenho: animações de Natal fora da tela ficam pausadas (neve, luzes, faíscas, brilho das redomas)
+    const pauseOffscreen = () => {
+      if (!('IntersectionObserver' in window)) return;
+      const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('k-paused', !e.isIntersecting)), { rootMargin: '120px 0px' });
+      $$('.xh, .xg, .xs, .xb, .natal-foot, .natal-cols, .natal-thanks, [data-natal], .k-headdeco').forEach(el => io.observe(el));
+    };
+    setTimeout(pauseOffscreen, 0);
     if (page === 'loja') { headDeco($('main > .page-head')); $('main > .page-head').insertAdjacentHTML('afterend', `<div class="wrap natal-mini-wrap">${miniBanner(`Os relógios da vitrine para dar de presente. ${prazoTxt}`, 'index.html#presentes', 'Ver o guia de presentes')}</div>`); }
     if (page === 'colecoes') colecoes();
     if (page === 'produto') produto();
@@ -363,8 +372,8 @@
           <img ${camp(BA.imagem, '(max-width: 860px) 90vw, 40vw')} alt="${esc(bap.name)}" loading="lazy"><span class="xg-art">Arte de campanha</span>
           <span class="xb-g xb-g3" aria-hidden="true">${elImg('caixas-p', 'k-gift-img', 200, 140)}</span>
           <span class="k-float xb-s1" aria-hidden="true">${star()}</span><span class="k-float xb-s2" aria-hidden="true">${star()}</span></a>` : `<div class="xb-art" aria-hidden="true">
-          <span class="xb-g xb-saco">${elImg('saco', 'k-gift-img', 640, 890)}</span>
-          <span class="xb-g xb-caixas">${elImg('caixas', 'k-gift-img', 820, 574)}</span>
+          <span class="xb-g xb-saco">${elImg('saco', 'k-gift-img', 420, 584)}</span>
+          <span class="xb-g xb-caixas">${elImg('caixas', 'k-gift-img', 560, 392)}</span>
           <span class="k-float xb-s1">${star()}</span><span class="k-float xb-s2">${star()}</span><span class="k-float xb-s3">${star('silver')}</span>
         </div>`}</div></section>`;
 
@@ -380,7 +389,7 @@
       const ano = $('[data-natal-ano]', sec); if (ano) ano.textContent = N.ano || '';
       const cnt = $('[data-natal-count]', sec); if (cnt) cnt.textContent = pad(N.chegando.length);
       const pz = $('[data-natal-prazo]', sec); if (pz && prazo) pz.innerHTML = `<b>Em Marabá, peça até ${prazo} para receber antes do Natal</b> · `;
-      if (!$('.k-bolas', sec)) sec.insertAdjacentHTML('afterbegin', `<div class="k-bolas" aria-hidden="true">${elImg('bolas', 'k-bolas-img', 360, 880)}</div>`);
+      if (!$('.k-bolas', sec)) sec.insertAdjacentHTML('afterbegin', `<div class="k-bolas" aria-hidden="true">${elImg('bolas', 'k-bolas-img', 240, 587)}</div>`);
       const venda = LR.products.filter(p => p.status !== 'esgotado');
       const tile = (c, i) => `<article class="pcard is-chegando" data-reveal style="--d:${(i % 4) * .08}s">
         <div class="pcard-media"><img class="main" ${pic(c.img, CARD_SIZES)} alt="${esc(c.name)}" loading="lazy">
